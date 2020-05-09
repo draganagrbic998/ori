@@ -8,7 +8,6 @@ def get_position(n_var):
                                             #minimalnog nivoa sivile slike do maksimalnog nivoa sivila slike
     return np.array(lista)
 
-
 def pso(f, n_var = 1, w = 0.9, wLow = 0.4, cpi = 0.5, cpf = 2.5, cgi = 2.5, cgf = 0.5, particle_num = 100, iter_num = 100, show_iter = 0):
 
     best_position = None
