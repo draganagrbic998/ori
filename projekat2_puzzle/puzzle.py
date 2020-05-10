@@ -12,7 +12,7 @@ class Action(Enum):  #ovo necu koristiti kod obicne pretrage, samo cemo usporiti
     STOP = 4  # ne pomeramo se
 
 
-class Puzzle:
+class PuzzleState:
 
     def __init__(self, content, parent=None, action = Action.STOP):
         self.content = content[:]
@@ -21,6 +21,8 @@ class Puzzle:
         self.total_cost = 0
         self.hash = None
         self.action=action
+
+
 
     def __eq__(self, other):
         if other == None:
@@ -50,7 +52,7 @@ class PuzzleProblem:
         self.goal = goal    #ovo je lista koja treb da se dobije ([1, 2, 3, ...., 15, 0])
 
     def getStartState(self):
-        return Puzzle([0,12,9,13,15,11,10,14,8,3,6,2,4,7,5,1])
+        return PuzzleState([1, 2, 3, 4, 5, 0, 6, 7, 8])
         #za pocetak nek vraca ovu slagalicu, kasnije dodamo
         #da vraca radnom slagalicu iz nekog skupa ili slicno
         #samo da znas, ovo je TESKA SLAGALICA, i resi mi je za 96 koraka i pola sekunde (PONOSNA SAM :D)
@@ -68,19 +70,19 @@ class PuzzleProblem:
         if empty_space - puzzle_size >= 0:  #mozemo gore da pomerimo
             successor = state[:]
             successor[empty_space], successor[empty_space - puzzle_size] = successor[empty_space - puzzle_size], successor[empty_space]
-            successors.add((Puzzle(successor, parent, Action.UP)))  #stavljala sam da se cuvaju akcije, mada ih ne koristim, al neka ih ovde
+            successors.add((PuzzleState(successor, parent, Action.UP)))  #stavljala sam da se cuvaju akcije, mada ih ne koristim, al neka ih ovde
                                                                     #mozda budu zatrebale
         if empty_space + puzzle_size < len(state):  #mozemo da pomerimo dole
             successor = state[:]
             successor[empty_space], successor[empty_space + puzzle_size] = successor[empty_space + puzzle_size], successor[empty_space]
-            successors.add((Puzzle(successor, parent, Action.DOWN)))
+            successors.add((PuzzleState(successor, parent, Action.DOWN)))
         if empty_space % puzzle_size > 0:   #mozemo da pomerimo levo
             successor = state[:]
             successor[empty_space], successor[empty_space - 1] = successor[empty_space - 1], successor[empty_space]
-            successors.add((Puzzle(successor, parent, Action.LEFT)))
+            successors.add((PuzzleState(successor, parent, Action.LEFT)))
         if empty_space % puzzle_size < puzzle_size - 1:  #mozemo da pomerimo desno
             successor = state[:]
             successor[empty_space], successor[empty_space + 1] = successor[empty_space + 1], successor[empty_space]
-            successors.add((Puzzle(successor, parent, Action.RIGHT)))
+            successors.add((PuzzleState(successor, parent, Action.RIGHT)))
 
         return successors
