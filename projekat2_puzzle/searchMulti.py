@@ -102,61 +102,48 @@ class MinimaxAgent(MultiAgent):
 
     def __init__(self, depth, agentsNum, evalutionFunction=aStartValue):
         super().__init__(depth, agentsNum, evalutionFunction)
-        self.visited = set()
-        self.temp = RandomAgent()
-
 
     def getAction(self, problem, state):
 
+        def minimaxSearch(problem, state, index, depth, alfa, beta, root = False):
 
-        def minimaxSearch(problem, state, index, depth, root = False):
-
-            #root => prvi put kad pozove fju, vracamo akciju (GORE, DOLE, LEVO, DESNO)
-            #u ostlaim slucajevima vracamo vrednost stanja
-
-
-
-            if depth == self.depth or problem.isGoalState(state):    #ne moze da bude izgubljeno :)
-
+            if depth == self.depth or problem.isGoalState(state):
                 return self.evalutionFunction(state)
 
-
             next_index = index + 1
-            if next_index == self.agentsNum:    #kod nas nema umiranja igraca, pa ce broj igraca uvek ostati konstantan
-                next_index = 0                                 #zato ovde cuvamo agentsNum
+            if next_index == self.agentsNum:
+                next_index = 0
                 depth += 1
 
-            #nas agent ima indekse 0, 1, ..., self.agentsNum - 2
-            #a protivnik ima indeks self.agentsNum-1
 
-            best_value = float('-inf') if index < self.agentsNum - 1 else float('inf')
-            #ako je indeks agenta manji od poslednjeg indeksa, onda su to potezi koje nas igrac ima
-            #i on radi maksimizaciju
-            #a ako je indeks poslednji (self.agentsNum-1) onda je to potez naseg protivnika i on radi minimizaciju
 
-            best_action = None  #ako smo prvi put pozvali ovu fju, onda vracamo akciju, a ne vrednost
-            #best_action_repeat = None   #ako se desi da sve moguce akcije smo vec obisli, pa ipak moramo da ponovimo
-            #best_value_repeat = float('-inf') if index < self.agentsNum - 1 else float('inf')
+            best_value = float('inf') if index < self.agentsNum - 1 else float('-inf')
+            best_action = None
 
             for successor in problem.getSuccessors(state):
 
-                value = minimaxSearch(problem, state, next_index, depth)
-                if index < self.agentsNum - 1:  #ovo je potez naseg igraca
-                    if value > best_value and successor not in self.visited:
+                value = minimaxSearch(problem, state, next_index, depth, alfa, beta)
+                if index < self.agentsNum - 1:
+
+                    if value < beta:    #ne secam se dal na predavanjima ovde bilo jednako
+
+                        return value if not  root else best_action
+
+                    if value < alfa:
                         best_action = successor
-                        best_value = value
+                        alfa = value
 
-                else:   #ovo je potez naseg protivnika
-                    if value < best_value:
-                        best_value = value
+                else:
+
+                    if value > alfa:    #ne secam se dal na predavanjima ovde bilo jednako
+                        return value if not root else best_action
+
+                    if value > beta:
+                        beta = value
                         best_action = successor
 
-            if root:
-                self.visited.add(best_action)
 
-            if best_action == None:
-                best_action = self.temp.getAction(problem, state)
 
-            return best_value if not root else best_action  #ako smo prvi put pozvali, ocemo akciju
+            return best_value if not root else best_action
 
-        return minimaxSearch(problem, state, 0, 0, True)    #necu da pamptim indeks u klasi jer je uvek nula na pocetku
+        return minimaxSearch(problem, state, 0, 0, float('inf'), float('-inf'), True)
