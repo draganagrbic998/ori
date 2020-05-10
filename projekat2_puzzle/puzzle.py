@@ -73,14 +73,14 @@ class PuzzleProblem:
         if empty_space + puzzle_size < len(state):  #mozemo da pomerimo dole
             successor = state[:]
             successor[empty_space], successor[empty_space + puzzle_size] = successor[empty_space + puzzle_size], successor[empty_space]
-            successors.add((Puzzle(successor, parent, Action.UP)))
+            successors.add((Puzzle(successor, parent, Action.DOWN)))
         if empty_space % puzzle_size > 0:   #mozemo da pomerimo levo
             successor = state[:]
             successor[empty_space], successor[empty_space - 1] = successor[empty_space - 1], successor[empty_space]
-            successors.add((Puzzle(successor, parent, Action.UP)))
+            successors.add((Puzzle(successor, parent, Action.LEFT)))
         if empty_space % puzzle_size < puzzle_size - 1:  #mozemo da pomerimo desno
             successor = state[:]
             successor[empty_space], successor[empty_space + 1] = successor[empty_space + 1], successor[empty_space]
-            successors.add((Puzzle(successor, parent, Action.UP)))
+            successors.add((Puzzle(successor, parent, Action.RIGHT)))
 
         return successors
