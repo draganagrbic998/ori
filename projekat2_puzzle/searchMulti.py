@@ -12,25 +12,17 @@
 from projekat2_puzzle.search import aStartValue
 from random import choice
 
+
 class RandomAgent:
 
     def __init__(self, protivnik):
         self.protivnik = protivnik
-        self.blocked = False
+
 
     def getAction(self, problem, state):
 
-        successors = list(problem.getSuccessors(state))
-        while successors:
-            temp = choice(successors)
-            if temp not in self.protivnik.visited:
-                self.blocked = False
-                return temp
-            else:
-                successors.remove(temp)
+        return choice(list(problem.getSuccessors(state)))
 
-        self.blocked = True
-        return None
 
 
 class MultiAgent:
@@ -52,12 +44,10 @@ class ExpectimaxAgent(MultiAgent):
 
     def __init__(self, depth, agentsNum, evalutionFunction=aStartValue):
         super().__init__(depth, agentsNum, evalutionFunction)
-        self.visited = set()
-        self.blocked = False
+
+
 
     def getAction(self, problem, state):
-
-
 
         def expmaxSearch(problem, state, index, depth, root = False):
 
@@ -84,28 +74,24 @@ class ExpectimaxAgent(MultiAgent):
 
             suma = 0.0
             counter = 0.0
-            potomci = -1
+
             for successor in problem.getSuccessors(state):
-                potomci += 1
+
                 value = expmaxSearch(problem, state, next_index, depth)
                 if index < self.agentsNum - 1:  #ovo je potez naseg igraca
-                    if value < best_value and successor not in self.visited:    #max je za nas ovde min jer heuristika je bolja sto je manja
+                    if value < best_value:    #max je za nas ovde min jer heuristika je bolja sto je manja
                         best_action = successor
                         best_value = value
 
+
                 else:   #ovo je potez naseg protivnika
+
                     suma += value
                     counter += 1
                     best_value = suma / counter
                     best_action = best_action
 
-            if root:
-                self.visited.add(best_action)
 
-            if not best_value:
-                self.blocked = True
-            else:
-                self.blocked =False
 
             return best_value if not root else best_action  #ako smo prvi put pozvali, ocemo akciju
 

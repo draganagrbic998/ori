@@ -3,11 +3,11 @@ from projekat2_puzzle.util import PriorityQueue
 
 
 
-def aStarSearch(puzzle_problem):
+def aStarSearch(puzzle_problem, startState=None):
 
     prQueue = PriorityQueue()
 
-    root = puzzle_problem.getStartState()
+    root = puzzle_problem.getStartState() if not startState else startState
     heuristic_cost = aStartValue(root)
     root.total_cost= heuristic_cost    #necemo kada kreiramo Puzzle da prosledjujemo vrednost heurstike jer gubimo na vremenu =>
                             #moze se desiti da generisemo potomke koje necemo obici
