@@ -52,9 +52,9 @@ def convert_pixels(pixels, thresholdi):
                 pixels[i][j][0:3] = (255 + thresholdi[len(thresholdi) - 1]) / 2
     return pixels
 
-
+#Nemoj slike vece od 512x512. Dugo ces cekati.
 def main():
-    image = Image.open("images/2.1.05.tiff")
+    image = Image.open("images/3.2.25.tiff")
     pixels = asarray(image)
     pixels = pixels.copy()
     pixels.setflags(write=True)
@@ -65,7 +65,7 @@ def main():
     pixels = convert_pixels(pixels, thresholdi)
 
     image = Image.fromarray(pixels)
-    image.save("2.1.05.tiff")
+    image.save("output.tiff")
 
 
 #ako ovo iz main stavis ovde onda ce ti na nekim mestima pisati da ti parametar fje "shadow-uje" to isto iz sireg opsega

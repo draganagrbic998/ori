@@ -10,8 +10,8 @@ def get_position(n_var):
     return np.array(lista)
 
 
-#NE STAVLJAJ PREKO 10 CESTICA i 10 ITERACIJA!!!!!! (sem ako neces da cekas jaaaako dugo)
-def pso(f, pixels, n_var = 1, w = 0.9, wLow = 0.4, cpi = 0.5, cpf = 2.5, cgi = 2.5, cgf = 0.5, particle_num = 5, iter_num = 5, show_iter = 0):
+#Ne stavljaj previse cestica i iteracija (sem ako neces da cekas jaaaako dugo)
+def pso(f, pixels, n_var = 1, w = 0.9, wLow = 0.4, cpi = 0.5, cpf = 2.5, cgi = 2.5, cgf = 0.5, particle_num = 10, iter_num = 10, show_iter = 0):
     best_position = None
     best_value = np.inf * (-1)
 
