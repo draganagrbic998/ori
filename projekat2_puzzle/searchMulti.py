@@ -117,7 +117,7 @@ class MinimaxAgent(MultiAgent):
 
 
 
-            best_value = float('inf') if index < self.agentsNum - 1 else float('-inf')
+
             best_action = None
 
             for successor in problem.getSuccessors(state):
@@ -125,7 +125,7 @@ class MinimaxAgent(MultiAgent):
                 value = minimaxSearch(problem, state, next_index, depth, alfa, beta)
                 if index < self.agentsNum - 1:
 
-                    if value < beta:    #ne secam se dal na predavanjima ovde bilo jednako
+                    if value <= beta:    #ne secam se dal na predavanjima ovde bilo jednako
 
                         return value if not  root else best_action
 
@@ -135,7 +135,7 @@ class MinimaxAgent(MultiAgent):
 
                 else:
 
-                    if value > alfa:    #ne secam se dal na predavanjima ovde bilo jednako
+                    if value >= alfa:    #ne secam se dal na predavanjima ovde bilo jednako
                         return value if not root else best_action
 
                     if value > beta:
@@ -144,6 +144,6 @@ class MinimaxAgent(MultiAgent):
 
 
 
-            return best_value if not root else best_action
+            return best_action if root else alfa if index < self.agentsNum - 1 else beta
 
         return minimaxSearch(problem, state, 0, 0, float('inf'), float('-inf'), True)

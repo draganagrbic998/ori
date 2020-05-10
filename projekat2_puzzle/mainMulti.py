@@ -7,8 +7,8 @@ from projekat2_puzzle.search import aStartValue
 from projekat2_puzzle.search import aStarSearch
 
 def main():
-    numAgents = 2   #na svaki peti potez nam protivnik pomeri prazno mesto
-    depth = 4   #do koje dubine pretrazujemo minimax stablo
+    numAgents = 2  #na svaki peti potez nam protivnik pomeri prazno mesto
+    depth = 7  #do koje dubine pretrazujemo minimax stablo
     myAgent = MinimaxAgent(depth, numAgents)
     myProtivnik = RandomAgent(myAgent)
     puzzleProblem = PuzzleProblem([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0])
