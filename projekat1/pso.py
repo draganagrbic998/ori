@@ -67,7 +67,7 @@ def pso(f, pixels, n_var = 1, w = 0.9, wLow = 0.4, cpi = 0.5, cpf = 2.5, cgi = 2
                 elif p['position'][j] < 1:
                     p['position'][j] = 1
 
-            print(p['position'])
+            #print(p['position'])
             p['value'] = f(p['position'], pixels)
 
             if p['value'] > p['best_value']:    #radimo maksimizaciju, pa ne treba da stoji "<"
@@ -77,7 +77,7 @@ def pso(f, pixels, n_var = 1, w = 0.9, wLow = 0.4, cpi = 0.5, cpf = 2.5, cgi = 2
             if p['best_value'] > best_value:    #radimo maksimizaciju pa ne treba da stoji "<"
                 best_position = p['best_position']
                 best_value = p['best_value']
-                print("New Best: " + str(best_position))
+                #print("New Best: " + str(best_position))
 
         w += deltaW
         cp += deltaCp
