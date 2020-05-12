@@ -48,10 +48,12 @@ class PuzzleState:
 
 class PuzzleProblem:
 
-    def __init__(self, goal):
+    def __init__(self, start, goal):
+        self.start = PuzzleState(start)
         self.goal = goal    #ovo je lista koja treb da se dobije ([1, 2, 3, ...., 15, 0])
 
     def getStartState(self):
+        return self.start
         return PuzzleState([0,12,9,13,15,11,10,14,8,3,6,2,4,7,5,1])
         #za pocetak nek vraca ovu slagalicu, kasnije dodamo
         #da vraca radnom slagalicu iz nekog skupa ili slicno
