@@ -59,7 +59,7 @@ def convert_pixels(pixels, thresholdi):
                     break
             if pixels[i][j][0] >= thresholdi[len(thresholdi) - 1]:
                 #pixels[i][j][0:3] = (255 + thresholdi[len(thresholdi) - 1]) / 2
-                pixels[i][j] = segmenti[k]
+                pixels[i][j] = segmenti[len(thresholdi)]
     return pixels
 
 
