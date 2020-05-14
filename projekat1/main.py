@@ -1,9 +1,8 @@
 import dit
 from PIL import Image
-from numpy import asarray, zeros, where
+from numpy import array, zeros
 import timeit
 from projekat1 import pso
-
 
 def setup_probs(pixels, level_nums, thresholdi):
     N = len(pixels)
@@ -44,44 +43,44 @@ def tsallis(thresholdi, pixels):
 
 def convert_pixels(pixels, thresholdi):
 
+
+
+
+
     for i in range(0, len(pixels)):
         for j in range(0, len(pixels[i])):
             for k in range(0, len(thresholdi)):
                 if pixels[i][j][0] < thresholdi[k]:
                     if k == 0:
-                        pixels[i][j][0:3] = 0 #thresholdi[0] / 2
+                        pixels[i][j][0:3] = 0
                     else:
                         pixels[i][j][0:3] = (thresholdi[k] + thresholdi[k - 1]) / 2
                     break
             if pixels[i][j][0] >= thresholdi[len(thresholdi) - 1]:
-                pixels[i][j][0:3] = 255 #+ thresholdi[len(thresholdi) - 1]) / 2
+                pixels[i][j][0:3] = 255
     return pixels
 
 
 #Treba nam samo jedna RGB vrednost jer su kod greyscale one iste
 def simplify_pixels(pixels):
-    new_pixels = []
 
-    for pixel_row in pixels:
-        for pixel in pixel_row:
-            new_pixels.append(pixel[0])
-
-    return asarray(new_pixels)
+    #da ne prolazimo kroz svaki piksel, stavila sam da se ovo vektorski resi
+    return pixels[:,:,0].ravel()    #ravel metoda ce od 2D niza napraviti 1D niz
 
 
 #Nemoj slike vece od 512x512. Dugo ces cekati.
 def main():
     #Pazi: onih 6 iz pdf-a se zavrsavaju na tif a ostale na tiff
-    name = "motion04.512.tiff"
+    name = "peppers.tif"
     image = Image.open("images/" + name)
-    pixels = asarray(image)
+    pixels = array(image)
     pixels = pixels.copy()
     pixels.setflags(write=True)
 
     new_pixels = simplify_pixels(pixels)
 
     start = timeit.default_timer()
-    thresholdi, max = pso.pso(tsallis, pixels=new_pixels, n_var=3, w=0.4, wLow=0.1, cgf=2, cpf=2, cgi=2, cpi=2, particle_num=20, iter_num=100)
+    thresholdi, max = pso.pso(tsallis, pixels=new_pixels, n_var=1, w=0.4, wLow=0.1, cgf=2, cpf=2, cgi=2, cpi=2, particle_num=20, iter_num=100)
 
     print("Najbolji pragovi: " + str(thresholdi))
     print("Najbolja vrednost Tsallis funkcije: " + str(max))
@@ -95,3 +94,4 @@ def main():
 #ako ovo iz main stavis ovde onda ce ti na nekim mestima pisati da ti parametar fje "shadow-uje" to isto iz sireg opsega
 if __name__ == '__main__':
     main()
+
