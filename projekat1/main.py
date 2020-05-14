@@ -44,22 +44,17 @@ def tsallis(thresholdi, pixels):
 
 def convert_pixels(pixels, thresholdi):
 
-    segmenti = [(255, 0, 127, 255), (0, 255, 255, 255), (0, 255, 0, 255), (51, 0, 102, 255), (102, 51, 0, 255)]
-
     for i in range(0, len(pixels)):
         for j in range(0, len(pixels[i])):
             for k in range(0, len(thresholdi)):
                 if pixels[i][j][0] < thresholdi[k]:
                     if k == 0:
-                        #pixels[i][j][0:3] = thresholdi[0] / 2
-                        pixels[i][j] = segmenti[k]
+                        pixels[i][j][0:3] = 0 #thresholdi[0] / 2
                     else:
-                        #pixels[i][j][0:3] = (thresholdi[k] + thresholdi[k - 1]) / 2
-                        pixels[i][j] = segmenti[k]
+                        pixels[i][j][0:3] = (thresholdi[k] + thresholdi[k - 1]) / 2
                     break
             if pixels[i][j][0] >= thresholdi[len(thresholdi) - 1]:
-                #pixels[i][j][0:3] = (255 + thresholdi[len(thresholdi) - 1]) / 2
-                pixels[i][j] = segmenti[len(thresholdi)]
+                pixels[i][j][0:3] = 255 #+ thresholdi[len(thresholdi) - 1]) / 2
     return pixels
 
 
@@ -77,7 +72,7 @@ def simplify_pixels(pixels):
 #Nemoj slike vece od 512x512. Dugo ces cekati.
 def main():
     #Pazi: onih 6 iz pdf-a se zavrsavaju na tif a ostale na tiff
-    name = "peppers.tif"
+    name = "motion04.512.tiff"
     image = Image.open("images/" + name)
     pixels = asarray(image)
     pixels = pixels.copy()
@@ -86,7 +81,7 @@ def main():
     new_pixels = simplify_pixels(pixels)
 
     start = timeit.default_timer()
-    thresholdi, max = pso.pso(tsallis, pixels=new_pixels, n_var=2, w=0.4, wLow=0.1, cgf=2, cpf=2, cgi=2, cpi=2, particle_num=20, iter_num=100)
+    thresholdi, max = pso.pso(tsallis, pixels=new_pixels, n_var=3, w=0.4, wLow=0.1, cgf=2, cpf=2, cgi=2, cpi=2, particle_num=20, iter_num=100)
 
     print("Najbolji pragovi: " + str(thresholdi))
     print("Najbolja vrednost Tsallis funkcije: " + str(max))
