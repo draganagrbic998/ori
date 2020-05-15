@@ -25,10 +25,6 @@ class RandomAgent:
             temp = choice(list(problem.getSuccessors(state)))
 
             if temp != self.protivnik.lastState:
-                print ("#############")
-                print (temp)
-                print (self.protivnik.lastState)
-                print ("#################")
                 return temp
 
 
