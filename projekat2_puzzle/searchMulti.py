@@ -21,7 +21,15 @@ class RandomAgent:
 
     def getAction(self, problem, state):
 
-        return choice(list(problem.getSuccessors(state)))
+        while True:
+            temp = choice(list(problem.getSuccessors(state)))
+
+            if temp != self.protivnik.lastState:
+                print ("#############")
+                print (temp)
+                print (self.protivnik.lastState)
+                print ("#################")
+                return temp
 
 
 
@@ -39,6 +47,7 @@ class MultiAgent:
         #pitacemo jos asistenta
 
         #sa agentsNum cemo se igrati i zato stoji u konsturktoru
+        self.lastState = None
 
 class ExpectimaxAgent(MultiAgent):
 
@@ -95,8 +104,9 @@ class ExpectimaxAgent(MultiAgent):
 
             return best_value if not root else best_action  #ako smo prvi put pozvali, ocemo akciju
 
-        return expmaxSearch(problem, state, 0, 0, True)    #necu da pamptim indeks u klasi jer je uvek nula na pocetku
-
+        temp = expmaxSearch(problem, state, 0, 0, True)    #necu da pamptim indeks u klasi jer je uvek nula na pocetku
+        self.lastState = temp
+        return temp
 
 class MinimaxAgent(MultiAgent):
 
@@ -146,4 +156,6 @@ class MinimaxAgent(MultiAgent):
 
             return best_action if root else alfa if index < self.agentsNum - 1 else beta
 
-        return minimaxSearch(problem, state, 0, 0, float('inf'), float('-inf'), True)
+        temp = minimaxSearch(problem, state, 0, 0, float('inf'), float('-inf'), True)
+        self.lastState = temp
+        return temp
