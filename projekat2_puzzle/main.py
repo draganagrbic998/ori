@@ -77,12 +77,27 @@ class MainWindow(QMainWindow):
 
 
     def show_bez(self):
+        self.protivnikWorker.terminate()
+        self.qLearningWorker.terminate()
+
+        self.ui.Obavestenje.setText("")
+        self.ui.SaProtivnikomVrednost.setText("")
         self.ui.stackedWidget.setCurrentIndex(0)
 
     def show_sa(self):
+        self.astarWorker.terminate()
+        self.qLearningWorker.terminate()
+
+        self.ui.Obavestenje.setText("")
+        self.ui.SaProtivnikomVrednost.setText("")
         self.ui.stackedWidget.setCurrentIndex(1)
 
     def show_qlearning(self):
+        self.astarWorker.terminate()
+        self.protivnikWorker.terminate()
+
+        self.ui.Obavestenje.setText("")
+        self.ui.SaProtivnikomVrednost.setText("")
         self.ui.stackedWidget.setCurrentIndex(2)
 
     def napravi_slagalicu(self):
