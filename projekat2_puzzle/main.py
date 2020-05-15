@@ -3,7 +3,7 @@ import time
 import sys
 
 import numpy as np
-from PySide2.QtCore import Qt, QThread
+from PySide2.QtCore import Qt
 from PySide2.QtGui import QFont
 
 from projekat2_puzzle.mainMulti import ProtivnikWorkThread
@@ -115,6 +115,9 @@ class MainWindow(QMainWindow):
         self.popuni_slagalicu()
 
     def osvezi_slagalicu(self, data):
+        self.ui.Obavestenje.setText("")
+        self.ui.SaProtivnikomVrednost.setText("")
+
         key = next(iter(data))
 
         self.ui.Obavestenje.setText(key)
@@ -123,6 +126,9 @@ class MainWindow(QMainWindow):
         self.popuni_slagalicu()
 
     def osvezi_slagalicu_protivnik(self, data):
+        self.ui.Obavestenje.setText("")
+        self.ui.SaProtivnikomVrednost.setText("")
+
         key = next(iter(data))
 
         if key == "pobedili":
@@ -138,9 +144,13 @@ class MainWindow(QMainWindow):
 
 
     def osvezi_slagalicu_qLearning(self, data):
+        self.ui.Obavestenje.setText("")
         key = next(iter(data))
 
-        self.ui.Obavestenje.setText(key)
+        if key == "reseno":
+            self.ui.Obavestenje.setText("RESENO!")
+        else:
+            self.ui.Obavestenje.setText(key)
 
         self.slagalica = data[key]
         self.isprazni_slagalicu()
@@ -162,13 +172,13 @@ class MainWindow(QMainWindow):
                 polje = QLabel()
                 if self.slagalica[self.dimenzije*i + j] == 0:
                     if what == "enemy":
-                        polje.setStyleSheet("background: rgb(245,245,255)")
+                        polje.setStyleSheet("background: rgb(200,200,255)")
                     elif what == "pobedili" or what == "RESENO!":
                         polje.setStyleSheet("background: rgb(255,0,0)")
                     elif what == "izgubili":
                         polje.setStyleSheet("background: rgb(0,0,255)")
                     else:
-                        polje.setStyleSheet("background: rgb(255,245,245)")
+                        polje.setStyleSheet("background: rgb(255,200,200)")
                 else:
                     polje.setStyleSheet("background: rgb(220,220,220)")
 

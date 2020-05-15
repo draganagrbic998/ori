@@ -249,7 +249,7 @@ class Ui_MainWindow(object):
         self.IterNumSaPicker.setFont(font1)
         self.IterNumSaPicker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.IterNumSaPicker.setMinimum(1)
-        self.IterNumSaPicker.setMaximum(10000)
+        self.IterNumSaPicker.setMaximum(10000000)
 
         self.gridLayout_7.addWidget(self.IterNumSaPicker, 1, 1, 1, 1)
 
@@ -364,12 +364,12 @@ class Ui_MainWindow(object):
         self.IterNumQLPicker.setObjectName(u"IterNumQLPicker")
         sizePolicy1.setHeightForWidth(self.IterNumQLPicker.sizePolicy().hasHeightForWidth())
         self.IterNumQLPicker.setSizePolicy(sizePolicy1)
-        self.IterNumQLPicker.setMinimumSize(QSize(100, 30))
-        self.IterNumQLPicker.setMaximumSize(QSize(100, 30))
+        self.IterNumQLPicker.setMinimumSize(QSize(125, 30))
+        self.IterNumQLPicker.setMaximumSize(QSize(125, 30))
         self.IterNumQLPicker.setFont(font2)
         self.IterNumQLPicker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.IterNumQLPicker.setMinimum(1)
-        self.IterNumQLPicker.setMaximum(10000)
+        self.IterNumQLPicker.setMaximum(10000000)
 
         self.gridLayout_11.addWidget(self.IterNumQLPicker, 0, 1, 1, 1)
 

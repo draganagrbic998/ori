@@ -36,11 +36,15 @@ class QLearningWorkThread(QtCore.QThread):
         return agent
 
     def qLearning(self):
-        agent = self.obucavanje()
-        print ("ZAVRSENO OBUCAVANJE!")
-
         state = self.puzzle_problem.getStartState()
         path = []
+
+        emitVal = {"OBUCAVANJE ZAPOCETO!" : state.content}
+        self.signal.emit(emitVal)
+        time.sleep(0.1)
+
+        agent = self.obucavanje()
+        print ("ZAVRSENO OBUCAVANJE!")
 
         emitVal = {"ZAVRSENO OBUCAVANJE!" : state.content}
         self.signal.emit(emitVal)
@@ -58,7 +62,7 @@ class QLearningWorkThread(QtCore.QThread):
                             #videti kako radi za slagalice koje nisu iz obucavajuceg skupa, sad mi se sklapaju oci :D
         print(len(path))
         for i in path:
-            emitVal = {"RESENO!": i.content}
+            emitVal = {"reseno": i.content}
             self.signal.emit(emitVal)
-            time.sleep(0.3)
+            time.sleep(0.05)
             #print (i)
