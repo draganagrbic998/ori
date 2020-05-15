@@ -153,7 +153,6 @@ class MinimaxAgent(MultiAgent):
                         best_action = successor
 
 
-
             return best_action if root else alfa if index < self.agentsNum - 1 else beta
 
         temp = minimaxSearch(problem, state, 0, 0, float('inf'), float('-inf'), True)
