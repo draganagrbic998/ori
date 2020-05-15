@@ -11,8 +11,6 @@ import random
 
 class QLearningAgent:
 
-
-
     def __init__(self, puzzle_problem, alpha, discount):
         self.q_values = {}
         self.alpha = alpha
@@ -64,10 +62,8 @@ class QLearningAgent:
         return successors[random.choice(results)]   #ako imamo npr dva stanja sa istom q-vrednoscu, radnom biramo od njih dva
 
     def getState(self, state):
-
         #dodaj greedy search ovde
         return self.computeStateFromQValue(state)
-
 
     def getPolicy(self, state):
         return self.computeStateFromQValue(state)   #ovo msm da necu nigde koristiti
@@ -77,13 +73,6 @@ class QLearningAgent:
         return self.computeValueFromQValues(state)  #ovo msm da necu koristiti,
                     #al neka ga ovde, mozda zatreba
 
-
     def update(self, state, nextState, reward):
         difference = reward + self.discount * self.computeValueFromQValues(nextState)   #koliko smo osvojili ukupno
         self.q_values[(state, nextState)] = self.alpha * difference + (1 - self.alpha) * self.getQValue(state, nextState)
-
-
-
-
-
-

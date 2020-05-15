@@ -63,7 +63,6 @@ class PuzzleProblem:
         return state.content == self.goal
 
     def getSuccessors(self, parent):
-
         successors = set()
         state = parent.content
         puzzle_size = int(len(state) ** 0.5)    #da li je slagalica 3x3 ili 4x4
