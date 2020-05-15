@@ -114,8 +114,11 @@ class MainWindow(QMainWindow):
         self.isprazni_slagalicu()
         self.popuni_slagalicu()
 
-    def osvezi_slagalicu(self, slagalica):
-        self.slagalica = slagalica
+    def osvezi_slagalicu(self, data):
+        key = next(iter(data))
+
+        self.ui.Obavestenje.setText(key)
+        self.slagalica = data[key]
         self.isprazni_slagalicu()
         self.popuni_slagalicu()
 
@@ -160,7 +163,7 @@ class MainWindow(QMainWindow):
                 if self.slagalica[self.dimenzije*i + j] == 0:
                     if what == "enemy":
                         polje.setStyleSheet("background: rgb(245,245,255)")
-                    elif what == "pobedili":
+                    elif what == "pobedili" or what == "RESENO!":
                         polje.setStyleSheet("background: rgb(255,0,0)")
                     elif what == "izgubili":
                         polje.setStyleSheet("background: rgb(0,0,255)")

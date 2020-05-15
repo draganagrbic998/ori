@@ -79,7 +79,10 @@ class AStarWorkThread(QtCore.QThread):
                                                                             #nego nase resenje koliko ima koraka
                                                                             #ovaj broj mi je poprilicno dobar, za teske slagalice ne prelazi 100
         for i in path:
-            self.signal.emit(i.content)
+            if path.index(i) == len(path) - 1:
+                self.signal.emit({"RESENO!" : i.content})
+            else:
+                self.signal.emit({"RESAVA SE!" : i.content})
             time.sleep(0.3)
             #print (i)           #samo u konzoli da vidimo jel radi, kada dodamo gui prikazacemo svako stanje na svakuh sekund tako nesto
 
