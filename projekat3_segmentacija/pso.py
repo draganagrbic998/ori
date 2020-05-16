@@ -5,15 +5,16 @@ def get_position(n_var):
     lista = sorted(np.random.randint(0, 255, n_var))
     return np.array(lista)
 
+def pso(f, pixels, n_var = 1, wi = 0.9, wf = 0.4, cpi = 0.5, cpf = 2.5, cgi = 2.5, cgf = 0.5, particle_num = 10, iter_num = 10):
 
-def pso(f, pixels, n_var = 1, w = 0.9, wLow = 0.4, cpi = 0.5, cpf = 2.5, cgi = 2.5, cgf = 0.5, particle_num = 10, iter_num = 10):
     best_position = None
     best_value = np.inf * (-1)
 
-    deltaW = abs(w - wLow) / iter_num * 1.0
-    deltaCp = abs(cpi - cpf) / iter_num * 1.0
-    deltaCg = abs(cgi - cgf) / iter_num * 1.0
+    deltaW = abs(wi - wf) / float(iter_num)
+    deltaCp = abs(cpi - cpf) / float(iter_num)
+    deltaCg = abs(cgi - cgf) / float(iter_num)
 
+    w = wi
     cp = cpi
     cg = cgi
 
@@ -31,8 +32,8 @@ def pso(f, pixels, n_var = 1, w = 0.9, wLow = 0.4, cpi = 0.5, cpf = 2.5, cgi = 2
         particle = {
             'speed': 0,
             'position': pos,
-            'best_position': pos,
             'value': fpoz,
+            'best_position': pos,
             'best_value': fpoz,
         }
 
@@ -42,14 +43,12 @@ def pso(f, pixels, n_var = 1, w = 0.9, wLow = 0.4, cpi = 0.5, cpf = 2.5, cgi = 2
 
     for i in range(0, iter_num):
         for p in population:
+
             r1 = np.random.uniform(0, 1)
             r2 = np.random.uniform(0, 1)
 
-            v = w * p['speed'] + cp * r1 * (p['best_position'] - p['position']) + cg * r2 * (best_position - p['position'])
-
-            p['speed'] = v
-
-            p['position'] = np.add(p['position'], v, casting="unsafe")
+            p['speed'] = w * p['speed'] + r1 * cp  * (p['best_position'] - p['position']) + r2 * cg * (best_position - p['position'])
+            p['position'] = np.add(p['position'], p['speed'], casting="unsafe")
             p['position'] = np.sort(p['position'])
 
             for j in range(0, n_var):
