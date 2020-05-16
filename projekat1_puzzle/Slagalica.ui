@@ -103,7 +103,7 @@
           <string notr="true">background-color: rgba(125, 125, 125, 155);</string>
          </property>
          <property name="text">
-          <string>Pretraga Bez Protivnika</string>
+          <string>A* Search</string>
          </property>
         </widget>
        </item>
@@ -132,7 +132,7 @@
           <string notr="true">background-color: rgba(125, 125, 125, 155);</string>
          </property>
          <property name="text">
-          <string>Sa Protivnicima</string>
+          <string>Minimax</string>
          </property>
         </widget>
        </item>
@@ -241,7 +241,27 @@
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QGridLayout" name="gridLayout_9">
-             <item row="0" column="2">
+             <item row="1" column="0">
+              <widget class="QLabel" name="Obavestenje">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 0, 0);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
               <widget class="QLabel" name="SaProtivnikomVrednost">
                <property name="font">
                 <font>
@@ -286,27 +306,7 @@
                 <string notr="true">background-color: rgb(212, 212, 212);</string>
                </property>
                <property name="text">
-                <string>Napravi Slagalicu</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLabel" name="Obavestenje">
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color: rgb(255, 0, 0);</string>
-               </property>
-               <property name="text">
-                <string/>
+                <string>Reset puzzle</string>
                </property>
               </widget>
              </item>
@@ -319,7 +319,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>2</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="PretragaBezPage">
           <layout class="QGridLayout" name="gridLayout">
@@ -347,6 +347,59 @@
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
+              <item row="1" column="0" colspan="2">
+               <widget class="QFrame" name="frame_3">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_5">
+                 <item row="0" column="0">
+                  <widget class="QPushButton" name="ResiBezButton">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>50</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>50</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>12</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(212, 212, 212);</string>
+                   </property>
+                   <property name="text">
+                    <string>Start</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
               <item row="0" column="0">
                <widget class="QLabel" name="label">
                 <property name="sizePolicy">
@@ -363,7 +416,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>Veličina slagalice:</string>
+                 <string>Puzzle size:</string>
                 </property>
                </widget>
               </item>
@@ -412,59 +465,6 @@
                 </item>
                </widget>
               </item>
-              <item row="1" column="0" colspan="2">
-               <widget class="QFrame" name="frame_3">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_5">
-                 <item row="0" column="0">
-                  <widget class="QPushButton" name="ResiBezButton">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>150</width>
-                     <height>50</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>150</width>
-                     <height>50</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>12</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(212, 212, 212);</string>
-                   </property>
-                   <property name="text">
-                    <string>Reši</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
              </layout>
             </widget>
            </item>
@@ -506,7 +506,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>Broj iteracija:</string>
+                 <string>Iteration number:</string>
                 </property>
                </widget>
               </item>
@@ -634,7 +634,7 @@
                     <string notr="true">background-color: rgb(212, 212, 212);</string>
                    </property>
                    <property name="text">
-                    <string>Reši</string>
+                    <string>Start</string>
                    </property>
                   </widget>
                  </item>
@@ -691,7 +691,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>Agent igrača:</string>
+                 <string>Agent:</string>
                 </property>
                </widget>
               </item>
@@ -711,7 +711,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>Veličina slagalice:</string>
+                 <string>Puzzle size:</string>
                 </property>
                </widget>
               </item>
@@ -725,7 +725,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>Dubina</string>
+                 <string>Depth:</string>
                 </property>
                </widget>
               </item>
@@ -814,7 +814,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>Broj iteracija:</string>
+                 <string>Iteration number:</string>
                 </property>
                </widget>
               </item>
@@ -900,7 +900,7 @@
                     <string notr="true">background-color: rgb(212, 212, 212);</string>
                    </property>
                    <property name="text">
-                    <string>Reši</string>
+                    <string>Start</string>
                    </property>
                   </widget>
                  </item>

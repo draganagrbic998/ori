@@ -1,6 +1,6 @@
 import time
 from PySide2 import QtCore
-from projekat2_puzzle.util import PriorityQueue
+from projekat1_puzzle.util import PriorityQueue
 
 
 class AStarWorkThread(QtCore.QThread):
@@ -19,14 +19,12 @@ class AStarWorkThread(QtCore.QThread):
 
         root = self.puzzle_problem.getStartState() if not self.startState else self.startState
         heuristic_cost = self.aStartValue(root)
-        root.total_cost= heuristic_cost    #necemo kada kreiramo Puzzle da prosledjujemo vrednost heurstike jer gubimo na vremenu =>
-                                #moze se desiti da generisemo potomke koje necemo obici
-                                #zato heuristiku i total_cost setujemo rucno, kada obilazimo potomka
+        root.total_cost= heuristic_cost
         root.heuristic = heuristic_cost
 
         prQueue.push(root, heuristic_cost)
 
-        visited = set() #da se vrsi pretraga po hashu, bice mnogoooo brze tako nego da koristimo listu
+        visited = set()
 
         result = None
 
@@ -46,16 +44,14 @@ class AStarWorkThread(QtCore.QThread):
 
             visited.add(parent)
 
-            if k == 5000:   #za teske slagalice, posle ove dubine performanse jako opadaju, zato smanjujemo korak za pola
+            if k == 5000:
                 kat1 = True
             if k == 10000:
                 kat2 = True
             if kat2:
                 path_cost = parent.total_cost - parent.heuristic + 0.4
             elif kat1:
-                path_cost = parent.total_cost - parent.heuristic + 0.5 #ovo sam eksperimentalno utvrdila da SAMO ZA TESKE slagalice ce resenje
-                                                                                #biti mnogo brze ak ose korak malo smanji
-                                                                    #za lake i srednje slagalice ovo nije potrebno
+                path_cost = parent.total_cost - parent.heuristic + 0.5
             else:
                 path_cost = parent.total_cost - parent.heuristic + 1
 
@@ -75,19 +71,17 @@ class AStarWorkThread(QtCore.QThread):
             result = result.parent
 
         path.reverse()
-        print ("Broj predjenih koraka je " + str(len(path)  - 1) + ".")     #ne koliko je koraka u pretrazi,
-                                                                            #nego nase resenje koliko ima koraka
-                                                                            #ovaj broj mi je poprilicno dobar, za teske slagalice ne prelazi 100
+        print ("Broj predjenih koraka je " + str(len(path)  - 1) + ".")
         for i in path:
             if path.index(i) == len(path) - 1:
                 self.signal.emit({"RESENO!" : i.content})
             else:
                 self.signal.emit({"RESAVA SE!" : i.content})
             time.sleep(0.3)
-            #print (i)           #samo u konzoli da vidimo jel radi, kada dodamo gui prikazacemo svako stanje na svakuh sekund tako nesto
+
 
     def manhattanHeuristic(self, state):
-        puzzle_size = int(len(state) ** 0.5)    #da li je 3x3 ili 4x4 slagalica
+        puzzle_size = int(len(state) ** 0.5)
         heuristic = 0
         row = 0
         column = -1
@@ -100,14 +94,14 @@ class AStarWorkThread(QtCore.QThread):
                 row += 1
 
             if state[i] == 0:
-                continue    #smatracemo da ne gledamo da li je nula na svom mestu
+                continue
 
             heuristic += abs(row - (state[i] - 1) / puzzle_size) + abs(column - (state[i] - 1) % puzzle_size)
 
         return heuristic
 
-    def linearConflict(self, lista):  #ovo kad se doda na menheten, mnogo je bolja heuristika
-        puzzle_size = int(len(lista) ** 0.5)    #da li je 3x3 ili 4x4 slagalica
+    def linearConflict(self, lista):
+        puzzle_size = int(len(lista) ** 0.5)
         heuristic = 0
         column = -1
         row = 0
@@ -148,7 +142,7 @@ class AStarWorkThread(QtCore.QThread):
 
 
 def manhattanHeuristic(state):
-    puzzle_size = int(len(state) ** 0.5)    #da li je 3x3 ili 4x4 slagalica
+    puzzle_size = int(len(state) ** 0.5)
     heuristic = 0
     row = 0
     column = -1
@@ -160,15 +154,15 @@ def manhattanHeuristic(state):
             row += 1
 
         if state[i] == 0:
-            continue    #smatracemo da ne gledamo da li je nula na svom mestu
+            continue
 
         heuristic += abs(row - (state[i] - 1) / puzzle_size) + abs(column - (state[i] - 1) % puzzle_size)
 
     return heuristic
 
 
-def linearConflict(lista):  #ovo kad se doda na menheten, mnogo je bolja heuristika
-    puzzle_size = int(len(lista) ** 0.5)    #da li je 3x3 ili 4x4 slagalica
+def linearConflict(lista):
+    puzzle_size = int(len(lista) ** 0.5)
     heuristic = 0
     column = -1
     row = 0

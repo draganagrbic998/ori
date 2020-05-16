@@ -2,8 +2,6 @@ import heapq
 
 class PriorityQueue:
 
-    #ovo sam prekopirala sa vezbi, kod pekmena smo ovo koristili
-
     def  __init__(self):
         self.heap = []
         self.count = 0

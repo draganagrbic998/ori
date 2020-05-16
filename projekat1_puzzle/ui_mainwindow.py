@@ -445,5 +445,5 @@ class Ui_MainWindow(object):
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Dubina", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Broj iteracija:", None))
         self.ResiQLButton.setText(QCoreApplication.translate("MainWindow", u"Re\u0161i", None))
-    # retranslateUi
+
 

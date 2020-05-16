@@ -2,7 +2,7 @@ import dit
 from PIL import Image
 from numpy import array, zeros
 import timeit
-from projekat1 import pso
+from projekat3_segmentacija import pso
 
 def setup_probs(pixels, level_nums, thresholdi):
     N = len(pixels)
@@ -43,10 +43,6 @@ def tsallis(thresholdi, pixels):
 
 def convert_pixels(pixels, thresholdi):
 
-
-
-
-
     for i in range(0, len(pixels)):
         for j in range(0, len(pixels[i])):
             for k in range(0, len(thresholdi)):
@@ -61,16 +57,13 @@ def convert_pixels(pixels, thresholdi):
     return pixels
 
 
-#Treba nam samo jedna RGB vrednost jer su kod greyscale one iste
 def simplify_pixels(pixels):
 
-    #da ne prolazimo kroz svaki piksel, stavila sam da se ovo vektorski resi
-    return pixels[:,:,0].ravel()    #ravel metoda ce od 2D niza napraviti 1D niz
+    return pixels[:,:,0].ravel()
 
 
-#Nemoj slike vece od 512x512. Dugo ces cekati.
 def main():
-    #Pazi: onih 6 iz pdf-a se zavrsavaju na tif a ostale na tiff
+
     name = "peppers.tif"
     image = Image.open("images/" + name)
     pixels = array(image)
@@ -80,7 +73,7 @@ def main():
     new_pixels = simplify_pixels(pixels)
 
     start = timeit.default_timer()
-    thresholdi, max = pso.pso(tsallis, pixels=new_pixels, n_var=1, w=0.4, wLow=0.1, cgf=2, cpf=2, cgi=2, cpi=2, particle_num=20, iter_num=100)
+    thresholdi, max = pso.pso(tsallis, pixels=new_pixels, n_var=2, w=0.4, wLow=0.1, cgf=2, cpf=2, cgi=2, cpi=2, particle_num=100, iter_num=100)
 
     print("Najbolji pragovi: " + str(thresholdi))
     print("Najbolja vrednost Tsallis funkcije: " + str(max))
@@ -91,7 +84,6 @@ def main():
     image.save("output/" + name)
 
 
-#ako ovo iz main stavis ovde onda ce ti na nekim mestima pisati da ti parametar fje "shadow-uje" to isto iz sireg opsega
 if __name__ == '__main__':
     main()
 

@@ -6,14 +6,14 @@ import numpy as np
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QFont
 
-from projekat2_puzzle.mainMulti import ProtivnikWorkThread
-from projekat2_puzzle.qmain import QLearningWorkThread
-from projekat2_puzzle.search import AStarWorkThread
-from projekat2_puzzle.puzzle import PuzzleProblem
+from projekat1_puzzle.mainMulti import ProtivnikWorkThread
+from projekat1_puzzle.qmain import QLearningWorkThread
+from projekat1_puzzle.search import AStarWorkThread
+from projekat1_puzzle.puzzle import PuzzleProblem
 
 from PySide2.QtWidgets import QApplication, QMainWindow, QGridLayout, QLabel, QSizePolicy
 
-from projekat2_puzzle.ui_mainwindow import Ui_MainWindow
+from projekat1_puzzle.ui_mainwindow import Ui_MainWindow
 
 slagalice = {
     3: [
