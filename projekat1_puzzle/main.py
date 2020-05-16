@@ -83,6 +83,7 @@ class MainWindow(QMainWindow):
         self.ui.Obavestenje.setText("")
         self.ui.SaProtivnikomVrednost.setText("")
         self.ui.stackedWidget.setCurrentIndex(0)
+        self.napravi_slagalicu()
 
     def show_sa(self):
         self.astarWorker.terminate()
@@ -91,6 +92,7 @@ class MainWindow(QMainWindow):
         self.ui.Obavestenje.setText("")
         self.ui.SaProtivnikomVrednost.setText("")
         self.ui.stackedWidget.setCurrentIndex(1)
+        self.napravi_slagalicu()
 
     def show_qlearning(self):
         self.astarWorker.terminate()
@@ -99,6 +101,7 @@ class MainWindow(QMainWindow):
         self.ui.Obavestenje.setText("")
         self.ui.SaProtivnikomVrednost.setText("")
         self.ui.stackedWidget.setCurrentIndex(2)
+        self.napravi_slagalicu()
 
     def napravi_slagalicu(self):
         self.astarWorker.terminate()
