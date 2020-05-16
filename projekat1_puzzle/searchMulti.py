@@ -1,4 +1,4 @@
-from projekat1_puzzle.search import aStartValue
+from projekat1_puzzle.search import heuristicValue
 from random import choice
 
 
@@ -20,15 +20,17 @@ class RandomAgent:
 
 class MultiAgent:
 
-    def __init__(self, depth, agentsNum, evalutionFunction=aStartValue):
+    def __init__(self, depth, agentsNum, evalutionFunction=heuristicValue):
         self.depth = depth
         self.evalutionFunction = evalutionFunction
         self.agentsNum = agentsNum
         self.lastState = None
 
+
+
 class ExpectimaxAgent(MultiAgent):
 
-    def __init__(self, depth, agentsNum, evalutionFunction=aStartValue):
+    def __init__(self, depth, agentsNum, evalutionFunction=heuristicValue):
         super().__init__(depth, agentsNum, evalutionFunction)
 
 
@@ -77,7 +79,7 @@ class ExpectimaxAgent(MultiAgent):
 
 class MinimaxAgent(MultiAgent):
 
-    def __init__(self, depth, agentsNum, evalutionFunction=aStartValue):
+    def __init__(self, depth, agentsNum, evalutionFunction=heuristicValue):
         super().__init__(depth, agentsNum, evalutionFunction)
 
     def getAction(self, problem, state):

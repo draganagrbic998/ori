@@ -1,6 +1,6 @@
 from projekat1_puzzle.searchMulti import ExpectimaxAgent, RandomAgent, MinimaxAgent
 from time import sleep
-from projekat1_puzzle.search import aStartValue
+from projekat1_puzzle.search import heuristicValue
 from PySide2 import QtCore
 
 
@@ -32,7 +32,7 @@ class ProtivnikWorkThread(QtCore.QThread):
         agentIndex = 0
 
 
-        startValue = aStartValue(state)
+        startValue = heuristicValue(state)
 
         emitVal = {"me": [state.content, startValue]}
         self.signal.emit(emitVal)
@@ -51,9 +51,9 @@ class ProtivnikWorkThread(QtCore.QThread):
                 print("NE MOZE DA ODIGRA  AGENT :( {}".format(agentIndex))
             else:
                 if agentIndex < self.numAgents - 1:
-                    emitVal = {"me": [temp.content, aStartValue(temp)]}
+                    emitVal = {"me": [temp.content, heuristicValue(temp)]}
                 else:
-                    emitVal = {"enemy": [temp.content, aStartValue(temp)]}
+                    emitVal = {"enemy": [temp.content, heuristicValue(temp)]}
 
                 state = temp
                 self.signal.emit(emitVal)
@@ -62,13 +62,12 @@ class ProtivnikWorkThread(QtCore.QThread):
             agentIndex = (agentIndex + 1) % self.numAgents
 
             if self.puzzle_problem.isGoalState(state):
-                print ("RESILI")
                 break
 
-        if aStartValue(state) <= startValue:
-            emitVal = {"pobedili": [state.content, aStartValue(state)]}
+        if heuristicValue(state) <= startValue:
+            emitVal = {"pobedili": [state.content, heuristicValue(state)]}
             self.signal.emit(emitVal)
         else:
-            emitVal = {"izgubili": [state.content, aStartValue(state)]}
+            emitVal = {"izgubili": [state.content, heuristicValue(state)]}
             self.signal.emit(emitVal)
 

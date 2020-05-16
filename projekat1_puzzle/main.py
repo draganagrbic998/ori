@@ -69,7 +69,9 @@ class MainWindow(QMainWindow):
         self.ui.PretragaBezProtivnika.clicked.connect(self.show_bez)
         self.ui.PretragaSaProtivnikom.clicked.connect(self.show_sa)
         self.ui.QLearning.clicked.connect(self.show_qlearning)
-        self.ui.NapraviSlagalicuButton.clicked.connect(self.napravi_slagalicu)
+        self.ui.ResetPuzzle1.clicked.connect(self.napravi_slagalicu)
+        self.ui.ResetPuzzle2.clicked.connect(self.napravi_slagalicu)
+        self.ui.ResetPuzzle3.clicked.connect(self.napravi_slagalicu)
 
         self.ui.ResiBezButton.clicked.connect(self.resi_bez)
         self.ui.ResiSaButton.clicked.connect(self.resi_sa)
@@ -162,17 +164,12 @@ class MainWindow(QMainWindow):
 
 
     def osvezi_slagalicu_qLearning(self, data):
-        self.ui.Obavestenje.setText("")
-        key = next(iter(data))
+        self.ui.Obavestenje.setText(data)
+        if "SOLVED" in data:
+            self.slagalica = goals[3]
+            self.isprazni_slagalicu()
+            self.popuni_slagalicu("pobedili")
 
-        if key == "reseno":
-            self.ui.Obavestenje.setText("RESENO!")
-        else:
-            self.ui.Obavestenje.setText(key)
-
-        self.slagalica = data[key]
-        self.isprazni_slagalicu()
-        self.popuni_slagalicu(key)
 
     def isprazni_slagalicu(self):
         if self.slagalica_layout.count() != 0:
@@ -211,6 +208,9 @@ class MainWindow(QMainWindow):
                 self.slagalica_layout.addWidget(polje, i, j, 1, 1)
 
     def resi_bez(self):
+
+        self.napravi_slagalicu()
+
         if not self.slagalica:
             return
 
@@ -221,6 +221,9 @@ class MainWindow(QMainWindow):
         self.astarWorker.start()
 
     def resi_sa(self):
+
+        self.napravi_slagalicu()
+
         if not self.slagalica:
             return
 
@@ -242,6 +245,8 @@ class MainWindow(QMainWindow):
 
         self.qLearningWorker.puzzle_problem = PuzzleProblem(self.slagalica, goals[self.dimenzije])
         self.qLearningWorker.iterNum = self.ui.IterNumQLPicker.value()
+        self.qLearningWorker.alpha = float(self.ui.alpha.value())
+        self.qLearningWorker.discount = float(self.ui.discount.value())
         self.qLearningWorker.start()
 
 def main():

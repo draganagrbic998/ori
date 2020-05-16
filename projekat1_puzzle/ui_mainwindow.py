@@ -106,14 +106,6 @@ class Ui_MainWindow(object):
         self.SlagalicaFrame.setFrameShadow(QFrame.Raised)
         self.gridLayout_6 = QGridLayout(self.SlagalicaFrame)
         self.gridLayout_6.setObjectName(u"gridLayout_6")
-        self.SlagalicaContainer = QFrame(self.SlagalicaFrame)
-        self.SlagalicaContainer.setObjectName(u"SlagalicaContainer")
-        self.SlagalicaContainer.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.SlagalicaContainer.setFrameShape(QFrame.StyledPanel)
-        self.SlagalicaContainer.setFrameShadow(QFrame.Raised)
-
-        self.gridLayout_6.addWidget(self.SlagalicaContainer, 0, 0, 1, 1)
-
         self.frame_5 = QFrame(self.SlagalicaFrame)
         self.frame_5.setObjectName(u"frame_5")
         sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
@@ -129,18 +121,7 @@ class Ui_MainWindow(object):
         self.SaProtivnikomVrednost.setObjectName(u"SaProtivnikomVrednost")
         self.SaProtivnikomVrednost.setFont(font)
 
-        self.gridLayout_9.addWidget(self.SaProtivnikomVrednost, 0, 2, 1, 1)
-
-        self.NapraviSlagalicuButton = QPushButton(self.frame_5)
-        self.NapraviSlagalicuButton.setObjectName(u"NapraviSlagalicuButton")
-        sizePolicy1.setHeightForWidth(self.NapraviSlagalicuButton.sizePolicy().hasHeightForWidth())
-        self.NapraviSlagalicuButton.setSizePolicy(sizePolicy1)
-        self.NapraviSlagalicuButton.setMinimumSize(QSize(200, 50))
-        self.NapraviSlagalicuButton.setMaximumSize(QSize(200, 50))
-        self.NapraviSlagalicuButton.setFont(font)
-        self.NapraviSlagalicuButton.setStyleSheet(u"background-color: rgb(212, 212, 212);")
-
-        self.gridLayout_9.addWidget(self.NapraviSlagalicuButton, 0, 0, 1, 1)
+        self.gridLayout_9.addWidget(self.SaProtivnikomVrednost, 0, 0, 1, 1)
 
         self.Obavestenje = QLabel(self.frame_5)
         self.Obavestenje.setObjectName(u"Obavestenje")
@@ -148,10 +129,18 @@ class Ui_MainWindow(object):
         self.Obavestenje.setLayoutDirection(Qt.LeftToRight)
         self.Obavestenje.setStyleSheet(u"color: rgb(255, 0, 0);")
 
-        self.gridLayout_9.addWidget(self.Obavestenje, 0, 1, 1, 1)
+        self.gridLayout_9.addWidget(self.Obavestenje, 1, 0, 1, 1)
 
 
         self.gridLayout_6.addWidget(self.frame_5, 1, 0, 1, 1)
+
+        self.SlagalicaContainer = QFrame(self.SlagalicaFrame)
+        self.SlagalicaContainer.setObjectName(u"SlagalicaContainer")
+        self.SlagalicaContainer.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.SlagalicaContainer.setFrameShape(QFrame.StyledPanel)
+        self.SlagalicaContainer.setFrameShadow(QFrame.Raised)
+
+        self.gridLayout_6.addWidget(self.SlagalicaContainer, 0, 0, 1, 1)
 
 
         self.horizontalLayout_2.addWidget(self.SlagalicaFrame)
@@ -196,15 +185,7 @@ class Ui_MainWindow(object):
 
         self.gridLayout_4.addWidget(self.VelicinaBezPicker, 0, 1, 1, 1)
 
-        self.frame_3 = QFrame(self.PretragaBezFrame)
-        self.frame_3.setObjectName(u"frame_3")
-        sizePolicy3.setHeightForWidth(self.frame_3.sizePolicy().hasHeightForWidth())
-        self.frame_3.setSizePolicy(sizePolicy3)
-        self.frame_3.setFrameShape(QFrame.StyledPanel)
-        self.frame_3.setFrameShadow(QFrame.Raised)
-        self.gridLayout_5 = QGridLayout(self.frame_3)
-        self.gridLayout_5.setObjectName(u"gridLayout_5")
-        self.ResiBezButton = QPushButton(self.frame_3)
+        self.ResiBezButton = QPushButton(self.PretragaBezFrame)
         self.ResiBezButton.setObjectName(u"ResiBezButton")
         sizePolicy1.setHeightForWidth(self.ResiBezButton.sizePolicy().hasHeightForWidth())
         self.ResiBezButton.setSizePolicy(sizePolicy1)
@@ -213,10 +194,18 @@ class Ui_MainWindow(object):
         self.ResiBezButton.setFont(font)
         self.ResiBezButton.setStyleSheet(u"background-color: rgb(212, 212, 212);")
 
-        self.gridLayout_5.addWidget(self.ResiBezButton, 0, 0, 1, 1)
+        self.gridLayout_4.addWidget(self.ResiBezButton, 1, 0, 1, 1)
 
+        self.ResetPuzzle1 = QPushButton(self.PretragaBezFrame)
+        self.ResetPuzzle1.setObjectName(u"ResetPuzzle1")
+        sizePolicy1.setHeightForWidth(self.ResetPuzzle1.sizePolicy().hasHeightForWidth())
+        self.ResetPuzzle1.setSizePolicy(sizePolicy1)
+        self.ResetPuzzle1.setMinimumSize(QSize(150, 50))
+        self.ResetPuzzle1.setMaximumSize(QSize(150, 50))
+        self.ResetPuzzle1.setFont(font)
+        self.ResetPuzzle1.setStyleSheet(u"background-color: rgb(212, 212, 212);")
 
-        self.gridLayout_4.addWidget(self.frame_3, 1, 0, 1, 2)
+        self.gridLayout_4.addWidget(self.ResetPuzzle1, 1, 1, 1, 1)
 
 
         self.gridLayout.addWidget(self.PretragaBezFrame, 0, 0, 1, 1)
@@ -234,24 +223,13 @@ class Ui_MainWindow(object):
         self.PretragaSaFrame.setFrameShadow(QFrame.Raised)
         self.gridLayout_7 = QGridLayout(self.PretragaSaFrame)
         self.gridLayout_7.setObjectName(u"gridLayout_7")
-        self.label_3 = QLabel(self.PretragaSaFrame)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setFont(font)
+        self.label_2 = QLabel(self.PretragaSaFrame)
+        self.label_2.setObjectName(u"label_2")
+        sizePolicy1.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy1)
+        self.label_2.setFont(font)
 
-        self.gridLayout_7.addWidget(self.label_3, 1, 0, 1, 1)
-
-        self.IterNumSaPicker = QSpinBox(self.PretragaSaFrame)
-        self.IterNumSaPicker.setObjectName(u"IterNumSaPicker")
-        sizePolicy1.setHeightForWidth(self.IterNumSaPicker.sizePolicy().hasHeightForWidth())
-        self.IterNumSaPicker.setSizePolicy(sizePolicy1)
-        self.IterNumSaPicker.setMinimumSize(QSize(50, 30))
-        self.IterNumSaPicker.setMaximumSize(QSize(50, 30))
-        self.IterNumSaPicker.setFont(font1)
-        self.IterNumSaPicker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.IterNumSaPicker.setMinimum(1)
-        self.IterNumSaPicker.setMaximum(10000000)
-
-        self.gridLayout_7.addWidget(self.IterNumSaPicker, 1, 1, 1, 1)
+        self.gridLayout_7.addWidget(self.label_2, 0, 0, 1, 1)
 
         self.AgentPicker = QComboBox(self.PretragaSaFrame)
         self.AgentPicker.addItem("")
@@ -268,27 +246,48 @@ class Ui_MainWindow(object):
 
         self.gridLayout_7.addWidget(self.AgentPicker, 3, 1, 1, 1)
 
-        self.frame_4 = QFrame(self.PretragaSaFrame)
-        self.frame_4.setObjectName(u"frame_4")
-        sizePolicy3.setHeightForWidth(self.frame_4.sizePolicy().hasHeightForWidth())
-        self.frame_4.setSizePolicy(sizePolicy3)
-        self.frame_4.setFrameShape(QFrame.StyledPanel)
-        self.frame_4.setFrameShadow(QFrame.Raised)
-        self.gridLayout_8 = QGridLayout(self.frame_4)
-        self.gridLayout_8.setObjectName(u"gridLayout_8")
-        self.ResiSaButton = QPushButton(self.frame_4)
-        self.ResiSaButton.setObjectName(u"ResiSaButton")
-        sizePolicy1.setHeightForWidth(self.ResiSaButton.sizePolicy().hasHeightForWidth())
-        self.ResiSaButton.setSizePolicy(sizePolicy1)
-        self.ResiSaButton.setMinimumSize(QSize(150, 50))
-        self.ResiSaButton.setMaximumSize(QSize(150, 50))
-        self.ResiSaButton.setFont(font)
-        self.ResiSaButton.setStyleSheet(u"background-color: rgb(212, 212, 212);")
+        self.label_3 = QLabel(self.PretragaSaFrame)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setFont(font)
 
-        self.gridLayout_8.addWidget(self.ResiSaButton, 0, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.label_3, 1, 0, 1, 1)
 
+        self.IterNumSaPicker = QSpinBox(self.PretragaSaFrame)
+        self.IterNumSaPicker.setObjectName(u"IterNumSaPicker")
+        sizePolicy1.setHeightForWidth(self.IterNumSaPicker.sizePolicy().hasHeightForWidth())
+        self.IterNumSaPicker.setSizePolicy(sizePolicy1)
+        self.IterNumSaPicker.setMinimumSize(QSize(50, 30))
+        self.IterNumSaPicker.setMaximumSize(QSize(50, 30))
+        self.IterNumSaPicker.setFont(font1)
+        self.IterNumSaPicker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.IterNumSaPicker.setMinimum(1)
+        self.IterNumSaPicker.setMaximum(10000)
 
-        self.gridLayout_7.addWidget(self.frame_4, 5, 0, 1, 2)
+        self.gridLayout_7.addWidget(self.IterNumSaPicker, 1, 1, 1, 1)
+
+        self.label_6 = QLabel(self.PretragaSaFrame)
+        self.label_6.setObjectName(u"label_6")
+        self.label_6.setFont(font)
+
+        self.gridLayout_7.addWidget(self.label_6, 2, 0, 1, 1)
+
+        self.label_4 = QLabel(self.PretragaSaFrame)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setFont(font)
+
+        self.gridLayout_7.addWidget(self.label_4, 3, 0, 1, 1)
+
+        self.DepthPicker = QSpinBox(self.PretragaSaFrame)
+        self.DepthPicker.setObjectName(u"DepthPicker")
+        sizePolicy1.setHeightForWidth(self.DepthPicker.sizePolicy().hasHeightForWidth())
+        self.DepthPicker.setSizePolicy(sizePolicy1)
+        self.DepthPicker.setMinimumSize(QSize(50, 30))
+        self.DepthPicker.setMaximumSize(QSize(50, 30))
+        self.DepthPicker.setFont(font1)
+        self.DepthPicker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.DepthPicker.setMinimum(1)
+
+        self.gridLayout_7.addWidget(self.DepthPicker, 2, 1, 1, 1)
 
         self.VelicinaSaPicker = QComboBox(self.PretragaSaFrame)
         self.VelicinaSaPicker.addItem("")
@@ -303,37 +302,27 @@ class Ui_MainWindow(object):
 
         self.gridLayout_7.addWidget(self.VelicinaSaPicker, 0, 1, 1, 1)
 
-        self.label_4 = QLabel(self.PretragaSaFrame)
-        self.label_4.setObjectName(u"label_4")
-        self.label_4.setFont(font)
+        self.ResetPuzzle2 = QPushButton(self.PretragaSaFrame)
+        self.ResetPuzzle2.setObjectName(u"ResetPuzzle2")
+        sizePolicy1.setHeightForWidth(self.ResetPuzzle2.sizePolicy().hasHeightForWidth())
+        self.ResetPuzzle2.setSizePolicy(sizePolicy1)
+        self.ResetPuzzle2.setMinimumSize(QSize(150, 50))
+        self.ResetPuzzle2.setMaximumSize(QSize(150, 50))
+        self.ResetPuzzle2.setFont(font)
+        self.ResetPuzzle2.setStyleSheet(u"background-color: rgb(212, 212, 212);")
 
-        self.gridLayout_7.addWidget(self.label_4, 3, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.ResetPuzzle2, 4, 1, 1, 1)
 
-        self.label_2 = QLabel(self.PretragaSaFrame)
-        self.label_2.setObjectName(u"label_2")
-        sizePolicy1.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy1)
-        self.label_2.setFont(font)
+        self.ResiSaButton = QPushButton(self.PretragaSaFrame)
+        self.ResiSaButton.setObjectName(u"ResiSaButton")
+        sizePolicy1.setHeightForWidth(self.ResiSaButton.sizePolicy().hasHeightForWidth())
+        self.ResiSaButton.setSizePolicy(sizePolicy1)
+        self.ResiSaButton.setMinimumSize(QSize(150, 50))
+        self.ResiSaButton.setMaximumSize(QSize(150, 50))
+        self.ResiSaButton.setFont(font)
+        self.ResiSaButton.setStyleSheet(u"background-color: rgb(212, 212, 212);")
 
-        self.gridLayout_7.addWidget(self.label_2, 0, 0, 1, 1)
-
-        self.label_6 = QLabel(self.PretragaSaFrame)
-        self.label_6.setObjectName(u"label_6")
-        self.label_6.setFont(font)
-
-        self.gridLayout_7.addWidget(self.label_6, 2, 0, 1, 1)
-
-        self.DepthPicker = QSpinBox(self.PretragaSaFrame)
-        self.DepthPicker.setObjectName(u"DepthPicker")
-        sizePolicy1.setHeightForWidth(self.DepthPicker.sizePolicy().hasHeightForWidth())
-        self.DepthPicker.setSizePolicy(sizePolicy1)
-        self.DepthPicker.setMinimumSize(QSize(50, 30))
-        self.DepthPicker.setMaximumSize(QSize(50, 30))
-        self.DepthPicker.setFont(font1)
-        self.DepthPicker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.DepthPicker.setMinimum(1)
-
-        self.gridLayout_7.addWidget(self.DepthPicker, 2, 1, 1, 1)
+        self.gridLayout_7.addWidget(self.ResiSaButton, 4, 0, 1, 1)
 
 
         self.gridLayout_2.addWidget(self.PretragaSaFrame, 1, 0, 1, 1)
@@ -346,12 +335,57 @@ class Ui_MainWindow(object):
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
         self.QLearningFrame = QFrame(self.QLearningPage)
         self.QLearningFrame.setObjectName(u"QLearningFrame")
+        self.QLearningFrame.setFont(font)
         self.QLearningFrame.setStyleSheet(u"background-color: rgb(244, 244, 244);")
         self.QLearningFrame.setFrameShape(QFrame.StyledPanel)
         self.QLearningFrame.setFrameShadow(QFrame.Raised)
         self.gridLayout_11 = QGridLayout(self.QLearningFrame)
         self.gridLayout_11.setObjectName(u"gridLayout_11")
         self.gridLayout_11.setVerticalSpacing(0)
+        self.alpha = QDoubleSpinBox(self.QLearningFrame)
+        self.alpha.setObjectName(u"alpha")
+        sizePolicy1.setHeightForWidth(self.alpha.sizePolicy().hasHeightForWidth())
+        self.alpha.setSizePolicy(sizePolicy1)
+        self.alpha.setMinimumSize(QSize(100, 30))
+        self.alpha.setMaximumSize(QSize(100, 30))
+        self.alpha.setFont(font2)
+        self.alpha.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.alpha.setMinimum(0.100000000000000)
+        self.alpha.setMaximum(0.900000000000000)
+        self.alpha.setValue(0.200000000000000)
+
+        self.gridLayout_11.addWidget(self.alpha, 1, 3, 1, 1)
+
+        self.label_8 = QLabel(self.QLearningFrame)
+        self.label_8.setObjectName(u"label_8")
+        sizePolicy1.setHeightForWidth(self.label_8.sizePolicy().hasHeightForWidth())
+        self.label_8.setSizePolicy(sizePolicy1)
+        self.label_8.setFont(font)
+
+        self.gridLayout_11.addWidget(self.label_8, 2, 0, 1, 1)
+
+        self.discount = QDoubleSpinBox(self.QLearningFrame)
+        self.discount.setObjectName(u"discount")
+        sizePolicy1.setHeightForWidth(self.discount.sizePolicy().hasHeightForWidth())
+        self.discount.setSizePolicy(sizePolicy1)
+        self.discount.setMinimumSize(QSize(100, 30))
+        self.discount.setMaximumSize(QSize(100, 30))
+        self.discount.setFont(font2)
+        self.discount.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.discount.setMinimum(0.100000000000000)
+        self.discount.setMaximum(0.900000000000000)
+        self.discount.setValue(0.800000000000000)
+
+        self.gridLayout_11.addWidget(self.discount, 2, 3, 1, 1)
+
+        self.label_7 = QLabel(self.QLearningFrame)
+        self.label_7.setObjectName(u"label_7")
+        sizePolicy1.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
+        self.label_7.setSizePolicy(sizePolicy1)
+        self.label_7.setFont(font)
+
+        self.gridLayout_11.addWidget(self.label_7, 1, 0, 1, 1)
+
         self.label_5 = QLabel(self.QLearningFrame)
         self.label_5.setObjectName(u"label_5")
         sizePolicy1.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
@@ -364,24 +398,28 @@ class Ui_MainWindow(object):
         self.IterNumQLPicker.setObjectName(u"IterNumQLPicker")
         sizePolicy1.setHeightForWidth(self.IterNumQLPicker.sizePolicy().hasHeightForWidth())
         self.IterNumQLPicker.setSizePolicy(sizePolicy1)
-        self.IterNumQLPicker.setMinimumSize(QSize(125, 30))
-        self.IterNumQLPicker.setMaximumSize(QSize(125, 30))
+        self.IterNumQLPicker.setMinimumSize(QSize(100, 30))
+        self.IterNumQLPicker.setMaximumSize(QSize(100, 30))
         self.IterNumQLPicker.setFont(font2)
         self.IterNumQLPicker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.IterNumQLPicker.setMinimum(1)
-        self.IterNumQLPicker.setMaximum(10000000)
+        self.IterNumQLPicker.setMaximum(1000000)
+        self.IterNumQLPicker.setValue(1000000)
 
-        self.gridLayout_11.addWidget(self.IterNumQLPicker, 0, 1, 1, 1)
+        self.gridLayout_11.addWidget(self.IterNumQLPicker, 0, 3, 1, 1)
 
-        self.frame_6 = QFrame(self.QLearningFrame)
-        self.frame_6.setObjectName(u"frame_6")
-        sizePolicy3.setHeightForWidth(self.frame_6.sizePolicy().hasHeightForWidth())
-        self.frame_6.setSizePolicy(sizePolicy3)
-        self.frame_6.setFrameShape(QFrame.StyledPanel)
-        self.frame_6.setFrameShadow(QFrame.Raised)
-        self.gridLayout_12 = QGridLayout(self.frame_6)
-        self.gridLayout_12.setObjectName(u"gridLayout_12")
-        self.ResiQLButton = QPushButton(self.frame_6)
+        self.ResetPuzzle3 = QPushButton(self.QLearningFrame)
+        self.ResetPuzzle3.setObjectName(u"ResetPuzzle3")
+        sizePolicy1.setHeightForWidth(self.ResetPuzzle3.sizePolicy().hasHeightForWidth())
+        self.ResetPuzzle3.setSizePolicy(sizePolicy1)
+        self.ResetPuzzle3.setMinimumSize(QSize(150, 50))
+        self.ResetPuzzle3.setMaximumSize(QSize(150, 50))
+        self.ResetPuzzle3.setFont(font)
+        self.ResetPuzzle3.setStyleSheet(u"background-color: rgb(212, 212, 212);")
+
+        self.gridLayout_11.addWidget(self.ResetPuzzle3, 6, 3, 1, 1)
+
+        self.ResiQLButton = QPushButton(self.QLearningFrame)
         self.ResiQLButton.setObjectName(u"ResiQLButton")
         sizePolicy1.setHeightForWidth(self.ResiQLButton.sizePolicy().hasHeightForWidth())
         self.ResiQLButton.setSizePolicy(sizePolicy1)
@@ -390,10 +428,7 @@ class Ui_MainWindow(object):
         self.ResiQLButton.setFont(font)
         self.ResiQLButton.setStyleSheet(u"background-color: rgb(212, 212, 212);")
 
-        self.gridLayout_12.addWidget(self.ResiQLButton, 0, 0, 1, 1)
-
-
-        self.gridLayout_11.addWidget(self.frame_6, 1, 0, 1, 2)
+        self.gridLayout_11.addWidget(self.ResiQLButton, 6, 0, 1, 1)
 
 
         self.gridLayout_3.addWidget(self.QLearningFrame, 0, 0, 1, 1)
@@ -421,29 +456,33 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Slagalica", None))
-        self.PretragaBezProtivnika.setText(QCoreApplication.translate("MainWindow", u"Pretraga Bez Protivnika", None))
-        self.PretragaSaProtivnikom.setText(QCoreApplication.translate("MainWindow", u"Sa Protivnicima", None))
+        self.PretragaBezProtivnika.setText(QCoreApplication.translate("MainWindow", u"A* Search", None))
+        self.PretragaSaProtivnikom.setText(QCoreApplication.translate("MainWindow", u"Minimax", None))
         self.QLearning.setText(QCoreApplication.translate("MainWindow", u"Q-Learning", None))
         self.SaProtivnikomVrednost.setText("")
-        self.NapraviSlagalicuButton.setText(QCoreApplication.translate("MainWindow", u"Napravi Slagalicu", None))
         self.Obavestenje.setText("")
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Veli\u010dina slagalice:", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Puzzle size:", None))
         self.VelicinaBezPicker.setItemText(0, QCoreApplication.translate("MainWindow", u"3x3", None))
         self.VelicinaBezPicker.setItemText(1, QCoreApplication.translate("MainWindow", u"4x4", None))
 
-        self.ResiBezButton.setText(QCoreApplication.translate("MainWindow", u"Re\u0161i", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Broj iteracija:", None))
+        self.ResiBezButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
+        self.ResetPuzzle1.setText(QCoreApplication.translate("MainWindow", u"Reset puzzle", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Puzzle size:", None))
         self.AgentPicker.setItemText(0, QCoreApplication.translate("MainWindow", u"Minimax", None))
         self.AgentPicker.setItemText(1, QCoreApplication.translate("MainWindow", u"Expectimax", None))
 
-        self.ResiSaButton.setText(QCoreApplication.translate("MainWindow", u"Re\u0161i", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Iteration number:", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Depth:", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Agent:", None))
         self.VelicinaSaPicker.setItemText(0, QCoreApplication.translate("MainWindow", u"3x3", None))
         self.VelicinaSaPicker.setItemText(1, QCoreApplication.translate("MainWindow", u"4x4", None))
 
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Agent igra\u010da:", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Veli\u010dina slagalice:", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Dubina", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Broj iteracija:", None))
-        self.ResiQLButton.setText(QCoreApplication.translate("MainWindow", u"Re\u0161i", None))
-
+        self.ResetPuzzle2.setText(QCoreApplication.translate("MainWindow", u"Reset puzzle", None))
+        self.ResiSaButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"Discount:", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Alpha: ", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Iteration number:", None))
+        self.ResetPuzzle3.setText(QCoreApplication.translate("MainWindow", u"Reset puzzle", None))
+        self.ResiQLButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
+    # retranslateUi
 

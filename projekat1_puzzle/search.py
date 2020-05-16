@@ -18,7 +18,7 @@ class AStarWorkThread(QtCore.QThread):
         prQueue = PriorityQueue()
 
         root = self.puzzle_problem.getStartState() if not self.startState else self.startState
-        heuristic_cost = self.aStartValue(root)
+        heuristic_cost = heuristicValue(root)
         root.total_cost= heuristic_cost
         root.heuristic = heuristic_cost
 
@@ -56,7 +56,7 @@ class AStarWorkThread(QtCore.QThread):
                 path_cost = parent.total_cost - parent.heuristic + 1
 
             for child in self.puzzle_problem.getSuccessors(parent):
-                heuristic_cost = self.aStartValue(child)
+                heuristic_cost = heuristicValue(child)
                 total_cost = path_cost + heuristic_cost
 
                 if not child in visited :
@@ -71,7 +71,7 @@ class AStarWorkThread(QtCore.QThread):
             result = result.parent
 
         path.reverse()
-        print ("Broj predjenih koraka je " + str(len(path)  - 1) + ".")
+
         for i in path:
             if path.index(i) == len(path) - 1:
                 self.signal.emit({"RESENO!" : i.content})
@@ -80,65 +80,7 @@ class AStarWorkThread(QtCore.QThread):
             time.sleep(0.3)
 
 
-    def manhattanHeuristic(self, state):
-        puzzle_size = int(len(state) ** 0.5)
-        heuristic = 0
-        row = 0
-        column = -1
 
-        for i in range(len(state)):
-            column += 1
-
-            if column > puzzle_size - 1:
-                column -= puzzle_size
-                row += 1
-
-            if state[i] == 0:
-                continue
-
-            heuristic += abs(row - (state[i] - 1) / puzzle_size) + abs(column - (state[i] - 1) % puzzle_size)
-
-        return heuristic
-
-    def linearConflict(self, lista):
-        puzzle_size = int(len(lista) ** 0.5)
-        heuristic = 0
-        column = -1
-        row = 0
-        max_row = [-1,-1,-1,-1]
-        max_column = [-1,-1,-1,-1]
-
-        for i in range(len(lista)):
-            column += 1
-
-            if column > puzzle_size - 1:
-                row += 1
-                column -= puzzle_size
-
-            num = lista[i]
-            koristan_broj = num - 1
-
-            if num == 0:
-                continue
-            if koristan_broj / puzzle_size == row and koristan_broj % puzzle_size == column:
-                continue
-            if koristan_broj / puzzle_size == row:
-                if koristan_broj > max_row[row]:
-                    max_row[row] = koristan_broj
-                else:
-                    heuristic += 2
-            if koristan_broj % puzzle_size == column:
-                if koristan_broj > max_column[column]:
-                    max_column[column] = koristan_broj
-                else:
-                    heuristic += 2
-
-        return heuristic
-
-    def aStartValue(self, puzzle):
-        heuristika1 = self.manhattanHeuristic(puzzle.content)
-        heuristika2 = self.linearConflict(puzzle.content)
-        return heuristika1 + heuristika2
 
 
 def manhattanHeuristic(state):
@@ -193,7 +135,7 @@ def linearConflict(lista):
 
     return heuristic
 
-def aStartValue(puzzle):
+def heuristicValue(puzzle):
     heuristika1 = manhattanHeuristic(puzzle.content)
     heuristika2 = linearConflict(puzzle.content)
     return heuristika1 + heuristika2
