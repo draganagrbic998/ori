@@ -74,9 +74,9 @@ class AStarWorkThread(QtCore.QThread):
 
         for i in path:
             if path.index(i) == len(path) - 1:
-                self.signal.emit({"RESENO!" : i.content})
+                self.signal.emit({"PUZZLE SOLVER IN {} STEPS".format(len(path) - 1) : i.content})
             else:
-                self.signal.emit({"RESAVA SE!" : i.content})
+                self.signal.emit({"SOLVING PUZZLE..." : i.content})
             time.sleep(0.3)
 
 

@@ -3,7 +3,6 @@ from time import sleep
 from projekat1_puzzle.search import heuristicValue
 from PySide2 import QtCore
 
-
 class ProtivnikWorkThread(QtCore.QThread):
     signal = QtCore.Signal(dict)
 

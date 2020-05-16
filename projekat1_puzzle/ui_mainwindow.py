@@ -106,6 +106,14 @@ class Ui_MainWindow(object):
         self.SlagalicaFrame.setFrameShadow(QFrame.Raised)
         self.gridLayout_6 = QGridLayout(self.SlagalicaFrame)
         self.gridLayout_6.setObjectName(u"gridLayout_6")
+        self.SlagalicaContainer = QFrame(self.SlagalicaFrame)
+        self.SlagalicaContainer.setObjectName(u"SlagalicaContainer")
+        self.SlagalicaContainer.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.SlagalicaContainer.setFrameShape(QFrame.StyledPanel)
+        self.SlagalicaContainer.setFrameShadow(QFrame.Raised)
+
+        self.gridLayout_6.addWidget(self.SlagalicaContainer, 1, 0, 1, 1)
+
         self.frame_5 = QFrame(self.SlagalicaFrame)
         self.frame_5.setObjectName(u"frame_5")
         sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
@@ -117,30 +125,16 @@ class Ui_MainWindow(object):
         self.frame_5.setFrameShadow(QFrame.Raised)
         self.gridLayout_9 = QGridLayout(self.frame_5)
         self.gridLayout_9.setObjectName(u"gridLayout_9")
-        self.SaProtivnikomVrednost = QLabel(self.frame_5)
-        self.SaProtivnikomVrednost.setObjectName(u"SaProtivnikomVrednost")
-        self.SaProtivnikomVrednost.setFont(font)
-
-        self.gridLayout_9.addWidget(self.SaProtivnikomVrednost, 0, 0, 1, 1)
-
         self.Obavestenje = QLabel(self.frame_5)
         self.Obavestenje.setObjectName(u"Obavestenje")
         self.Obavestenje.setFont(font)
         self.Obavestenje.setLayoutDirection(Qt.LeftToRight)
         self.Obavestenje.setStyleSheet(u"color: rgb(255, 0, 0);")
 
-        self.gridLayout_9.addWidget(self.Obavestenje, 1, 0, 1, 1)
+        self.gridLayout_9.addWidget(self.Obavestenje, 0, 0, 1, 1)
 
 
-        self.gridLayout_6.addWidget(self.frame_5, 1, 0, 1, 1)
-
-        self.SlagalicaContainer = QFrame(self.SlagalicaFrame)
-        self.SlagalicaContainer.setObjectName(u"SlagalicaContainer")
-        self.SlagalicaContainer.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.SlagalicaContainer.setFrameShape(QFrame.StyledPanel)
-        self.SlagalicaContainer.setFrameShadow(QFrame.Raised)
-
-        self.gridLayout_6.addWidget(self.SlagalicaContainer, 0, 0, 1, 1)
+        self.gridLayout_6.addWidget(self.frame_5, 2, 0, 1, 1)
 
 
         self.horizontalLayout_2.addWidget(self.SlagalicaFrame)
@@ -260,8 +254,9 @@ class Ui_MainWindow(object):
         self.IterNumSaPicker.setMaximumSize(QSize(50, 30))
         self.IterNumSaPicker.setFont(font1)
         self.IterNumSaPicker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.IterNumSaPicker.setMinimum(1)
-        self.IterNumSaPicker.setMaximum(10000)
+        self.IterNumSaPicker.setMinimum(10)
+        self.IterNumSaPicker.setMaximum(100)
+        self.IterNumSaPicker.setValue(20)
 
         self.gridLayout_7.addWidget(self.IterNumSaPicker, 1, 1, 1, 1)
 
@@ -286,6 +281,8 @@ class Ui_MainWindow(object):
         self.DepthPicker.setFont(font1)
         self.DepthPicker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.DepthPicker.setMinimum(1)
+        self.DepthPicker.setMaximum(7)
+        self.DepthPicker.setValue(4)
 
         self.gridLayout_7.addWidget(self.DepthPicker, 2, 1, 1, 1)
 
@@ -459,7 +456,6 @@ class Ui_MainWindow(object):
         self.PretragaBezProtivnika.setText(QCoreApplication.translate("MainWindow", u"A* Search", None))
         self.PretragaSaProtivnikom.setText(QCoreApplication.translate("MainWindow", u"Minimax", None))
         self.QLearning.setText(QCoreApplication.translate("MainWindow", u"Q-Learning", None))
-        self.SaProtivnikomVrednost.setText("")
         self.Obavestenje.setText("")
         self.label.setText(QCoreApplication.translate("MainWindow", u"Puzzle size:", None))
         self.VelicinaBezPicker.setItemText(0, QCoreApplication.translate("MainWindow", u"3x3", None))
@@ -477,6 +473,7 @@ class Ui_MainWindow(object):
         self.VelicinaSaPicker.setItemText(0, QCoreApplication.translate("MainWindow", u"3x3", None))
         self.VelicinaSaPicker.setItemText(1, QCoreApplication.translate("MainWindow", u"4x4", None))
 
+        self.VelicinaSaPicker.setCurrentText(QCoreApplication.translate("MainWindow", u"4x4", None))
         self.ResetPuzzle2.setText(QCoreApplication.translate("MainWindow", u"Reset puzzle", None))
         self.ResiSaButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Discount:", None))

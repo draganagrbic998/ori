@@ -29,8 +29,8 @@ class QLearningWorkThread(QtCore.QThread):
             nextState = agent.computeStateFromQValue(state)
             agent.update(state, nextState, self.reward(self.puzzle_problem, nextState))
             state= nextState
-            if i % 50000 == 0:
-                self.signal.emit("TRAINING ITERATION: {}...".format(i))
+            if not i % 50000:
+                self.signal.emit("FINISHED ITERATION {}".format(i))
         return agent
 
     def qLearning(self):

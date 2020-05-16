@@ -48,7 +48,6 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(0)
 
         self.ui.Obavestenje.setAlignment(Qt.AlignCenter)
-        self.ui.SaProtivnikomVrednost.setAlignment(Qt.AlignCenter)
 
         self.astarWorker = AStarWorkThread(None)
         self.astarWorker.signal.connect(self.osvezi_slagalicu)
@@ -83,7 +82,6 @@ class MainWindow(QMainWindow):
         self.qLearningWorker.terminate()
 
         self.ui.Obavestenje.setText("")
-        self.ui.SaProtivnikomVrednost.setText("")
         self.ui.stackedWidget.setCurrentIndex(0)
         self.napravi_slagalicu()
 
@@ -92,7 +90,6 @@ class MainWindow(QMainWindow):
         self.qLearningWorker.terminate()
 
         self.ui.Obavestenje.setText("")
-        self.ui.SaProtivnikomVrednost.setText("")
         self.ui.stackedWidget.setCurrentIndex(1)
         self.napravi_slagalicu()
 
@@ -101,7 +98,6 @@ class MainWindow(QMainWindow):
         self.protivnikWorker.terminate()
 
         self.ui.Obavestenje.setText("")
-        self.ui.SaProtivnikomVrednost.setText("")
         self.ui.stackedWidget.setCurrentIndex(2)
         self.napravi_slagalicu()
 
@@ -111,7 +107,6 @@ class MainWindow(QMainWindow):
         self.qLearningWorker.terminate()
 
         self.ui.Obavestenje.setText("")
-        self.ui.SaProtivnikomVrednost.setText("")
 
         if self.ui.stackedWidget.currentIndex() == 0:
             if self.ui.VelicinaBezPicker.currentText() == "3x3":
@@ -132,39 +127,46 @@ class MainWindow(QMainWindow):
             self.slagalica = slagalice[self.dimenzije][np.random.randint(0, len(slagalice[self.dimenzije]) - 1)]
 
         self.isprazni_slagalicu()
-        self.popuni_slagalicu()
+        self.popuni_slagalicu(what="pobedili")
 
     def osvezi_slagalicu(self, data):
         self.ui.Obavestenje.setText("")
-        self.ui.SaProtivnikomVrednost.setText("")
+        self.ui.Obavestenje.setStyleSheet("color: rgb(0,0,255)")
 
         key = next(iter(data))
 
         self.ui.Obavestenje.setText(key)
         self.slagalica = data[key]
         self.isprazni_slagalicu()
-        self.popuni_slagalicu()
+        self.popuni_slagalicu(what="pobedili")
 
     def osvezi_slagalicu_protivnik(self, data):
         self.ui.Obavestenje.setText("")
-        self.ui.SaProtivnikomVrednost.setText("")
 
         key = next(iter(data))
 
-        if key == "pobedili":
-            self.ui.Obavestenje.setText("POBEDILI!")
-        elif key == "izgubili":
-            self.ui.Obavestenje.setText("IZGUBILI!")
 
         self.slagalica = data[key][0]
-        self.ui.SaProtivnikomVrednost.setText((str(data[key][1])))
+        self.ui.Obavestenje.setText((str(data[key][1])))
+
 
         self.isprazni_slagalicu()
         self.popuni_slagalicu(key)
 
+        if key == "pobedili":
+            self.ui.Obavestenje.setText("POBEDILI!")
+            self.ui.Obavestenje.setStyleSheet("color: rgb(0,0,255)")
+        elif key == "izgubili":
+            self.ui.Obavestenje.setText("IZGUBILI!")
+            self.ui.Obavestenje.setStyleSheet("color: rgb(255,0,0)")
+        else:
+            self.ui.Obavestenje.setStyleSheet("color: rgb(0,0,0)")
+
 
     def osvezi_slagalicu_qLearning(self, data):
         self.ui.Obavestenje.setText(data)
+        self.ui.Obavestenje.setStyleSheet("color: rgb(0,0,255)")
+
         if "SOLVED" in data:
             self.slagalica = goals[3]
             self.isprazni_slagalicu()
@@ -186,14 +188,18 @@ class MainWindow(QMainWindow):
             for j in range(0, self.dimenzije):
                 polje = QLabel()
                 if self.slagalica[self.dimenzije*i + j] == 0:
-                    if what == "enemy":
-                        polje.setStyleSheet("background: rgb(200,200,255)")
-                    elif what == "pobedili" or what == "RESENO!":
-                        polje.setStyleSheet("background: rgb(255,0,0)")
+                    if what == "me":
+                        polje.setStyleSheet("background: rgb(0,0,255)")
+                        #polje.setStyleSheet("background: rgb(200,200,255)")
                     elif what == "izgubili":
+
+                        polje.setStyleSheet("background: rgb(255,0,0)")
+                    elif what == "pobedili" or what == "RESENO!":
                         polje.setStyleSheet("background: rgb(0,0,255)")
                     else:
-                        polje.setStyleSheet("background: rgb(255,200,200)")
+                        polje.setStyleSheet("background: rgb(255,0,0)")
+
+                        #polje.setStyleSheet("background: rgb(255,200,200)")
                 else:
                     polje.setStyleSheet("background: rgb(220,220,220)")
 
