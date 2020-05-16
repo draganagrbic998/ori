@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -253,6 +253,9 @@
                <property name="layoutDirection">
                 <enum>Qt::LeftToRight</enum>
                </property>
+               <property name="autoFillBackground">
+                <bool>true</bool>
+               </property>
                <property name="styleSheet">
                 <string notr="true">color: rgb(255, 0, 0);</string>
                </property>
@@ -270,7 +273,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>2</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="PretragaBezPage">
           <layout class="QGridLayout" name="gridLayout">
@@ -548,13 +551,13 @@
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>50</width>
+                  <width>100</width>
                   <height>30</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>50</width>
+                  <width>100</width>
                   <height>30</height>
                  </size>
                 </property>
@@ -572,7 +575,7 @@
                  <number>10</number>
                 </property>
                 <property name="maximum">
-                 <number>100</number>
+                 <number>1000</number>
                 </property>
                 <property name="value">
                  <number>20</number>
@@ -617,13 +620,13 @@
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>50</width>
+                  <width>100</width>
                   <height>30</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>50</width>
+                  <width>100</width>
                   <height>30</height>
                  </size>
                 </property>
@@ -782,12 +785,21 @@
            </property>
            <item row="0" column="0">
             <widget class="QFrame" name="QLearningFrame">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>1</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(244, 244, 244);</string>

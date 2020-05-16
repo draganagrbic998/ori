@@ -1,5 +1,4 @@
-
-class PuzzleState:
+class Puzzle:
 
     def __init__(self, content, parent=None):
         self.content = content[:]
@@ -33,36 +32,37 @@ class PuzzleState:
 class PuzzleProblem:
 
     def __init__(self, start, goal):
-        self.start = PuzzleState(start)
-        self.goal = goal
+        self.start = Puzzle(start)
+        self.goal = Puzzle(goal)
 
     def getStartState(self):
         return self.start
 
     def isGoalState(self, state):
-        return state.content == self.goal
+        return state == self.goal
 
     def getSuccessors(self, parent):
-        successors = set()
+
         state = parent.content
+        successors = set()
         puzzle_size = int(len(state) ** 0.5)
         empty_space = state.index(0)
 
         if empty_space - puzzle_size >= 0:
             successor = state[:]
             successor[empty_space], successor[empty_space - puzzle_size] = successor[empty_space - puzzle_size], successor[empty_space]
-            successors.add((PuzzleState(successor, parent)))
+            successors.add((Puzzle(successor, parent)))
         if empty_space + puzzle_size < len(state):
             successor = state[:]
             successor[empty_space], successor[empty_space + puzzle_size] = successor[empty_space + puzzle_size], successor[empty_space]
-            successors.add((PuzzleState(successor, parent)))
+            successors.add((Puzzle(successor, parent)))
         if empty_space % puzzle_size > 0:
             successor = state[:]
             successor[empty_space], successor[empty_space - 1] = successor[empty_space - 1], successor[empty_space]
-            successors.add((PuzzleState(successor, parent)))
+            successors.add((Puzzle(successor, parent)))
         if empty_space % puzzle_size < puzzle_size - 1:
             successor = state[:]
             successor[empty_space], successor[empty_space + 1] = successor[empty_space + 1], successor[empty_space]
-            successors.add((PuzzleState(successor, parent)))
+            successors.add((Puzzle(successor, parent)))
 
         return successors

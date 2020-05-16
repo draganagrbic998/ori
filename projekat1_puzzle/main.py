@@ -1,5 +1,3 @@
-
-import time
 import sys
 
 import numpy as np
@@ -8,11 +6,11 @@ from PySide2.QtGui import QFont
 
 from projekat1_puzzle.mainMulti import ProtivnikWorkThread
 from projekat1_puzzle.qmain import QLearningWorkThread
-from projekat1_puzzle.search import AStarWorkThread
 from projekat1_puzzle.puzzle import PuzzleProblem
 
 from PySide2.QtWidgets import QApplication, QMainWindow, QGridLayout, QLabel, QSizePolicy
 
+from projekat1_puzzle.singleAgent import AStarWorkThread
 from projekat1_puzzle.ui_mainwindow import Ui_MainWindow
 
 slagalice = {
@@ -141,26 +139,25 @@ class MainWindow(QMainWindow):
         self.popuni_slagalicu(what="pobedili")
 
     def osvezi_slagalicu_protivnik(self, data):
+
         self.ui.Obavestenje.setText("")
-
         key = next(iter(data))
-
-
         self.slagalica = data[key][0]
-        self.ui.Obavestenje.setText((str(data[key][1])))
+        content = data[key][1] if len(data[key]) > 1 else key
+        self.ui.Obavestenje.setText((str(content)))
+        blue = True if key != "enemy" and key != "done" else False
+
+
+        if key == "me" or key == "enemy":
+            self.ui.Obavestenje.setStyleSheet("color: rgb(0,0,0)")
+        elif key == "done":
+            self.ui.Obavestenje.setStyleSheet("color: rgb(255,0,0)")
+        else:
+            self.ui.Obavestenje.setStyleSheet("color: rgb(0,0,255)")
 
 
         self.isprazni_slagalicu()
-        self.popuni_slagalicu(key)
-
-        if key == "pobedili":
-            self.ui.Obavestenje.setText("POBEDILI!")
-            self.ui.Obavestenje.setStyleSheet("color: rgb(0,0,255)")
-        elif key == "izgubili":
-            self.ui.Obavestenje.setText("IZGUBILI!")
-            self.ui.Obavestenje.setStyleSheet("color: rgb(255,0,0)")
-        else:
-            self.ui.Obavestenje.setStyleSheet("color: rgb(0,0,0)")
+        self.popuni_slagalicu(blue)
 
 
     def osvezi_slagalicu_qLearning(self, data):
@@ -183,23 +180,15 @@ class MainWindow(QMainWindow):
                 else:
                     pass
 
-    def popuni_slagalicu(self, what = ""):
+    def popuni_slagalicu(self, what = True):
         for i in range(0, self.dimenzije):
             for j in range(0, self.dimenzije):
                 polje = QLabel()
                 if self.slagalica[self.dimenzije*i + j] == 0:
-                    if what == "me":
-                        polje.setStyleSheet("background: rgb(0,0,255)")
-                        #polje.setStyleSheet("background: rgb(200,200,255)")
-                    elif what == "izgubili":
-
-                        polje.setStyleSheet("background: rgb(255,0,0)")
-                    elif what == "pobedili" or what == "RESENO!":
+                    if what:
                         polje.setStyleSheet("background: rgb(0,0,255)")
                     else:
                         polje.setStyleSheet("background: rgb(255,0,0)")
-
-                        #polje.setStyleSheet("background: rgb(255,200,200)")
                 else:
                     polje.setStyleSheet("background: rgb(220,220,220)")
 
@@ -255,20 +244,10 @@ class MainWindow(QMainWindow):
         self.qLearningWorker.discount = float(self.ui.discount.value())
         self.qLearningWorker.start()
 
-def main():
-
-    print ("Slagalica se resava...")    #za sada samo da vidimo jel radi, kasnije dodajem PySide i gui da lepo vidimo slagalice
-    start = time.time()
-    #mama = aStarSearch(PuzzleProblem([0,12,9,13,15,11,10,14,8,3,6,2,4,7,5,1], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0]))
-    end = time.time()
-    print ("Proteklo vreme je " + str(end - start) + ".")
-    #return mama
-
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
 
+    app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-
     sys.exit(app.exec_())

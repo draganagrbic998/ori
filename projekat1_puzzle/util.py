@@ -1,5 +1,4 @@
 import heapq
-import random
 
 class PriorityQueue:
 
@@ -32,6 +31,3 @@ class PriorityQueue:
         else:
             self.push(item, priority)
 
-def flipCoin(p):
-    r = random.random()
-    return r < p

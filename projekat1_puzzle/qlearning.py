@@ -1,6 +1,4 @@
-
 import random
-from projekat1_puzzle.util import flipCoin
 
 class QLearningAgent:
 

@@ -2,7 +2,6 @@ import time
 from PySide2 import QtCore
 from projekat1_puzzle.qlearning import QLearningAgent
 
-
 class QLearningWorkThread(QtCore.QThread):
     signal = QtCore.Signal(dict)
 
@@ -14,26 +13,6 @@ class QLearningWorkThread(QtCore.QThread):
         self.discount = discount
 
     def run(self):
-        self.qLearning()
-
-    def reward(self, problem, state):
-        if problem.isGoalState(state):
-            return 500.0
-        return 0.0
-
-    def obucavanje(self):
-        agent = QLearningAgent(self.puzzle_problem, self.alpha, self.discount)
-        state = self.puzzle_problem.getStartState()
-
-        for i in range(self.iterNum):
-            nextState = agent.computeStateFromQValue(state)
-            agent.update(state, nextState, self.reward(self.puzzle_problem, nextState))
-            state= nextState
-            if not i % 50000:
-                self.signal.emit("FINISHED ITERATION {}".format(i))
-        return agent
-
-    def qLearning(self):
         state = self.puzzle_problem.getStartState()
         path = []
 
@@ -55,7 +34,24 @@ class QLearningWorkThread(QtCore.QThread):
             state = agent.computeStateFromQValue(state)
             path.append(state)
 
-
         emitVal = "PUZZLE SOLVED IN {} STEPS".format(len(path))
         self.signal.emit(emitVal)
+
+
+    def reward(self, problem, state):
+        if problem.isGoalState(state):
+            return 500.0
+        return 0.0
+
+    def obucavanje(self):
+        agent = QLearningAgent(self.puzzle_problem, self.alpha, self.discount)
+        state = self.puzzle_problem.getStartState()
+
+        for i in range(self.iterNum):
+            nextState = agent.computeStateFromQValue(state)
+            agent.update(state, nextState, self.reward(self.puzzle_problem, nextState))
+            state= nextState
+            if not i % 50000:
+                self.signal.emit("FINISHED ITERATION {}".format(i))
+        return agent
 

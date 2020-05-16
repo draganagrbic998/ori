@@ -1,23 +1,11 @@
-import time
-from PySide2 import QtCore
 from projekat1_puzzle.util import PriorityQueue
 
+def aStarSearch(puzzle_problem):
 
-class AStarWorkThread(QtCore.QThread):
-    signal = QtCore.Signal(list)
 
-    def __init__(self, puzzle_problem, startState = None):
-        QtCore.QThread.__init__(self)
-        self.puzzle_problem = puzzle_problem
-        self.startState = startState
-
-    def run(self):
-        self.aStarSearch()
-
-    def aStarSearch(self):
         prQueue = PriorityQueue()
+        root = puzzle_problem.getStartState()
 
-        root = self.puzzle_problem.getStartState() if not self.startState else self.startState
         heuristic_cost = heuristicValue(root)
         root.total_cost= heuristic_cost
         root.heuristic = heuristic_cost
@@ -36,7 +24,7 @@ class AStarWorkThread(QtCore.QThread):
             k += 1
             parent = prQueue.pop()
 
-            if self.puzzle_problem.isGoalState(parent):
+            if puzzle_problem.isGoalState(parent):
                 result = parent
                 break
             if parent in visited:
@@ -55,7 +43,7 @@ class AStarWorkThread(QtCore.QThread):
             else:
                 path_cost = parent.total_cost - parent.heuristic + 1
 
-            for child in self.puzzle_problem.getSuccessors(parent):
+            for child in puzzle_problem.getSuccessors(parent):
                 heuristic_cost = heuristicValue(child)
                 total_cost = path_cost + heuristic_cost
 
@@ -71,16 +59,7 @@ class AStarWorkThread(QtCore.QThread):
             result = result.parent
 
         path.reverse()
-
-        for i in path:
-            if path.index(i) == len(path) - 1:
-                self.signal.emit({"PUZZLE SOLVER IN {} STEPS".format(len(path) - 1) : i.content})
-            else:
-                self.signal.emit({"SOLVING PUZZLE..." : i.content})
-            time.sleep(0.3)
-
-
-
+        return path
 
 
 def manhattanHeuristic(state):
