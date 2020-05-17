@@ -1,8 +1,7 @@
-from boltons.iterutils import frange
-from numpy import arange
-from sklearn import preprocessing
-from sklearn.datasets import make_classification
-from sklearn.mixture import GaussianMixture
+import timeit
+
+from numpy import arange, infty
+from sklearn import preprocessing, mixture
 from matplotlib import pyplot
 import pandas
 
@@ -24,8 +23,6 @@ x_labels_lower = ["balance", "balance frq", "purchases", "oneoff\npurchases", "i
             "purchases frq", "oneoff\npurchases frq", "purchases\ninstallments frq",
             "cash\nadvance frq", "cash\nadvance trx", "purchases trx", "credit limit", "payments",
             "min payments", "prc full\npayment", "tenure"]
-
-n_cluster = 5
 
 
 def insert_data_labels(ax, bars):
@@ -60,13 +57,13 @@ def insert_data_labels(ax, bars):
         # positive and negative values.
 
 
-def visualize(data):
+def visualize(data, n_components):
     indx = arange(len(x_labels_lower))
     score_label = arange(0, 1.125, 0.125)
 
     means = []
 
-    for i in range(0, n_cluster):
+    for i in range(0, n_components):
         means.append(list(data.T[i]))
 
     bar_width = 0.15
@@ -79,14 +76,41 @@ def visualize(data):
     ax.set_yticks(score_label)
     ax.set_yticklabels(score_label)
 
-    for i in range(0, n_cluster):
-        cluster_bar = ax.bar(indx + i * 0.25 / 2, means[i], bar_width, label=('Klaster ' + str(i)))
+    for i in range(0, n_components):
+        cluster_bar = ax.bar(indx + i * 0.15 / 2, means[i], bar_width, label=('Klaster ' + str(i)))
         insert_data_labels(ax, cluster_bar)
 
     ax.legend()
 
     pyplot.xticks(rotation=60)
     pyplot.show()
+
+
+def find_best(data):
+    lowest_bic = infty
+    bic = []
+    n_components_range = range(1, 10)
+    cv_types = ['spherical', 'tied', 'diag', 'full']
+    best_gmm = None
+
+    print("Finding best covariance type and number of components...")
+    start = timeit.default_timer()
+
+    for cv_type in cv_types:
+        for n_components in n_components_range:
+            # Fit a Gaussian mixture with EM
+            gmm = mixture.GaussianMixture(n_components=n_components,
+                                          covariance_type=cv_type)
+            gmm.fit(data)
+            bic.append(gmm.bic(data))
+            if bic[-1] < lowest_bic:
+                lowest_bic = bic[-1]
+                best_gmm = gmm
+
+    print("Results:\n  Covariance Type: " + str(best_gmm.covariance_type) + "\n  Num. Components: " + str(best_gmm.n_components))
+    print("Time elapsed: " + str(timeit.default_timer() - start))
+
+    return best_gmm
 
 
 def gaussian_mixture():
@@ -101,12 +125,13 @@ def gaussian_mixture():
     data = data[1:]  # take the data less the header row
     data.columns = x_labels  # set the header row as the df header
 
-    model = GaussianMixture(n_components=n_cluster)
+    model = mixture.GaussianMixture(n_components=9,
+                                          covariance_type="full")#find_best(data)
     model.fit(data)
     data['cluster'] = model.predict(data)
     data = data.groupby('cluster')[x_labels].mean()
 
-    visualize(data)
+    visualize(data, model.n_components)
 
 
 if __name__ == '__main__':
