@@ -3,6 +3,7 @@ from PySide2 import QtCore
 from projekat1_puzzle.qlearning import QLearningAgent
 
 class QLearningWorkThread(QtCore.QThread):
+
     signal = QtCore.Signal(dict)
 
     def __init__(self, puzzle_problem, iterNum = 20, alpha = 0.2, discount = 0.8):

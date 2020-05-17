@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from random import choice
-from projekat1_puzzle.search import heuristicValue
+from projekat1_puzzle.search import heuristic_value
 
 class MultiAgent(ABC):
 
@@ -16,7 +16,7 @@ class RandomAgent(MultiAgent):
 
 class MyAgent(MultiAgent):
 
-    def __init__(self, depth, evalution_function=heuristicValue):
+    def __init__(self, depth, evalution_function=heuristic_value):
         self.depth = depth
         self.evalution_function = evalution_function
 
@@ -61,7 +61,6 @@ class MinimaxAgent(MyAgent):
 
             return best_state if root else alfa if not index else beta
 
-        self.last_state = state
         return minimax_search(problem, state, 0, 0, float('inf'), float('-inf'), True)
 
 class ExpectimaxAgent(MyAgent):
@@ -105,7 +104,6 @@ class ExpectimaxAgent(MyAgent):
 
             return best_value if not root else best_action
 
-        self.last_state = state
 
         return expmaxSearch(problem, state, 0, 0, True)
 

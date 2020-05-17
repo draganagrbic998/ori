@@ -4,8 +4,8 @@ import numpy as np
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QFont
 
-from projekat1_puzzle.mainMulti import ProtivnikWorkThread
-from projekat1_puzzle.qmain import QLearningWorkThread
+from projekat1_puzzle.multiAgent import ProtivnikWorkThread
+from projekat1_puzzle.qAgent import QLearningWorkThread
 from projekat1_puzzle.puzzle import PuzzleProblem
 
 from PySide2.QtWidgets import QApplication, QMainWindow, QGridLayout, QLabel, QSizePolicy
@@ -226,7 +226,7 @@ class MainWindow(QMainWindow):
         self.qLearningWorker.terminate()
 
         self.protivnikWorker.puzzle_problem = PuzzleProblem(self.slagalica, goals[self.dimenzije])
-        self.protivnikWorker.iterNum = self.ui.IterNumSaPicker.value()
+        self.protivnikWorker.iter_num = self.ui.IterNumSaPicker.value()
         self.protivnikWorker.depth = self.ui.DepthPicker.value()
         self.protivnikWorker.agent = self.ui.AgentPicker.currentText()
         self.protivnikWorker.start()

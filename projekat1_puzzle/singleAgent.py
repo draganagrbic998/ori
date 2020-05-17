@@ -1,22 +1,23 @@
 import time
 from PySide2 import QtCore
-from projekat1_puzzle.search import aStarSearch
+from projekat1_puzzle.search import a_star_search
 
 class AStarWorkThread(QtCore.QThread):
+
     signal = QtCore.Signal(list)
 
-    def __init__(self, puzzle_problem, startState = None):
+    def __init__(self, puzzle_problem):
         QtCore.QThread.__init__(self)
         self.puzzle_problem = puzzle_problem
-        self.startState = startState
 
     def run(self):
         self.signal.emit({"FINDING SOLUTION...": self.puzzle_problem.getStartState().content})
         time.sleep(0.1)
-        path = aStarSearch(self.puzzle_problem)
-        for i in path:
-            if path.index(i) == len(path) - 1:
-                self.signal.emit({"PUZZLE SOLVER IN {} STEPS".format(len(path) - 1) : i.content})
+        path = a_star_search(self.puzzle_problem)
+        for i in range(len(path)):
+            state = path[i]
+            if i == len(path) - 1:
+                self.signal.emit({"PUZZLE SOLVED IN {} STEPS".format(len(path) - 1) : state.content})
             else:
-                self.signal.emit({"SOLVING PUZZLE..." : i.content})
+                self.signal.emit({"SOLVING PUZZLE..." : state.content})
             time.sleep(0.1)
