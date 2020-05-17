@@ -117,15 +117,15 @@ def gaussian_mixture():
     data = pandas.read_csv("credit_card_data.csv", sep=",", usecols=range(1, 18))
     data.fillna(data.mean(), inplace=True)
 
-    x = data.values
-    min_max_scaler = preprocessing.MinMaxScaler()
-    x_scaled = min_max_scaler.fit_transform(x)
-    data = pandas.DataFrame(x_scaled)
+    #x = data.values
+    #min_max_scaler = preprocessing.MinMaxScaler()
+    #x_scaled = min_max_scaler.fit_transform(x)
+    #data = pandas.DataFrame(x_scaled)
 
     data = data[1:]  # take the data less the header row
     data.columns = x_labels  # set the header row as the df header
 
-    model = mixture.GaussianMixture(n_components=9,
+    model = mixture.GaussianMixture(n_components=8,
                                           covariance_type="full")#find_best(data)
     model.fit(data)
     data['cluster'] = model.predict(data)
