@@ -167,7 +167,8 @@ class MainWindow(QMainWindow):
         if "SOLVED" in data:
             self.slagalica = goals[3]
             self.isprazni_slagalicu()
-            self.popuni_slagalicu("pobedili")
+            self.ui.Obavestenje.setStyleSheet("color: rgb(255,0,0)")
+            self.popuni_slagalicu(what=False)
 
 
     def isprazni_slagalicu(self):
@@ -239,7 +240,6 @@ class MainWindow(QMainWindow):
         self.protivnikWorker.terminate()
 
         self.qLearningWorker.puzzle_problem = PuzzleProblem(self.slagalica, goals[self.dimenzije])
-        self.qLearningWorker.iter_num = self.ui.IterNumQLPicker.value()
         self.qLearningWorker.alpha = float(self.ui.alpha.value())
         self.qLearningWorker.discount = float(self.ui.discount.value())
         self.qLearningWorker.start()
