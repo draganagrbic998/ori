@@ -52,8 +52,6 @@ def descriptive_statistic(data):
 
 
 if __name__ == '__main__':
-
-
     data = read_data()
     descriptive_statistic(data["BALANCE"])
     #descriptive_statistic(data["BALANCE_FREQUENCY"])
