@@ -18,7 +18,7 @@ slagalice = {
         [2, 1, 7, 6, 3, 4, 5, 0, 8]
     ],
     4: [
-        [0 , 12, 9, 13, 15, 11, 10, 14, 8, 3, 6, 2, 4, 7, 5, 1]
+        [0, 12, 9, 13, 15, 11, 10, 14, 8, 3, 6, 2, 4, 7, 5, 1]
     ]
 }
 
@@ -112,10 +112,7 @@ class MainWindow(QMainWindow):
             else:
                 self.dimenzije = 4
         elif self.ui.stackedWidget.currentIndex() == 1:
-            if self.ui.VelicinaSaPicker.currentText() == "3x3":
-                self.dimenzije = 3
-            else:
-                self.dimenzije = 4
+            self.dimenzije = 4
         else:
             self.dimenzije = 3
 
@@ -125,7 +122,7 @@ class MainWindow(QMainWindow):
             self.slagalica = slagalice[self.dimenzije][np.random.randint(0, len(slagalice[self.dimenzije]) - 1)]
 
         self.isprazni_slagalicu()
-        self.popuni_slagalicu(what="pobedili")
+        self.popuni_slagalicu()
 
     def osvezi_slagalicu(self, data):
         self.ui.Obavestenje.setText("")
@@ -136,7 +133,7 @@ class MainWindow(QMainWindow):
         self.ui.Obavestenje.setText(key)
         self.slagalica = data[key]
         self.isprazni_slagalicu()
-        self.popuni_slagalicu(what="pobedili")
+        self.popuni_slagalicu()
 
     def osvezi_slagalicu_protivnik(self, data):
 
@@ -207,9 +204,6 @@ class MainWindow(QMainWindow):
 
         self.napravi_slagalicu()
 
-        if not self.slagalica:
-            return
-
         self.protivnikWorker.terminate()
         self.qLearningWorker.terminate()
 
@@ -220,8 +214,6 @@ class MainWindow(QMainWindow):
 
         self.napravi_slagalicu()
 
-        if not self.slagalica:
-            return
 
         self.astarWorker.terminate()
         self.qLearningWorker.terminate()
@@ -233,8 +225,8 @@ class MainWindow(QMainWindow):
         self.protivnikWorker.start()
 
     def resi_qlearning(self):
-        if not self.slagalica:
-            return
+
+        self.napravi_slagalicu()
 
         self.astarWorker.terminate()
         self.protivnikWorker.terminate()

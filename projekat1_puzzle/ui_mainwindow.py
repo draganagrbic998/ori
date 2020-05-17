@@ -26,8 +26,8 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
-        #MainWindow.setMinimumSize(QSize(1024, 720))
-        #MainWindow.setMaximumSize(QSize(1920, 1080))
+        MainWindow.setMinimumSize(QSize(1024, 720))
+        MainWindow.setMaximumSize(QSize(1920, 1080))
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -218,14 +218,6 @@ class Ui_MainWindow(object):
         self.PretragaSaFrame.setFrameShadow(QFrame.Raised)
         self.gridLayout_7 = QGridLayout(self.PretragaSaFrame)
         self.gridLayout_7.setObjectName(u"gridLayout_7")
-        self.label_2 = QLabel(self.PretragaSaFrame)
-        self.label_2.setObjectName(u"label_2")
-        sizePolicy2.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy2)
-        self.label_2.setFont(font)
-
-        self.gridLayout_7.addWidget(self.label_2, 0, 0, 1, 1)
-
         self.AgentPicker = QComboBox(self.PretragaSaFrame)
         self.AgentPicker.addItem("")
         self.AgentPicker.addItem("")
@@ -239,13 +231,13 @@ class Ui_MainWindow(object):
         self.AgentPicker.setFont(font2)
         self.AgentPicker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
 
-        self.gridLayout_7.addWidget(self.AgentPicker, 3, 1, 1, 1)
+        self.gridLayout_7.addWidget(self.AgentPicker, 2, 1, 1, 1)
 
         self.label_3 = QLabel(self.PretragaSaFrame)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setFont(font)
 
-        self.gridLayout_7.addWidget(self.label_3, 1, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.label_3, 0, 0, 1, 1)
 
         self.IterNumSaPicker = QSpinBox(self.PretragaSaFrame)
         self.IterNumSaPicker.setObjectName(u"IterNumSaPicker")
@@ -259,19 +251,19 @@ class Ui_MainWindow(object):
         self.IterNumSaPicker.setMaximum(1000)
         self.IterNumSaPicker.setValue(20)
 
-        self.gridLayout_7.addWidget(self.IterNumSaPicker, 1, 1, 1, 1)
+        self.gridLayout_7.addWidget(self.IterNumSaPicker, 0, 1, 1, 1)
 
         self.label_6 = QLabel(self.PretragaSaFrame)
         self.label_6.setObjectName(u"label_6")
         self.label_6.setFont(font)
 
-        self.gridLayout_7.addWidget(self.label_6, 2, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.label_6, 1, 0, 1, 1)
 
         self.label_4 = QLabel(self.PretragaSaFrame)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setFont(font)
 
-        self.gridLayout_7.addWidget(self.label_4, 3, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.label_4, 2, 0, 1, 1)
 
         self.DepthPicker = QSpinBox(self.PretragaSaFrame)
         self.DepthPicker.setObjectName(u"DepthPicker")
@@ -285,20 +277,7 @@ class Ui_MainWindow(object):
         self.DepthPicker.setMaximum(7)
         self.DepthPicker.setValue(4)
 
-        self.gridLayout_7.addWidget(self.DepthPicker, 2, 1, 1, 1)
-
-        self.VelicinaSaPicker = QComboBox(self.PretragaSaFrame)
-        self.VelicinaSaPicker.addItem("")
-        self.VelicinaSaPicker.addItem("")
-        self.VelicinaSaPicker.setObjectName(u"VelicinaSaPicker")
-        sizePolicy2.setHeightForWidth(self.VelicinaSaPicker.sizePolicy().hasHeightForWidth())
-        self.VelicinaSaPicker.setSizePolicy(sizePolicy2)
-        self.VelicinaSaPicker.setMinimumSize(QSize(150, 30))
-        self.VelicinaSaPicker.setMaximumSize(QSize(150, 30))
-        self.VelicinaSaPicker.setFont(font2)
-        self.VelicinaSaPicker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-
-        self.gridLayout_7.addWidget(self.VelicinaSaPicker, 0, 1, 1, 1)
+        self.gridLayout_7.addWidget(self.DepthPicker, 1, 1, 1, 1)
 
         self.ResetPuzzle2 = QPushButton(self.PretragaSaFrame)
         self.ResetPuzzle2.setObjectName(u"ResetPuzzle2")
@@ -309,7 +288,7 @@ class Ui_MainWindow(object):
         self.ResetPuzzle2.setFont(font)
         self.ResetPuzzle2.setStyleSheet(u"background-color: rgb(212, 212, 212);")
 
-        self.gridLayout_7.addWidget(self.ResetPuzzle2, 4, 1, 1, 1)
+        self.gridLayout_7.addWidget(self.ResetPuzzle2, 3, 1, 1, 1)
 
         self.ResiSaButton = QPushButton(self.PretragaSaFrame)
         self.ResiSaButton.setObjectName(u"ResiSaButton")
@@ -320,7 +299,7 @@ class Ui_MainWindow(object):
         self.ResiSaButton.setFont(font)
         self.ResiSaButton.setStyleSheet(u"background-color: rgb(212, 212, 212);")
 
-        self.gridLayout_7.addWidget(self.ResiSaButton, 4, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.ResiSaButton, 3, 0, 1, 1)
 
 
         self.gridLayout_2.addWidget(self.PretragaSaFrame, 1, 0, 1, 1)
@@ -470,17 +449,12 @@ class Ui_MainWindow(object):
 
         self.ResiBezButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
         self.ResetPuzzle1.setText(QCoreApplication.translate("MainWindow", u"Reset puzzle", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Puzzle size:", None))
         self.AgentPicker.setItemText(0, QCoreApplication.translate("MainWindow", u"Minimax", None))
         self.AgentPicker.setItemText(1, QCoreApplication.translate("MainWindow", u"Expectimax", None))
 
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Iteration number:", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Depth:", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Agent:", None))
-        self.VelicinaSaPicker.setItemText(0, QCoreApplication.translate("MainWindow", u"3x3", None))
-        self.VelicinaSaPicker.setItemText(1, QCoreApplication.translate("MainWindow", u"4x4", None))
-
-        self.VelicinaSaPicker.setCurrentText(QCoreApplication.translate("MainWindow", u"4x4", None))
         self.ResetPuzzle2.setText(QCoreApplication.translate("MainWindow", u"Reset puzzle", None))
         self.ResiSaButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Discount:", None))
