@@ -11,12 +11,11 @@ class MultiAgent(ABC):
 class RandomAgent(MultiAgent):
 
     def get_action(self, problem, state):
-
-        return choice(list(problem.getSuccessors(state)))
+        return choice(list(problem.get_successors(state)))
 
 class MyAgent(MultiAgent):
 
-    def __init__(self, depth, evalution_function=heuristic_value):
+    def __init__(self, depth, evalution_function = heuristic_value):
         self.depth = depth
         self.evalution_function = evalution_function
 
@@ -26,7 +25,7 @@ class MinimaxAgent(MyAgent):
 
         def minimax_search(problem, state, index, depth, alfa, beta, root = False):
 
-            if depth == self.depth or problem.isGoalState(state):
+            if depth == self.depth or problem.is_goal_state(state):
                 return self.evalution_function(state)
 
             next_index = index + 1
@@ -36,7 +35,7 @@ class MinimaxAgent(MyAgent):
 
             best_state = None
 
-            for successor in problem.getSuccessors(state):
+            for successor in problem.get_successors(state):
 
                 value = minimax_search(problem, successor, next_index, depth, alfa, beta)
 
@@ -46,8 +45,8 @@ class MinimaxAgent(MyAgent):
                         return value if not root else best_state
 
                     if value < alfa:
-                        best_state = successor
                         alfa = value
+                        best_state = successor
 
                 else:
 
@@ -58,7 +57,6 @@ class MinimaxAgent(MyAgent):
                         beta = value
                         best_state = successor
 
-
             return best_state if root else alfa if not index else beta
 
         return minimax_search(problem, state, 0, 0, float('inf'), float('-inf'), True)
@@ -68,9 +66,9 @@ class ExpectimaxAgent(MyAgent):
 
     def get_action(self, problem, state):
 
-        def expmaxSearch(problem, state, index, depth, root = False):
+        def expmax_search(problem, state, index, depth, root = False):
 
-            if depth == self.depth or problem.isGoalState(state):
+            if depth == self.depth or problem.is_goal_state(state):
                 return self.evalution_function(state)
 
             next_index = index + 1
@@ -78,33 +76,25 @@ class ExpectimaxAgent(MyAgent):
                 next_index = 0
                 depth += 1
 
-
             best_value = float('inf')
-
-            best_action = None
-
+            best_state = None
             suma = 0.0
             counter = 0.0
 
-            for successor in problem.getSuccessors(state):
+            for successor in problem.get_successors(state):
 
-                value = expmaxSearch(problem, successor, next_index, depth)
+                value = expmax_search(problem, successor, next_index, depth)
+
                 if not index:
                     if value < best_value:
-                        best_action = successor
                         best_value = value
-
+                        best_state = successor
 
                 else:
                     suma += value
                     counter += 1
                     best_value = suma / counter
 
+            return best_state if root else best_value
 
-
-            return best_value if not root else best_action
-
-
-        return expmaxSearch(problem, state, 0, 0, True)
-
-
+        return expmax_search(problem, state, 0, 0, True)

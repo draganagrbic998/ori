@@ -1,42 +1,43 @@
-import random
+from random import choice
 
 class QLearningAgent:
 
     def __init__(self, puzzle_problem, alpha, discount):
-        self.q_values = {}
+        self.puzzle_problem = puzzle_problem
         self.alpha = alpha
         self.discount = discount
-        self.puzzle_problem = puzzle_problem
+        self.qvalues = {}
 
-    def getQValue(self, state1, state2):
-        if (state1, state2) not in self.q_values:
-            self.q_values[(state1, state2)] = 0.0
-        return self.q_values[(state1, state2)]
+    def reward(self, state):
+        if self.puzzle_problem.is_goal_state(state):
+            return 500.0
+        return 0.0
 
-    def computeValueFromQValues(self, state):
-        q_values = [self.getQValue(state, successor) for successor in self.puzzle_problem.getSuccessors(state)]
-        return max(q_values) if q_values else 0.0
+    def get_value(self, state):
+        qvalues = [self.get_qvalue(state, successor) for successor in self.puzzle_problem.get_successors(state)]
+        return max(qvalues) if qvalues else 0.0
 
-    def computeStateFromQValue(self, state):
+    def get_qvalue(self, state, next_state):
+        if (state, next_state) not in self.qvalues:
+            self.qvalues[(state, next_state)] = 0.0
+        return self.qvalues[(state, next_state)]
 
-        successors = self.puzzle_problem.getSuccessors(state)
-        successors = list(successors)
+    def get_state(self, state):
+
+        successors = list(self.puzzle_problem.get_successors(state))
         if not successors:
             return None
 
-        q_values = [self.getQValue(state, successor) for successor in successors]
+        qvalues = [self.get_qvalue(state, successor) for successor in successors]
+        maxq = max(qvalues)
         results = []
-        max_q = max(q_values)
-        for i in range(len(q_values)):
-            if q_values[i] == max_q:
+
+        for i in range(len(qvalues)):
+            if qvalues[i] == maxq:
                 results.append(i)
 
-        return successors[random.choice(results)]
+        return successors[choice(results)]
 
-    def getState(self, state):
-        return self.computeStateFromQValue(state)
-
-
-    def update(self, state, nextState, reward):
-        difference = reward + self.discount * self.computeValueFromQValues(nextState)
-        self.q_values[(state, nextState)] = self.alpha * difference + (1 - self.alpha) * self.getQValue(state, nextState)
+    def update(self, state, next_state):
+        difference = self.reward(next_state) + self.discount * self.get_value(next_state)
+        self.qvalues[(state, next_state)] = self.alpha * difference + (1 - self.alpha) * self.get_qvalue(state, next_state)

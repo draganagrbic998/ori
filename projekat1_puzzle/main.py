@@ -4,7 +4,7 @@ import numpy as np
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QFont
 
-from projekat1_puzzle.multiAgent import ProtivnikWorkThread
+from projekat1_puzzle.multiAgent import EnemyWorkThread
 from projekat1_puzzle.qAgent import QLearningWorkThread
 from projekat1_puzzle.puzzle import PuzzleProblem
 
@@ -52,7 +52,7 @@ class MainWindow(QMainWindow):
         self.astarWorker.setTerminationEnabled(True)
 
 
-        self.protivnikWorker = ProtivnikWorkThread(None)
+        self.protivnikWorker = EnemyWorkThread(None)
         self.protivnikWorker.signal.connect(self.osvezi_slagalicu_protivnik)
         self.protivnikWorker.setTerminationEnabled(True)
 
@@ -239,7 +239,7 @@ class MainWindow(QMainWindow):
         self.protivnikWorker.terminate()
 
         self.qLearningWorker.puzzle_problem = PuzzleProblem(self.slagalica, goals[self.dimenzije])
-        self.qLearningWorker.iterNum = self.ui.IterNumQLPicker.value()
+        self.qLearningWorker.iter_num = self.ui.IterNumQLPicker.value()
         self.qLearningWorker.alpha = float(self.ui.alpha.value())
         self.qLearningWorker.discount = float(self.ui.discount.value())
         self.qLearningWorker.start()

@@ -1,10 +1,10 @@
 class Puzzle:
 
-    def __init__(self, content, parent=None):
+    def __init__(self, content, parent = None):
         self.content = content[:]
         self.parent = parent
-        self.heuristic_cost = 0
-        self.total_cost = 0
+        self.heuristic_cost = 0.0
+        self.total_cost = 0.0
         self.hash = None
 
     def __eq__(self, other):
@@ -23,13 +23,16 @@ class PuzzleProblem:
         self.start = Puzzle(start)
         self.goal = Puzzle(goal)
 
-    def getStartState(self):
+    def get_start_state(self):
         return self.start
 
-    def isGoalState(self, state):
+    def is_goal_state(self, state):
         return state == self.goal
 
-    def getSuccessors(self, parent):
+    def get_successors(self, parent):
+
+        if self.is_goal_state(parent):
+            return set()
 
         state = parent.content
         successors = set()
