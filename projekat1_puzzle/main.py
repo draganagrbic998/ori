@@ -1,19 +1,16 @@
 import sys
-
 import numpy as np
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QFont
-
-from projekat1_puzzle.multiAgent import EnemyWorkThread
-from projekat1_puzzle.qAgent import QLearningWorkThread
-from projekat1_puzzle.puzzle import PuzzleProblem
-
 from PySide2.QtWidgets import QApplication, QMainWindow, QGridLayout, QLabel, QSizePolicy
 
+from projekat1_puzzle.mainwindow import Ui_MainWindow
+from projekat1_puzzle.puzzle import PuzzleProblem
 from projekat1_puzzle.singleAgent import AStarWorkThread
-from projekat1_puzzle.ui_mainwindow import Ui_MainWindow
+from projekat1_puzzle.multiAgent import EnemyWorkThread
+from projekat1_puzzle.qAgent import QLearningWorkThread
 
-slagalice = {
+puzzles = {
     3: [
         [2, 1, 7, 6, 3, 4, 5, 0, 8]
     ],
@@ -32,118 +29,77 @@ font.setPointSize(12)
 font.setBold(True)
 font.setWeight(75)
 
-
 class MainWindow(QMainWindow):
 
     def __init__(self):
-        super(MainWindow, self).__init__()
-        self.slagalica = []
-        self.dimenzije = 3
+
+        super().__init__()
+        self.puzzle = []
+        self.puzzle_size = 3
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
         self.ui.stackedWidget.setCurrentIndex(0)
-
         self.ui.Obavestenje.setAlignment(Qt.AlignCenter)
-
-        self.astarWorker = AStarWorkThread(None)
-        self.astarWorker.signal.connect(self.osvezi_slagalicu)
-        self.astarWorker.setTerminationEnabled(True)
-
-
-        self.protivnikWorker = EnemyWorkThread(None)
-        self.protivnikWorker.signal.connect(self.osvezi_slagalicu_protivnik)
-        self.protivnikWorker.setTerminationEnabled(True)
-
-        self.qLearningWorker = QLearningWorkThread(None)
-        self.qLearningWorker.signal.connect(self.osvezi_slagalicu_qLearning)
-        self.qLearningWorker.setTerminationEnabled(True)
-
         self.slagalica_layout = QGridLayout(self.ui.SlagalicaContainer)
         self.slagalica_layout.setVerticalSpacing(0)
 
-        self.ui.PretragaBezProtivnika.clicked.connect(self.show_bez)
-        self.ui.PretragaSaProtivnikom.clicked.connect(self.show_sa)
+        self.astarWorker = AStarWorkThread(None)
+        self.astarWorker.signal.connect(self.refresh_astar)
+        self.astarWorker.setTerminationEnabled(True)
+
+        self.enemyWorker = EnemyWorkThread(None)
+        self.enemyWorker.signal.connect(self.refresh_enemy)
+        self.enemyWorker.setTerminationEnabled(True)
+
+        self.qLearningWorker = QLearningWorkThread(None)
+        self.qLearningWorker.signal.connect(self.refresh_qlearning)
+        self.qLearningWorker.setTerminationEnabled(True)
+
+        self.ui.PretragaBezProtivnika.clicked.connect(self.show_astar)
+        self.ui.PretragaSaProtivnikom.clicked.connect(self.show_enemy)
         self.ui.QLearning.clicked.connect(self.show_qlearning)
-        self.ui.ResetPuzzle1.clicked.connect(self.napravi_slagalicu)
-        self.ui.ResetPuzzle2.clicked.connect(self.napravi_slagalicu)
-        self.ui.ResetPuzzle3.clicked.connect(self.napravi_slagalicu)
 
-        self.ui.ResiBezButton.clicked.connect(self.resi_bez)
-        self.ui.ResiSaButton.clicked.connect(self.resi_sa)
-        self.ui.ResiQLButton.clicked.connect(self.resi_qlearning)
+        self.ui.ResiBezButton.clicked.connect(self.solve_astar)
+        self.ui.ResiSaButton.clicked.connect(self.solve_enemy)
+        self.ui.ResiQLButton.clicked.connect(self.solve_qlearning)
 
+        self.ui.ResetPuzzle1.clicked.connect(self.reset_puzzle)
+        self.ui.ResetPuzzle2.clicked.connect(self.reset_puzzle)
+        self.ui.ResetPuzzle3.clicked.connect(self.reset_puzzle)
 
-    def show_bez(self):
-        self.protivnikWorker.terminate()
-        self.qLearningWorker.terminate()
-
-        self.ui.Obavestenje.setText("")
+    def show_astar(self):
         self.ui.stackedWidget.setCurrentIndex(0)
-        self.napravi_slagalicu()
+        self.reset_puzzle()
 
-    def show_sa(self):
-        self.astarWorker.terminate()
-        self.qLearningWorker.terminate()
-
-        self.ui.Obavestenje.setText("")
+    def show_enemy(self):
         self.ui.stackedWidget.setCurrentIndex(1)
-        self.napravi_slagalicu()
+        self.reset_puzzle()
 
     def show_qlearning(self):
-        self.astarWorker.terminate()
-        self.protivnikWorker.terminate()
-
-        self.ui.Obavestenje.setText("")
         self.ui.stackedWidget.setCurrentIndex(2)
-        self.napravi_slagalicu()
+        self.reset_puzzle()
 
-    def napravi_slagalicu(self):
-        self.astarWorker.terminate()
-        self.protivnikWorker.terminate()
-        self.qLearningWorker.terminate()
+    def refresh_astar(self, data):
 
-        self.ui.Obavestenje.setText("")
-
-        if self.ui.stackedWidget.currentIndex() == 0:
-            if self.ui.VelicinaBezPicker.currentText() == "3x3":
-                self.dimenzije = 3
-            else:
-                self.dimenzije = 4
-        elif self.ui.stackedWidget.currentIndex() == 1:
-            self.dimenzije = 4
-        else:
-            self.dimenzije = 3
-
-        if len(slagalice[self.dimenzije]) == 1:
-            self.slagalica = slagalice[self.dimenzije][0]
-        else:
-            self.slagalica = slagalice[self.dimenzije][np.random.randint(0, len(slagalice[self.dimenzije]) - 1)]
-
-        self.isprazni_slagalicu()
-        self.popuni_slagalicu()
-
-    def osvezi_slagalicu(self, data):
-        self.ui.Obavestenje.setText("")
+        key = next(iter(data))
+        self.puzzle = data[key]
+        self.empty_puzzle()
+        self.fill_puzzle()
+        self.ui.Obavestenje.setText(key)
         self.ui.Obavestenje.setStyleSheet("color: rgb(0,0,255)")
 
+    def refresh_enemy(self, data):
+
         key = next(iter(data))
-
-        self.ui.Obavestenje.setText(key)
-        self.slagalica = data[key]
-        self.isprazni_slagalicu()
-        self.popuni_slagalicu()
-
-    def osvezi_slagalicu_protivnik(self, data):
-
-        self.ui.Obavestenje.setText("")
-        key = next(iter(data))
-        self.slagalica = data[key][0]
-        content = data[key][1] if len(data[key]) > 1 else key
-        self.ui.Obavestenje.setText((str(content)))
         blue = True if key != "enemy" and key != "done" else False
+        self.puzzle = data[key][0]
+        self.empty_puzzle()
+        self.fill_puzzle(blue)
 
+        content = key if len(data[key]) <= 1 else data[key][1]
+        self.ui.Obavestenje.setText(str(content))
 
         if key == "me" or key == "enemy":
             self.ui.Obavestenje.setStyleSheet("color: rgb(0,0,0)")
@@ -152,23 +108,67 @@ class MainWindow(QMainWindow):
         else:
             self.ui.Obavestenje.setStyleSheet("color: rgb(0,0,255)")
 
+    def refresh_qlearning(self, data):
 
-        self.isprazni_slagalicu()
-        self.popuni_slagalicu(blue)
-
-
-    def osvezi_slagalicu_qLearning(self, data):
         self.ui.Obavestenje.setText(data)
         self.ui.Obavestenje.setStyleSheet("color: rgb(0,0,255)")
 
         if "SOLVED" in data:
-            self.slagalica = goals[3]
-            self.isprazni_slagalicu()
             self.ui.Obavestenje.setStyleSheet("color: rgb(255,0,0)")
-            self.popuni_slagalicu(what=False)
+            self.puzzle = goals[3]
+            self.empty_puzzle()
+            self.fill_puzzle(False)
 
+    def solve_astar(self):
 
-    def isprazni_slagalicu(self):
+        self.reset_puzzle()
+        self.astarWorker.puzzle_problem = PuzzleProblem(self.puzzle, goals[self.puzzle_size])
+        self.astarWorker.start()
+
+    def solve_enemy(self):
+
+        self.reset_puzzle()
+        self.enemyWorker.puzzle_problem = PuzzleProblem(self.puzzle, goals[self.puzzle_size])
+        self.enemyWorker.iter_num = int(self.ui.IterNumSaPicker.value())
+        self.enemyWorker.depth = int(self.ui.DepthPicker.value())
+        self.enemyWorker.agent = self.ui.AgentPicker.currentText()
+        self.enemyWorker.start()
+
+    def solve_qlearning(self):
+
+        self.reset_puzzle()
+        self.qLearningWorker.puzzle_problem = PuzzleProblem(self.puzzle, goals[self.puzzle_size])
+        self.qLearningWorker.iter_num = int(self.ui.IterNumQPicker.value())
+        self.qLearningWorker.alpha = float(self.ui.alpha.value())
+        self.qLearningWorker.discount = float(self.ui.discount.value())
+        self.qLearningWorker.start()
+
+    def reset_puzzle(self):
+
+        self.astarWorker.terminate()
+        self.enemyWorker.terminate()
+        self.qLearningWorker.terminate()
+        self.ui.Obavestenje.setText("")
+
+        if self.ui.stackedWidget.currentIndex() == 0:
+            if self.ui.VelicinaBezPicker.currentText() == "3x3":
+                self.puzzle_size = 3
+            else:
+                self.puzzle_size = 4
+        elif self.ui.stackedWidget.currentIndex() == 1:
+            self.puzzle_size = 4
+        else:
+            self.puzzle_size = 3
+
+        if len(puzzles[self.puzzle_size]) == 1:
+            self.puzzle = puzzles[self.puzzle_size][0]
+        else:
+            self.puzzle = puzzles[self.puzzle_size][np.random.randint(0, len(puzzles[self.puzzle_size]) - 1)]
+
+        self.empty_puzzle()
+        self.fill_puzzle()
+
+    def empty_puzzle(self):
         if self.slagalica_layout.count() != 0:
             while self.slagalica_layout.count():
                 item = self.slagalica_layout.takeAt(0)
@@ -178,64 +178,26 @@ class MainWindow(QMainWindow):
                 else:
                     pass
 
-    def popuni_slagalicu(self, what = True):
-        for i in range(0, self.dimenzije):
-            for j in range(0, self.dimenzije):
-                polje = QLabel()
-                if self.slagalica[self.dimenzije*i + j] == 0:
-                    if what:
-                        polje.setStyleSheet("background: rgb(0,0,255)")
+    def fill_puzzle(self, blue = True):
+        for i in range(0, self.puzzle_size):
+            for j in range(0, self.puzzle_size):
+                field = QLabel()
+                if self.puzzle[self.puzzle_size * i + j] == 0:
+                    if blue:
+                        field.setStyleSheet("background: rgb(0,0,255)")
                     else:
-                        polje.setStyleSheet("background: rgb(255,0,0)")
+                        field.setStyleSheet("background: rgb(255,0,0)")
                 else:
-                    polje.setStyleSheet("background: rgb(220,220,220)")
+                    field.setStyleSheet("background: rgb(220,220,220)")
 
-                polje.setFixedSize(100, 100)
-                polje.setAlignment(Qt.AlignCenter)
-                polje.setText(str(self.slagalica[self.dimenzije*i + j]))
-                sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-                sizePolicy1.setHeightForWidth(polje.sizePolicy().hasHeightForWidth())
-                polje.setSizePolicy(sizePolicy1)
-                polje.setFont(font)
-
-                self.slagalica_layout.addWidget(polje, i, j, 1, 1)
-
-    def resi_bez(self):
-
-        self.napravi_slagalicu()
-
-        self.protivnikWorker.terminate()
-        self.qLearningWorker.terminate()
-
-        self.astarWorker.puzzle_problem = PuzzleProblem(self.slagalica, goals[self.dimenzije])
-        self.astarWorker.start()
-
-    def resi_sa(self):
-
-        self.napravi_slagalicu()
-
-
-        self.astarWorker.terminate()
-        self.qLearningWorker.terminate()
-
-        self.protivnikWorker.puzzle_problem = PuzzleProblem(self.slagalica, goals[self.dimenzije])
-        self.protivnikWorker.iter_num = self.ui.IterNumSaPicker.value()
-        self.protivnikWorker.depth = self.ui.DepthPicker.value()
-        self.protivnikWorker.agent = self.ui.AgentPicker.currentText()
-        self.protivnikWorker.start()
-
-    def resi_qlearning(self):
-
-        self.napravi_slagalicu()
-
-        self.astarWorker.terminate()
-        self.protivnikWorker.terminate()
-
-        self.qLearningWorker.puzzle_problem = PuzzleProblem(self.slagalica, goals[self.dimenzije])
-        self.qLearningWorker.alpha = float(self.ui.alpha.value())
-        self.qLearningWorker.discount = float(self.ui.discount.value())
-        self.qLearningWorker.start()
-
+                field.setText(str(self.puzzle[self.puzzle_size * i + j]))
+                field.setFixedSize(100, 100)
+                field.setAlignment(Qt.AlignCenter)
+                field.setFont(font)
+                temp = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+                temp.setHeightForWidth(field.sizePolicy().hasHeightForWidth())
+                field.setSizePolicy(temp)
+                self.slagalica_layout.addWidget(field, i, j, 1, 1)
 
 if __name__ == "__main__":
 

@@ -132,7 +132,7 @@
           <string notr="true">background-color: rgba(125, 125, 125, 155);</string>
          </property>
          <property name="text">
-          <string>Minimax</string>
+          <string>Expectimax</string>
          </property>
         </widget>
        </item>
@@ -273,7 +273,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="PretragaBezPage">
           <layout class="QGridLayout" name="gridLayout">
@@ -497,12 +497,12 @@
                 </property>
                 <item>
                  <property name="text">
-                  <string>Minimax</string>
+                  <string>Expectimax</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>Expectimax</string>
+                  <string>Minimax</string>
                  </property>
                 </item>
                </widget>
@@ -624,10 +624,10 @@
                  <number>1</number>
                 </property>
                 <property name="maximum">
-                 <number>7</number>
+                 <number>5</number>
                 </property>
                 <property name="value">
-                 <number>4</number>
+                 <number>3</number>
                 </property>
                </widget>
               </item>
@@ -842,7 +842,7 @@
                  <double>0.100000000000000</double>
                 </property>
                 <property name="maximum">
-                 <double>0.900000000000000</double>
+                 <double>1.000000000000000</double>
                 </property>
                 <property name="value">
                  <double>0.800000000000000</double>
@@ -890,7 +890,7 @@
                </widget>
               </item>
               <item row="0" column="3">
-               <widget class="QSpinBox" name="IterNumQLPicker">
+               <widget class="QSpinBox" name="IterNumQPicker">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -921,10 +921,13 @@
                  <number>1</number>
                 </property>
                 <property name="maximum">
-                 <number>1000000</number>
+                 <number>5</number>
+                </property>
+                <property name="singleStep">
+                 <number>1</number>
                 </property>
                 <property name="value">
-                 <number>1000000</number>
+                 <number>3</number>
                 </property>
                </widget>
               </item>
