@@ -17,12 +17,12 @@ def get_clusters(data, cluster_number):
 
     kmeans = KMeans(cluster_number)
     kmeans.fit(data)
-    data = pandas.concat([data, pandas.DataFrame({'cluster': kmeans.labels_})], axis=1) #tabeli dodamo jos jednu kolonu koja ce biti broj klastera
+    temp = pandas.concat([data, pandas.DataFrame({'cluster': kmeans.labels_})], axis=1) #tabeli dodamo jos jednu kolonu koja ce biti broj klastera
 
     clusters = {}
     for i in set(kmeans.labels_):
-        clusters[i] = data.loc[data['cluster'] == i]
+        clusters[i] = temp.loc[temp['cluster'] == i]
 
-    return clusters
+    return clusters, kmeans.labels_
 
 
