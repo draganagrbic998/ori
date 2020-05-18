@@ -1,6 +1,7 @@
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
+
 def calculate_cluster_number(data):
 
     sse = {}
@@ -13,4 +14,6 @@ def calculate_cluster_number(data):
     plt.xlabel("Number of cluster")
     plt.ylabel("SSE")
     plt.show()
+
+
 
