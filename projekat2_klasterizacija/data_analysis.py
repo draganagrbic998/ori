@@ -1,13 +1,6 @@
-import pandas as pd
 from scipy import stats
 from numpy import median, mean, var, std, quantile
-
-def read_data():
-
-    data = pd.read_csv("credit_card_data.csv")
-    data = data.fillna(data.mean())
-    data = data.drop("CUST_ID", axis=1)
-    return data
+from matplotlib.pyplot import boxplot
 
 def descriptive_statistic(data):
 
@@ -49,26 +42,6 @@ def descriptive_statistic(data):
     print ("Drugi kvartil uzorka: {}".format(q2))
     print ("Treci kvartil uzorka: {}".format(q3))
     print ("Intermedijalni razmak uzorka: {}".format(iqr))
-
-
-if __name__ == '__main__':
-    data = read_data()
-    descriptive_statistic(data["BALANCE"])
-    #descriptive_statistic(data["BALANCE_FREQUENCY"])
-    #descriptive_statistic(data["PURCHASES"])
-    #descriptive_statistic(data["ONEOFF_PURCHASES"])
-    #descriptive_statistic(data["INSTALLMENTS_PURCHASES"])
-    #descriptive_statistic(data["CASH_ADVANCE"])
-    #descriptive_statistic(data["PURCHASES_FREQUENCY"])
-    #descriptive_statistic(data["ONEOFF_PURCHASES_FREQUENCY"])
-    #descriptive_statistic(data["PURCHASES_INSTALLMENTS_FREQUENCY"])
-    #descriptive_statistic(data["CASH_ADVANCE_FREQUENCY"])
-    #descriptive_statistic(data["CASH_ADVANCE_TRX"])
-    #descriptive_statistic(data["PURCHASES_TRX"])
-    #descriptive_statistic(data["CREDIT_LIMIT"])
-    #descriptive_statistic(data["PAYMENTS"])
-    #descriptive_statistic(data["MINIMUM_PAYMENTS"])
-    #descriptive_statistic(data["PRC_FULL_PAYMENT"])
-    #descriptive_statistic(data["TENURE"])
+    boxplot(data)
 
 
