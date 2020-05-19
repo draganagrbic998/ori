@@ -25,13 +25,13 @@ def descriptive_statistic(data):
     ka = mi3 / mi2 ** 1.5
 
     print ("Velicina uzorka: {}".format(n))
-    print ("Minimum uzorka: {}".format(mini))
-    print ("Maksimum uzorka: {}".format(maxi))
-    print ("Modusi uzorka: ")
-    for i in range(len(mo[0])):
-        print (str(mo[0][i]) + ": " + str(mo[1][i]))
+    #print ("Minimum uzorka: {}".format(mini))
+    #print ("Maksimum uzorka: {}".format(maxi))
+    #print ("Modusi uzorka: ")
+    #for i in range(len(mo[0])):
+        #print (str(mo[0][i]) + ": " + str(mo[1][i]))
     print ("Medijana uzorka: {}".format(me))
-    print ("Aritmeticka sredina uzorka: {}".format(mn))
+    #print ("Aritmeticka sredina uzorka: {}".format(mn))
     #print ("Varijansa uzorka: {}".format(sn2))
     #print ("Devijacija uzorka: {}".format(sn))
     #print ("Popravljena varijansa uzorka: {}".format(sn2_))

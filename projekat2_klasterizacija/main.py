@@ -15,8 +15,8 @@ column_names = ["BALANCE", "BALANCE_FREQUENCY", "PURCHASES", "ONEOFF_PURCHASES",
 def read_data():
 
     data = pandas.read_csv("credit_card_data.csv")
-    temp = data
     data = data.fillna(data.mean())    #null vrednosti zameni sa srednjom vrednoscu
+    temp = data
     data = data.drop("CUST_ID", axis=1)     #id korisnika nam nije potreban
     #lm = sm.OLS(data["CASH_ADVANCE_TRX"], data["CASH_ADVANCE_FREQUENCY"]).fit()
     #print (lm.summary())    #kolone 'CASH_ADVANCE_TRX' i 'CASH_ADVANCE_FREQUENCY' jako zavise
@@ -143,6 +143,7 @@ if __name__ == '__main__':
     #clusters_visualization(data, labels)
 
     from projekat2_klasterizacija.data_analysis import descriptive_statistic
+    from numpy import min, max
 
     analiza_dict = {}
 
@@ -155,12 +156,55 @@ if __name__ == '__main__':
         for label in column_names:
             analiza_dict[label][i] = stari_kluster[label]
 
-    for i in analiza_dict:
-        print ("ANALIZA OBELEZJA {}".format(i))
-        for j in analiza_dict[i]:
-            print ("REZULTATI ZA KLASTER {}".format(j))
-            descriptive_statistic(analiza_dict[i][j])
-            print ("-" * 30)
+    from numpy import median
+
+    suma = ""
+    for j in column_names:
+        suma += ("{0:40}|").format(j)
+    suma += "\n" + ("-" * 650)
+    print (suma)
+
+    for i in clusters:
+        stari_indeksi = list(clusters[i].index.values)
+        stari_kluster = old_data.iloc[stari_indeksi, :]
+
+        suma = ""
+        for j in column_names:
+
+            if j == "BALANCE":
+                suma += ("med: {:35}|" ).format(str(len(stari_kluster)) + " " + str(median(stari_kluster[j])))
+
+            else:
+                suma += ("med: {:35}|" ).format(str(median(stari_kluster[j])))
+
+        suma += "\n"
+        for j in column_names:
+            suma += ("min: {:35}|").format(str(min(stari_kluster[j])))
+        suma += "\n"
+        for j in column_names:
+            suma += ("max: {:35}|").format(str(max(stari_kluster[j])))
+
+        from scipy import stats
+        suma += "\n"
+
+        for j in column_names:
+            mo = stats.mode(stari_kluster[j])
+            for k in range(len(mo[0])):
+                suma += ("moo: {:35}|").format(str(mo[0][k]) + ": " + str(mo[1][k]))
+
+
+        suma += "\n" + ("-" * 650)
+        print (suma)
+
+
+
+    #for i in analiza_dict:
+
+     #   print ("ANALIZA OBELEZJA {}".format(i))
+      #  for j in analiza_dict[i]:
+        #    print ("REZULTATI ZA KLASTER {}".format(j))
+       #     descriptive_statistic(analiza_dict[i][j])
+         #   print ("-" * 30)
 
 
 
