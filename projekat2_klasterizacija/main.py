@@ -143,20 +143,7 @@ if __name__ == '__main__':
     #clusters_visualization(data, labels)
 
     from projekat2_klasterizacija.data_analysis import descriptive_statistic
-    from numpy import min, max
-
-    analiza_dict = {}
-
-    for label in column_names:
-        analiza_dict[label] = {}
-
-    for i in clusters:
-        stari_indeksi = list(clusters[i].index.values)
-        stari_kluster = old_data.iloc[stari_indeksi, :]
-        for label in column_names:
-            analiza_dict[label][i] = stari_kluster[label]
-
-    from numpy import median
+    from numpy import min, max, median
 
     suma = ""
     for j in column_names:
@@ -195,18 +182,3 @@ if __name__ == '__main__':
 
         suma += "\n" + ("-" * 650)
         print (suma)
-
-
-
-    #for i in analiza_dict:
-
-     #   print ("ANALIZA OBELEZJA {}".format(i))
-      #  for j in analiza_dict[i]:
-        #    print ("REZULTATI ZA KLASTER {}".format(j))
-       #     descriptive_statistic(analiza_dict[i][j])
-         #   print ("-" * 30)
-
-
-
-
-
