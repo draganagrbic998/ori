@@ -15,6 +15,7 @@ column_names = ["BALANCE", "BALANCE_FREQUENCY", "PURCHASES", "ONEOFF_PURCHASES",
 def read_data():
 
     data = pandas.read_csv("credit_card_data.csv")
+    temp = data
     data = data.fillna(data.mean())    #null vrednosti zameni sa srednjom vrednoscu
     data = data.drop("CUST_ID", axis=1)     #id korisnika nam nije potreban
     #lm = sm.OLS(data["CASH_ADVANCE_TRX"], data["CASH_ADVANCE_FREQUENCY"]).fit()
@@ -29,7 +30,7 @@ def read_data():
     data = normalize(data)
     data = pandas.DataFrame(data)
     data.columns = column_names
-    return data
+    return data, temp
 
 def clusters_visualization(data, labels):
     d = data.astype(float32)
@@ -81,11 +82,87 @@ def clusters_visualization(data, labels):
     ax.set_title("Klasterizacija korisnika kreditnih kartica")
     plt.show()
 
+def temp():
+
+    for i in clusters:
+        stari_indeksi = list(clusters[i].index.values)
+        stari_kluster = old_data.iloc[stari_indeksi, :]
+        print ("KLASTER BROJ {}".format(i))
+        print ("BALANCE")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["BALANCE"])
+        print ("BALANCE_FREQUENCY")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["BALANCE_FREQUENCY"])
+        print ("PURCHASES")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["PURCHASES"])
+        print ("ONEOFF_PURCHASES")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["ONEOFF_PURCHASES"])
+        print ("INSTALLMENTS_PURCHASES")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["INSTALLMENTS_PURCHASES"])
+        print ("CASH_ADVANCE")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["CASH_ADVANCE"])
+        print ("PURCHASES_FREQUENCY")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["PURCHASES_FREQUENCY"])
+        print ("ONEOFF_PURCHASES_FREQUENCY")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["ONEOFF_PURCHASES_FREQUENCY"])
+        print ("PURCHASES_INSTALLMENTS_FREQUENCY")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["PURCHASES_INSTALLMENTS_FREQUENCY"])
+        print ("CASH_ADVANCE_FREQUENCY")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["CASH_ADVANCE_FREQUENCY"])
+        print ("CREDIT_LIMIT")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["CREDIT_LIMIT"])
+        print ("PAYMENTS")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["PAYMENTS"])
+        print ("MINIMUM_PAYMENTS")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["MINIMUM_PAYMENTS"])
+        print ("PRC_FULL_PAYMENT")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["PRC_FULL_PAYMENT"])
+        print ("TENURE")
+        print ("-" * 30)
+        descriptive_statistic(stari_kluster["TENURE"])
+        print ("#" * 30)
+
+
 if __name__ == '__main__':
-    data = read_data()
+    data, old_data = read_data()
     clusters, labels = get_clusters(data, 6)
 
-    clusters_visualization(data, labels)
+    #clusters_visualization(data, labels)
+
+    from projekat2_klasterizacija.data_analysis import descriptive_statistic
+
+    analiza_dict = {}
+
+    for label in column_names:
+        analiza_dict[label] = {}
+
+    for i in clusters:
+        stari_indeksi = list(clusters[i].index.values)
+        stari_kluster = old_data.iloc[stari_indeksi, :]
+        for label in column_names:
+            analiza_dict[label][i] = stari_kluster[label]
+
+    for i in analiza_dict:
+        print ("ANALIZA OBELEZJA {}".format(i))
+        for j in analiza_dict[i]:
+            print ("REZULTATI ZA KLASTER {}".format(j))
+            descriptive_statistic(analiza_dict[i][j])
+            print ("-" * 30)
+
+
 
 
 
