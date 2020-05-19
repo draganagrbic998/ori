@@ -1,4 +1,5 @@
 import pandas
+from numpy import float32
 from sklearn.preprocessing import StandardScaler, normalize
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.decomposition import PCA
@@ -31,8 +32,8 @@ def read_data():
     return data
 
 def clusters_visualization(data, labels):
-
-    dist = 1 - cosine_similarity(data)
+    d = data.astype(float32)
+    dist = 1 - cosine_similarity(d)
     pca = PCA(2)
     pca.fit(dist)
     pca_data = pca.transform(dist)
@@ -45,7 +46,11 @@ def clusters_visualization(data, labels):
         2: 'green',
         3: 'yellow',
         4: 'orange',
-        5: 'purple'
+        5: 'purple',
+        6: 'teal',
+        7: 'magenta',
+        8: 'grey',
+        9: 'darkblue'
     }
 
     descriptions = {
@@ -54,7 +59,11 @@ def clusters_visualization(data, labels):
         2: 'opis za klaster 2',
         3: 'opis za klaster 3',
         4: 'opis za klaster 4',
-        5: 'opis za klaster 5'
+        5: 'opis za klaster 5',
+        6: 'opis za klaster 6',
+        7: 'opis za klaster 7',
+        8: 'opis za klaster 8',
+        9: 'opis za klaster 9'
     }
 
     pca_table = pandas.DataFrame({'x': x, 'y': y, 'cluster': labels})
@@ -75,7 +84,6 @@ def clusters_visualization(data, labels):
 if __name__ == '__main__':
     data = read_data()
     clusters, labels = get_clusters(data, 6)
-
 
     clusters_visualization(data, labels)
 

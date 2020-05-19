@@ -1,10 +1,10 @@
 import timeit
 
 from numpy import arange, infty
-from sklearn import preprocessing, mixture
+from sklearn import mixture
 from matplotlib import pyplot
-import pandas
 
+from projekat2_klasterizacija.main import read_data, clusters_visualization
 
 font = {'family': 'serif',
         'color': 'black',
@@ -86,7 +86,7 @@ def visualize(data, n_components):
     pyplot.show()
 
 
-def find_best(data):
+def find_best(podaci):
     lowest_bic = infty
     bic = []
     n_components_range = range(1, 10)
@@ -101,8 +101,8 @@ def find_best(data):
             # Fit a Gaussian mixture with EM
             gmm = mixture.GaussianMixture(n_components=n_components,
                                           covariance_type=cv_type)
-            gmm.fit(data)
-            bic.append(gmm.bic(data))
+            gmm.fit(podaci)
+            bic.append(gmm.bic(podaci))
             if bic[-1] < lowest_bic:
                 lowest_bic = bic[-1]
                 best_gmm = gmm
@@ -113,26 +113,21 @@ def find_best(data):
     return best_gmm
 
 
-def gaussian_mixture():
-    data = pandas.read_csv("credit_card_data.csv", sep=",", usecols=range(1, 18))
-    data.fillna(data.mean(), inplace=True)
+def gaussian_mixture(podaci):
+    model = mixture.GaussianMixture(n_components=9,covariance_type="full")#find_best(podaci)
+    model.fit(podaci)
+    cluster_val = model.predict(podaci)
+    podaci['cluster'] = cluster_val
 
-    #x = data.values
-    #min_max_scaler = preprocessing.MinMaxScaler()
-    #x_scaled = min_max_scaler.fit_transform(x)
-    #data = pandas.DataFrame(x_scaled)
+    clusteri = {}
+    for i in set(podaci['cluster']):
+        clusteri[i] = podaci.loc[podaci['cluster'] == i]
 
-    data = data[1:]  # take the data less the header row
-    data.columns = x_labels  # set the header row as the df header
-
-    model = mixture.GaussianMixture(n_components=8,
-                                          covariance_type="full")#find_best(data)
-    model.fit(data)
-    data['cluster'] = model.predict(data)
-    data = data.groupby('cluster')[x_labels].mean()
-
-    visualize(data, model.n_components)
+    return clusteri, cluster_val
 
 
 if __name__ == '__main__':
-    gaussian_mixture()
+    data = read_data()
+    clusters, labels = gaussian_mixture(data)
+
+    clusters_visualization(data, labels)
