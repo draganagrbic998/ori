@@ -130,15 +130,22 @@ def cluster_analysis(clusters, old_data):
             suma += ("med: {:30}|").format(me)
             counter += 1
 
-            if j == "PURCHASES_FREQUENCY":
-                if me < 0.1:
-                    retval[len(old_cluster)] = "Vrlo retko kupuju, od toga "
-                elif 0.1 <= me < 0.3:
-                    retval[len(old_cluster)] = "Retko kupuju, od toga "
-                elif 0.3 <= me < 0.7:
-                    retval[len(old_cluster)] = "Relativno cesto kupuju, od toga "
+            if j == "BALANCE":
+                if me < 700:
+                    retval[len(old_cluster)] = "Nisko stanje racuna, "
+                elif 700 <= me < 1500:
+                    retval[len(old_cluster)] = "Osrednje stanje racuna, "
                 else:
-                    retval[len(old_cluster)] = "Cesto kupuju, od toga "
+                    retval[len(old_cluster)] = "Visoko stanje racuna, "
+            elif j == "PURCHASES_FREQUENCY":
+                if me < 0.1:
+                    retval[len(old_cluster)] += "vrlo retko kupuju, od toga "
+                elif 0.1 <= me < 0.3:
+                    retval[len(old_cluster)] += "retko kupuju, od toga "
+                elif 0.3 <= me < 0.7:
+                    retval[len(old_cluster)] += "relativno cesto kupuju, od toga "
+                else:
+                    retval[len(old_cluster)] += "cesto kupuju, od toga "
             elif j == "ONEOFF_PURCHASES_FREQUENCY":
                 if me <= 0.01:
                     retval[len(old_cluster)] += "prakticno nikad jednokratno, "
@@ -168,16 +175,16 @@ def cluster_analysis(clusters, old_data):
                     retval[len(old_cluster)] += "uglavnom unapred, "
             elif j == "CREDIT_LIMIT":
                 if me < 2000:
-                    retval[len(old_cluster)] += "imaju nizak kredit limit"
+                    retval[len(old_cluster)] += "nizak kredit limit"
                 elif 2000 <= me < 3000:
-                    retval[len(old_cluster)] += "imaju osrednji kredit limit"
+                    retval[len(old_cluster)] += "osrednji kredit limit"
                 else:
-                    retval[len(old_cluster)] += "imaju visok kredit limit"
+                    retval[len(old_cluster)] += "visok kredit limit"
             elif j == "TENURE":
                 if me < 6:
-                    retval[len(old_cluster)] += ", imaju kratko trajanje kartice."
+                    retval[len(old_cluster)] += ", kratko trajanje kartice."
                 elif 6 <= me < 9:
-                    retval[len(old_cluster)] += ", imaju osrednje trajanje kartice."
+                    retval[len(old_cluster)] += ", osrednje trajanje kartice."
                 else:
                     retval[len(old_cluster)] += "."
         suma += "\n"
