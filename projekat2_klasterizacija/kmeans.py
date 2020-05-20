@@ -29,6 +29,13 @@ def get_clusters(data, clusters_number):
         clusters[i] = temp.loc[temp['cluster'] == i]
     return clusters, kmeans.labels_
 
+def get_descritpion_index(cluster_sizes, size):
+
+    for i in range(len(cluster_sizes)):
+        if cluster_sizes[i] == size:
+            return i
+    return None
+
 def clusters_visualization(data, labels):
 
     data = data.astype(float32)
@@ -48,20 +55,22 @@ def clusters_visualization(data, labels):
     }
 
     descriptions = {
-        0: 'opis za klaster 0',
-        1: 'opis za klaster 1',
-        2: 'opis za klaster 2',
-        3: 'opis za klaster 3',
-        4: 'opis za klaster 4',
-        5: 'opis za klaster 5'
+        0: 'korisnici koji ne kupuju cesto, imaju manje novca na racunu, krace im traje kartica i uglavnom kupuju unapred', #ova grupa ima oko 700 korisnika
+        1: 'korisnici koji osrednje menjaju stanje racuna, ne kupuju puno, retko kupuju jednokratno, uglavnom na rate, imaju ok kredit limit',  #ova grupa ima oko 1200 korisnika
+        2: 'korisnici koji imaju osrednji do visok kredit limit, dosta uplacuju na racun, ne trose puno novca i uglavnom kupuju unapred',   #ova grupa ima oko 1400 korisnika
+        3: 'korisnici koji imaju puno novca na racunu, trose vise od ostalih, imaju osrednji do visok kredit limit, retko kupuju unapred',  #ova grupa ima oko 1700 korisnika
+        4: 'korisnici koji imaju osrednji kredit limit, manje trose od ostalih, uglavnom kupuju na rate',   #ova grupa ima oko 1800 korisnika
+        5: 'korisnici koji cesto menjaju stanje racuna, slabiji kredit limit imaju, cesto placaju unapred'  #ova grupa ima oko 1900 korisnika
     }
 
     pca_table = pandas.DataFrame({'x': x, 'y': y, 'cluster': labels})
     clusters = pca_table.groupby('cluster')
     figure, ax = plt.subplots(figsize=(20, 13))
+    cluster_sizes = sorted([len(cluster) for id, cluster in clusters])
 
     for id, cluster in clusters:
-        ax.plot(cluster.x, cluster.y, marker='o', linestyle='', color=colors[id], label=descriptions[id], ms=5, mec='none')
+        ax.plot(cluster.x, cluster.y, marker='o', linestyle='', color=colors[id],
+                label=descriptions[get_descritpion_index(cluster_sizes, len(cluster))], ms=5, mec='none')
         ax.set_aspect('auto')
         ax.tick_params(axis='x', which='both', bottom='off', top='off', labelbottom='off')
         ax.tick_params(axis='y', which='both', left='off', top='off', labelleft='off')
