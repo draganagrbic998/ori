@@ -1,9 +1,9 @@
-from sklearn.cluster import KMeans
-import matplotlib.pyplot as plt
 import pandas
+import matplotlib.pyplot as plt
+from numpy import float32
+from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.decomposition import PCA
-from numpy import float32
 from projekat2_klasterizacija.util import read_data
 from projekat2_klasterizacija.util import cluster_analysis
 
@@ -22,7 +22,7 @@ def get_clusters(data, cluster_number):
 
     kmeans = KMeans(cluster_number)
     kmeans.fit(data)
-    temp = pandas.concat([data, pandas.DataFrame({'cluster': kmeans.labels_})], axis=1) #tabeli dodamo jos jednu kolonu koja ce biti broj klastera
+    temp = pandas.concat([data, pandas.DataFrame({'cluster': kmeans.labels_})], axis=1)
 
     clusters = {}
     for i in set(kmeans.labels_):
@@ -78,6 +78,9 @@ def clusters_visualization(data, labels):
 
 if __name__ == '__main__':
     data, old_data = read_data()
+
+    calculate_cluster_number(data)
+
     clusters, labels = get_clusters(data, 6)
 
     clusters_visualization(data, labels)

@@ -1,7 +1,7 @@
-from scipy import stats
+import pandas
 from numpy import median, mean, var, std, quantile
 from matplotlib.pyplot import boxplot
-import pandas
+from scipy import stats
 from sklearn.preprocessing import StandardScaler, normalize
 
 column_names = ["BALANCE", "BALANCE_FREQUENCY", "PURCHASES", "ONEOFF_PURCHASES",
@@ -9,7 +9,6 @@ column_names = ["BALANCE", "BALANCE_FREQUENCY", "PURCHASES", "ONEOFF_PURCHASES",
             "ONEOFF_PURCHASES_FREQUENCY", "PURCHASES_INSTALLMENTS_FREQUENCY",
             "CASH_ADVANCE_FREQUENCY", "CREDIT_LIMIT", "PAYMENTS",
             "MINIMUM_PAYMENTS", "PRC_FULL_PAYMENT", "TENURE"]
-
 
 def descriptive_statistic(data):
 
@@ -56,15 +55,15 @@ def descriptive_statistic(data):
 def read_data():
 
     data = pandas.read_csv("credit_card_data.csv")
-    data = data.fillna(data.mean())    #null vrednosti zameni sa srednjom vrednoscu
+    data = data.fillna(data.mean())
     temp = data
-    data = data.drop("CUST_ID", axis=1)     #id korisnika nam nije potreban
+    data = data.drop("CUST_ID", axis=1)
     #lm = sm.OLS(data["CASH_ADVANCE_TRX"], data["CASH_ADVANCE_FREQUENCY"]).fit()
-    #print (lm.summary())    #kolone 'CASH_ADVANCE_TRX' i 'CASH_ADVANCE_FREQUENCY' jako zavise
-    data = data.drop("CASH_ADVANCE_TRX", axis=1)    #posto kolone jako zavise, izbacujemo 'CASH_ADVANCE_TRX' iz klasterizacija
+    #print (lm.summary())
+    data = data.drop("CASH_ADVANCE_TRX", axis=1)
     #lm = sm.OLS(data["PURCHASES_TRX"], data[["PURCHASES_FREQUENCY", "ONEOFF_PURCHASES_FREQUENCY", "PURCHASES_INSTALLMENTS_FREQUENCY"]]).fit()
-    #print (lm.summary())    #kolona 'PURCHASES_TRX' jako zavisi od kolona 'URCHASES_FREQUENCY', 'ONEOFF_PURCHASES_FREQUENCY', 'PURCHASES_INSTALLMENTS_FREQUENCY'
-    data = data.drop("PURCHASES_TRX", axis=1)   #posto kolone jako zavise, izbacujemo 'PURCHASES_TRX' iz klasterizacije
+    #print (lm.summary())
+    data = data.drop("PURCHASES_TRX", axis=1)
     data = data.values
     scaler = StandardScaler()
     data = scaler.fit_transform(data)
@@ -75,41 +74,38 @@ def read_data():
 
 def cluster_analysis(clusters, old_data):
 
-
     suma = ""
-    for j in column_names:
-        suma += ("{0:40}|").format(j)
+    for i in column_names:
+        suma += ("{0:40}|").format(i)
     suma += "\n" + ("-" * 650)
     print (suma)
 
     for i in clusters:
-        stari_indeksi = list(clusters[i].index.values)
-        stari_kluster = old_data.iloc[stari_indeksi, :]
 
+        old_index = list(clusters[i].index.values)
+        old_cluster = old_data.iloc[old_index, :]
         suma = ""
-        for j in column_names:
 
+        for j in column_names:
             if j == "BALANCE":
-                suma += ("med: {:35}|" ).format(str(len(stari_kluster)) + " " + str(median(stari_kluster[j])))
+                suma += ("med: {:35}|" ).format(str(len(old_cluster)) + " " + str(median(old_cluster[j])))
 
             else:
-                suma += ("med: {:35}|" ).format(str(median(stari_kluster[j])))
+                suma += ("med: {:35}|" ).format(str(median(old_cluster[j])))
 
         suma += "\n"
         for j in column_names:
-            suma += ("min: {:35}|").format(str(min(stari_kluster[j])))
+            suma += ("min: {:35}|").format(str(min(old_cluster[j])))
+
         suma += "\n"
         for j in column_names:
-            suma += ("max: {:35}|").format(str(max(stari_kluster[j])))
+            suma += ("max: {:35}|").format(str(max(old_cluster[j])))
 
-        from scipy import stats
         suma += "\n"
-
         for j in column_names:
-            mo = stats.mode(stari_kluster[j])
+            mo = stats.mode(old_cluster[j])
             for k in range(len(mo[0])):
-                suma += ("moo: {:35}|").format(str(mo[0][k]) + ": " + str(mo[1][k]))
-
+                suma += ("mo:  {:35}|").format(str(mo[0][k]) + ": " + str(mo[1][k]))
 
         suma += "\n" + ("-" * 650)
         print (suma)
