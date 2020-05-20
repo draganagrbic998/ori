@@ -1,24 +1,95 @@
 import timeit
 
-from numpy import  infty
+from numpy import arange, infty
 from sklearn import mixture
 from matplotlib import pyplot
 
-import matplotlib.pyplot as plt
-import pandas
-from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.decomposition import PCA
-from numpy import float32
-from projekat2_klasterizacija.util import read_data
-from projekat2_klasterizacija.util import cluster_analysis
+from projekat2_klasterizacija.main import read_data, clusters_visualization
+
+font = {'family': 'serif',
+        'color': 'black',
+        'weight': 'normal',
+        'size': 9,
+        }
+
+x_labels = ["BALANCE", "BALANCE_FREQUENCY", "PURCHASES", "ONEOFF_PURCHASES", "INSTALLMENTS_PURCHASES",
+            "CASH_ADVANCE",
+            "PURCHASES_FREQUENCY", "ONEOFF_PURCHASES_FREQUENCY", "PURCHASES_INSTALLMENTS_FREQUENCY",
+            "CASH_ADVANCE_FREQUENCY", "CASH_ADVANCE_TRX", "PURCHASES_TRX", "CREDIT_LIMIT", "PAYMENTS",
+            "MINIMUM_PAYMENTS", "PRC_FULL_PAYMENT", "TENURE"]
+
+x_labels_lower = ["balance", "balance frq", "purchases", "oneoff\npurchases", "installments\npurchases",
+            "cash advance",
+            "purchases frq", "oneoff\npurchases frq", "purchases\ninstallments frq",
+            "cash\nadvance frq", "cash\nadvance trx", "purchases trx", "credit limit", "payments",
+            "min payments", "prc full\npayment", "tenure"]
 
 
+def insert_data_labels(ax, bars):
+    for bar in bars:
+        # Get X and Y placement of label from rect.
+        y_value = bar.get_height()
+        x_value = bar.get_x() + bar.get_width() / 2
+
+        # Number of points between bar and label. Change to your liking.
+        space = 5
+        # Vertical alignment for positive values
+        va = 'bottom'
+
+        # If value of bar is negative: Place label below bar
+        if y_value < 0:
+            # Invert space to place label below
+            space *= -1
+            # Vertically align label at top
+            va = 'top'
+
+        # Use Y value as label and format number with one decimal place
+        label = "{:.2f}".format(y_value)
+
+        # Create annotation
+        ax.annotate(
+            label,  # Use `label` as label
+            (x_value, y_value),  # Place label at end of the bar
+            xytext=(0, space),  # Vertically shift label by `space`
+            textcoords="offset points",  # Interpret `xytext` as offset in points
+            ha='center',  # Horizontally center label
+            va=va)  # Vertically align label differently for
+        # positive and negative values.
+
+
+def visualize(data, n_components):
+    indx = arange(len(x_labels_lower))
+    score_label = arange(0, 1.125, 0.125)
+
+    means = []
+
+    for i in range(0, n_components):
+        means.append(list(data.T[i]))
+
+    bar_width = 0.15
+
+    fig, ax = pyplot.subplots()
+
+    ax.set_xticks(indx)
+    ax.set_xticklabels(x_labels_lower, fontdict=font)
+
+    ax.set_yticks(score_label)
+    ax.set_yticklabels(score_label)
+
+    for i in range(0, n_components):
+        cluster_bar = ax.bar(indx + i * 0.15 / 2, means[i], bar_width, label=('Klaster ' + str(i)))
+        insert_data_labels(ax, cluster_bar)
+
+    ax.legend()
+
+    pyplot.xticks(rotation=60)
+    pyplot.show()
 
 
 def find_best(podaci):
     lowest_bic = infty
     bic = []
-    n_components_range = range(1, 13)
+    n_components_range = range(1, 10)
     cv_types = ['spherical', 'tied', 'diag', 'full']
     best_gmm = None
 
@@ -39,17 +110,11 @@ def find_best(podaci):
     print("Results:\n  Covariance Type: " + str(best_gmm.covariance_type) + "\n  Num. Components: " + str(best_gmm.n_components))
     print("Time elapsed: " + str(timeit.default_timer() - start))
 
-    pyplot.plot(bic, 'bx-')
-    pyplot.axvline(x=12)
-    pyplot.axvline(x=24)
-    pyplot.axvline(x=36)
-    pyplot.show()
-
     return best_gmm
 
 
 def gaussian_mixture(podaci):
-    model = mixture.GaussianMixture(n_components=7,covariance_type="full")#find_best(podaci)
+    model = mixture.GaussianMixture(n_components=9,covariance_type="full")#find_best(podaci)
     model.fit(podaci)
     cluster_val = model.predict(podaci)
     podaci['cluster'] = cluster_val
@@ -61,63 +126,8 @@ def gaussian_mixture(podaci):
     return clusteri, cluster_val
 
 
-
-def clusters_visualization(data, labels):
-    d = data.astype(float32)
-    dist = 1 - cosine_similarity(d)
-    pca = PCA(2)
-    pca.fit(dist)
-    pca_data = pca.transform(dist)
-
-    x, y, = pca_data[:, 0], pca_data[:, 1]
-
-    colors = {
-        0: 'red',
-        1: 'blue',
-        2: 'green',
-        3: 'yellow',
-        4: 'orange',
-        5: 'purple',
-        6: 'teal',
-        7: 'magenta',
-        8: 'grey',
-        9: 'darkblue'
-    }
-
-    descriptions = {
-        0: 'opis za klaster 0',
-        1: 'opis za klaster 1',
-        2: 'opis za klaster 2',
-        3: 'opis za klaster 3',
-        4: 'opis za klaster 4',
-        5: 'opis za klaster 5',
-        6: 'opis za klaster 6',
-        7: 'opis za klaster 7',
-        8: 'opis za klaster 8',
-        9: 'opis za klaster 9'
-    }
-
-    pca_table = pandas.DataFrame({'x': x, 'y': y, 'cluster': labels})
-    clusters = pca_table.groupby('cluster')
-
-    figure, ax = plt.subplots(figsize=(20, 13))
-
-    for id, cluster in clusters:
-        ax.plot(cluster.x, cluster.y, marker='o', linestyle='', ms=5,
-                color=colors[id], label=descriptions[id], mec='none')
-        ax.set_aspect('auto')
-        ax.tick_params(axis='x', which='both', bottom='off', top='off', labelbottom='off')
-        ax.tick_params(axis='y', which='both', left='off', top='off', labelleft='off')
-    ax.legend()
-    ax.set_title("Klasterizacija korisnika kreditnih kartica")
-    plt.show()
-
-
-
 if __name__ == '__main__':
-    data, data_orig = read_data()
+    data = read_data()
     clusters, labels = gaussian_mixture(data)
-    cluster_analysis(clusters, data_orig)
-
 
     clusters_visualization(data, labels)
