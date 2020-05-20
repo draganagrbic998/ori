@@ -1,4 +1,5 @@
 import pandas
+import matplotlib.pyplot as plt
 from numpy import median, mean, var, std, quantile
 from matplotlib.pyplot import boxplot
 from scipy import stats
@@ -10,7 +11,7 @@ column_names = ["BALANCE", "BALANCE_FREQUENCY", "PURCHASES", "ONEOFF_PURCHASES",
             "CASH_ADVANCE_FREQUENCY", "CREDIT_LIMIT", "PAYMENTS",
             "MINIMUM_PAYMENTS", "PRC_FULL_PAYMENT", "TENURE"]
 
-def descriptive_statistic(data):
+def descriptive_statistic(data, column_name):
 
     n = len(data)
     mini = min(data)
@@ -51,6 +52,8 @@ def descriptive_statistic(data):
     print ("Treci kvartil uzorka: {}".format(q3))
     print ("Intermedijalni razmak uzorka: {}".format(iqr))
     boxplot(data)
+    plt.title("BOX PLOT FOR COLUMN {}".format(column_name))
+    plt.show()
 
 def read_data():
 
@@ -74,9 +77,9 @@ def read_data():
 
 def cluster_analysis(clusters, old_data):
 
-    suma = ""
+    suma = "{0:15}|".format("CLUSTER SIZE")
     for i in column_names:
-        suma += ("{0:40}|").format(i)
+        suma += ("{0:35}|").format(i)
     suma += "\n" + ("-" * 650)
     print (suma)
 
@@ -86,26 +89,46 @@ def cluster_analysis(clusters, old_data):
         old_cluster = old_data.iloc[old_index, :]
         suma = ""
 
+        counter = 0
         for j in column_names:
-            if j == "BALANCE":
-                suma += ("med: {:35}|" ).format(str(len(old_cluster)) + " " + str(median(old_cluster[j])))
-
-            else:
-                suma += ("med: {:35}|" ).format(str(median(old_cluster[j])))
-
+            if not counter:
+                suma += "{:15}|".format(len(old_cluster))
+            suma += ("med: {:30}|").format(median(old_cluster[j]))
+            counter += 1
         suma += "\n"
-        for j in column_names:
-            suma += ("min: {:35}|").format(str(min(old_cluster[j])))
 
-        suma += "\n"
+        counter = 0
         for j in column_names:
-            suma += ("max: {:35}|").format(str(max(old_cluster[j])))
+            if not counter:
+                suma += "{:15}|".format("")
+            suma += ("min: {:30}|").format(min(old_cluster[j]))
+            counter += 1
+        suma += "\n"
 
-        suma += "\n"
+        counter = 0
         for j in column_names:
+            if not counter:
+                suma += "{:15}|".format("")
+            suma += ("max: {:30}|").format(max(old_cluster[j]))
+            counter += 1
+        suma += "\n"
+
+        counter = 0
+        for j in column_names:
+            if not counter:
+                suma += "{:15}|".format("")
             mo = stats.mode(old_cluster[j])
             for k in range(len(mo[0])):
-                suma += ("mo:  {:35}|").format(str(mo[0][k]) + ": " + str(mo[1][k]))
+                suma += ("mo:  {:30}|").format(str(mo[0][k]) + ": " + str(mo[1][k]))
+            counter += 1
 
         suma += "\n" + ("-" * 650)
         print (suma)
+
+if __name__ == '__main__':
+
+    data, old_data = read_data()
+    for i in column_names:
+        print ("**********DESCRIPTIVE STATISTIC FOR COLUMN {}**********".format(i))
+        descriptive_statistic(old_data[i], i)
+        print ("-" * 50)

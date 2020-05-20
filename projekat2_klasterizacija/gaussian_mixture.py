@@ -1,19 +1,16 @@
 import timeit
-
-from numpy import infty
-from sklearn import mixture
-from matplotlib import pyplot
-
-from projekat2_klasterizacija.util import read_data, cluster_analysis
-
 import pandas
+from numpy import float32
+from numpy import infty
+from matplotlib import pyplot
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.decomposition import PCA
-from numpy import float32
-import matplotlib.pyplot as plt
+from sklearn import mixture
+from projekat2_klasterizacija.util import read_data, cluster_analysis
 
 
-def find_best(podaci):
+def find_best(data):
+
     lowest_bic = infty
     bic = []
     n_components_range = range(1, 13)
@@ -25,11 +22,10 @@ def find_best(podaci):
 
     for cv_type in cv_types:
         for n_components in n_components_range:
-            # Fit a Gaussian mixture with EM
             gmm = mixture.GaussianMixture(n_components=n_components,
                                           covariance_type=cv_type)
-            gmm.fit(podaci)
-            bic.append(gmm.bic(podaci))
+            gmm.fit(data)
+            bic.append(gmm.bic(data))
             if bic[-1] < lowest_bic:
                 lowest_bic = bic[-1]
                 best_gmm = gmm
@@ -42,29 +38,27 @@ def find_best(podaci):
     pyplot.axvline(x=24)
     pyplot.axvline(x=36)
     pyplot.show()
-
     return best_gmm
 
+def gaussian_mixture(data):
 
-def gaussian_mixture(podaci):
-    model = mixture.GaussianMixture(n_components=7,covariance_type="full")#find_best(podaci)
-    model.fit(podaci)
-    cluster_val = model.predict(podaci)
-    podaci['cluster'] = cluster_val
+    model = mixture.GaussianMixture(n_components=7,covariance_type="full")
+    model.fit(data)
+    cluster_val = model.predict(data)
+    data['cluster'] = cluster_val
 
     clusteri = {}
-    for i in set(podaci['cluster']):
-        clusteri[i] = podaci.loc[podaci['cluster'] == i]
-
+    for i in set(data['cluster']):
+        clusteri[i] = data.loc[data['cluster'] == i]
     return clusteri, cluster_val
 
 def clusters_visualization(data, labels):
+
     d = data.astype(float32)
-    dist = 1 - cosine_similarity(d)
     pca = PCA(2)
+    dist = 1 - cosine_similarity(d)
     pca.fit(dist)
     pca_data = pca.transform(dist)
-
     x, y, = pca_data[:, 0], pca_data[:, 1]
 
     colors = {
@@ -95,25 +89,20 @@ def clusters_visualization(data, labels):
 
     pca_table = pandas.DataFrame({'x': x, 'y': y, 'cluster': labels})
     clusters = pca_table.groupby('cluster')
-
-    figure, ax = plt.subplots(figsize=(20, 13))
+    figure, ax = pyplot.subplots(figsize=(20, 13))
 
     for id, cluster in clusters:
-        ax.plot(cluster.x, cluster.y, marker='o', linestyle='', ms=5,
-                color=colors[id], label=descriptions[id], mec='none')
+        ax.plot(cluster.x, cluster.y, marker='o', linestyle='', color=colors[id], label=descriptions[id], ms=5, mec='none')
         ax.set_aspect('auto')
         ax.tick_params(axis='x', which='both', bottom='off', top='off', labelbottom='off')
         ax.tick_params(axis='y', which='both', left='off', top='off', labelleft='off')
     ax.legend()
     ax.set_title("Klasterizacija korisnika kreditnih kartica")
-    plt.show()
-
-
+    pyplot.show()
 
 if __name__ == '__main__':
+
     data, data_orig = read_data()
     clusters, labels = gaussian_mixture(data)
-
-    cluster_analysis(clusters, data_orig)
     clusters_visualization(data, labels)
-
+    cluster_analysis(clusters, data_orig)
