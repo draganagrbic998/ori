@@ -7,8 +7,7 @@ from scipy import stats
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.decomposition import PCA
 from sklearn import mixture
-from projekat2_klasterizacija.util import read_data
-
+from projekat2_klasterizacija.util import read_data, cluster_analysis
 
 column_names = ["BALANCE", "BALANCE_FREQUENCY", "PURCHASES", "ONEOFF_PURCHASES",
             "INSTALLMENTS_PURCHASES", "CASH_ADVANCE", "PURCHASES_FREQUENCY",
@@ -62,14 +61,6 @@ def gaussian_mixture(data):
     return clusteri, cluster_val
 
 
-def get_descritpion_index(cluster_sizes, size):
-
-    for i in range(len(cluster_sizes)):
-        if cluster_sizes[i] == size:
-            return i
-    return None
-
-
 def clusters_visualization(data, labels, opisi):
 
     d = data.astype(float32)
@@ -95,7 +86,6 @@ def clusters_visualization(data, labels, opisi):
     pca_table = pandas.DataFrame({'x': x, 'y': y, 'cluster': labels})
     clusters = pca_table.groupby('cluster')
     figure, ax = pyplot.subplots(figsize=(20, 13))
-    cluster_sizes = sorted([len(cluster) for id, cluster in clusters])
 
     for id, cluster in clusters:
         ax.plot(cluster.x, cluster.y, marker='o', linestyle='', color=colors[id],
@@ -106,118 +96,6 @@ def clusters_visualization(data, labels, opisi):
     ax.legend()
     ax.set_title("Klasterizacija korisnika kreditnih kartica")
     pyplot.show()
-
-
-def cluster_analysis(clusters, old_data):
-    retval = {}
-
-    suma = "{0:15}|".format("CLUSTER SIZE")
-    for i in column_names:
-        suma += ("{0:35}|").format(i)
-    suma += "\n" + ("-" * 650)
-    print (suma)
-
-    for i in clusters:
-        old_index = list(clusters[i].index.values)
-        old_cluster = old_data.iloc[old_index, :]
-        suma = ""
-
-        counter = 0
-        for j in column_names:
-            if not counter:
-                suma += "{:15}|".format(len(old_cluster))
-            me = median(old_cluster[j])
-            suma += ("med: {:30}|").format(me)
-            counter += 1
-
-            if j == "BALANCE":
-                if me < 700:
-                    retval[len(old_cluster)] = "Nisko stanje racuna, "
-                elif 700 <= me < 1500:
-                    retval[len(old_cluster)] = "Osrednje stanje racuna, "
-                else:
-                    retval[len(old_cluster)] = "Visoko stanje racuna, "
-            elif j == "PURCHASES_FREQUENCY":
-                if me < 0.1:
-                    retval[len(old_cluster)] += "vrlo retko kupuju, od toga "
-                elif 0.1 <= me < 0.3:
-                    retval[len(old_cluster)] += "retko kupuju, od toga "
-                elif 0.3 <= me < 0.7:
-                    retval[len(old_cluster)] += "relativno cesto kupuju, od toga "
-                else:
-                    retval[len(old_cluster)] += "cesto kupuju, od toga "
-            elif j == "ONEOFF_PURCHASES_FREQUENCY":
-                if me <= 0.01:
-                    retval[len(old_cluster)] += "prakticno nikad jednokratno, "
-                elif 0.01 < me < 0.3:
-                    retval[len(old_cluster)] += "retko jednokratno, "
-                elif 0.3 <= me < 0.7:
-                    retval[len(old_cluster)] += "relativno cesto jednokratno, "
-                else:
-                    retval[len(old_cluster)] += "uglavnom jednokratno, "
-            elif j == "PURCHASES_INSTALLMENTS_FREQUENCY":
-                if me <= 0.01:
-                    retval[len(old_cluster)] += "prakticno nikad na rate, "
-                elif 0.01 < me < 0.3:
-                    retval[len(old_cluster)] += "retko na rate, "
-                elif 0.3 <= me < 0.7:
-                    retval[len(old_cluster)] += "relativno cesto na rate, "
-                else:
-                    retval[len(old_cluster)] += "uglavnom na rate, "
-            elif j == "CASH_ADVANCE_FREQUENCY":
-                if me <= 0.01:
-                    retval[len(old_cluster)] += "prakticno nikad unapred, "
-                elif 0.01 < me < 0.3:
-                    retval[len(old_cluster)] += "retko unapred, "
-                elif 0.3 <= me < 0.7:
-                    retval[len(old_cluster)] += "relativno cesto unapred, "
-                else:
-                    retval[len(old_cluster)] += "uglavnom unapred, "
-            elif j == "CREDIT_LIMIT":
-                if me < 2000:
-                    retval[len(old_cluster)] += "nizak kredit limit"
-                elif 2000 <= me < 3000:
-                    retval[len(old_cluster)] += "osrednji kredit limit"
-                else:
-                    retval[len(old_cluster)] += "visok kredit limit"
-            elif j == "TENURE":
-                if me < 6:
-                    retval[len(old_cluster)] += ", kratko trajanje kartice."
-                elif 6 <= me < 9:
-                    retval[len(old_cluster)] += ", osrednje trajanje kartice."
-                else:
-                    retval[len(old_cluster)] += "."
-        suma += "\n"
-
-        counter = 0
-        for j in column_names:
-            if not counter:
-                suma += "{:15}|".format("")
-            suma += ("min: {:30}|").format(min(old_cluster[j]))
-            counter += 1
-        suma += "\n"
-
-        counter = 0
-        for j in column_names:
-            if not counter:
-                suma += "{:15}|".format("")
-            suma += ("max: {:30}|").format(max(old_cluster[j]))
-            counter += 1
-        suma += "\n"
-
-        counter = 0
-        for j in column_names:
-            if not counter:
-                suma += "{:15}|".format("")
-            mo = stats.mode(old_cluster[j])
-            for k in range(len(mo[0])):
-                suma += ("mo:  {:30}|").format(str(mo[0][k]) + ": " + str(mo[1][k]))
-            counter += 1
-
-        suma += "\n" + ("-" * 650)
-        print (suma)
-
-    return retval
 
 
 if __name__ == '__main__':
