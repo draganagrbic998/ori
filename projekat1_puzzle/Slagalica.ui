@@ -254,7 +254,7 @@
                 <enum>Qt::LeftToRight</enum>
                </property>
                <property name="autoFillBackground">
-                <bool>true</bool>
+                <bool>false</bool>
                </property>
                <property name="styleSheet">
                 <string notr="true">color: rgb(255, 0, 0);</string>
@@ -273,7 +273,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="PretragaBezPage">
           <layout class="QGridLayout" name="gridLayout">
@@ -921,7 +921,7 @@
                  <number>1</number>
                 </property>
                 <property name="maximum">
-                 <number>5</number>
+                 <number>3</number>
                 </property>
                 <property name="singleStep">
                  <number>1</number>

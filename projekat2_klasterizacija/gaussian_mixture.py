@@ -9,13 +9,6 @@ from sklearn.decomposition import PCA
 from sklearn import mixture
 from projekat2_klasterizacija.util import read_data, cluster_analysis
 
-column_names = ["BALANCE", "BALANCE_FREQUENCY", "PURCHASES", "ONEOFF_PURCHASES",
-            "INSTALLMENTS_PURCHASES", "CASH_ADVANCE", "PURCHASES_FREQUENCY",
-            "ONEOFF_PURCHASES_FREQUENCY", "PURCHASES_INSTALLMENTS_FREQUENCY",
-            "CASH_ADVANCE_FREQUENCY", "CREDIT_LIMIT", "PAYMENTS",
-            "MINIMUM_PAYMENTS", "PRC_FULL_PAYMENT", "TENURE"]
-
-
 def find_best(data):
 
     lowest_bic = infty

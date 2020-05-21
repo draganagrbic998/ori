@@ -1,11 +1,12 @@
-from random import choice
+from random import choice, random
 
 class QLearningAgent:
 
-    def __init__(self, puzzle_problem, alpha, discount):
+    def __init__(self, puzzle_problem, alpha, discount, epsilon = 0.05):
         self.puzzle_problem = puzzle_problem
         self.alpha = alpha
         self.discount = discount
+        self.epsilon = epsilon
         self.qvalues = {}
 
     def reward(self, state):
@@ -27,6 +28,9 @@ class QLearningAgent:
         successors = list(self.puzzle_problem.get_successors(state))
         if not successors:
             return None
+
+        if random() < self.epsilon:
+            return choice(successors)
 
         qvalues = [self.get_qvalue(state, successor) for successor in successors]
         maxq = max(qvalues)

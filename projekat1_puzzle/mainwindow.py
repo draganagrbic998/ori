@@ -129,7 +129,7 @@ class Ui_MainWindow(object):
         self.Obavestenje.setObjectName(u"Obavestenje")
         self.Obavestenje.setFont(font)
         self.Obavestenje.setLayoutDirection(Qt.LeftToRight)
-        self.Obavestenje.setAutoFillBackground(True)
+        self.Obavestenje.setAutoFillBackground(False)
         self.Obavestenje.setStyleSheet(u"color: rgb(255, 0, 0);")
 
         self.gridLayout_9.addWidget(self.Obavestenje, 0, 0, 1, 1)
@@ -386,7 +386,7 @@ class Ui_MainWindow(object):
         self.IterNumQPicker.setFont(font2)
         self.IterNumQPicker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.IterNumQPicker.setMinimum(1)
-        self.IterNumQPicker.setMaximum(5)
+        self.IterNumQPicker.setMaximum(3)
         self.IterNumQPicker.setSingleStep(1)
         self.IterNumQPicker.setValue(3)
 
@@ -432,7 +432,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
