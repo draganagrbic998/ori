@@ -12,7 +12,10 @@ from projekat1_puzzle.qAgent import QLearningWorkThread
 
 puzzles = {
     3: [
-        [2, 1, 7, 6, 3, 4, 5, 0, 8]
+        [2, 1, 7, 6, 3, 4, 5, 0, 8],
+        [1, 3, 7, 0, 8, 2, 5, 4, 6],
+        [1, 0, 4, 2, 5, 3, 8, 7, 6],
+        [5, 2, 7, 8, 4, 0, 1, 3, 6]
     ],
     4: [
         [0,12,9,13,15,11,10,14,3,7,2,5,4,8,6,1],
@@ -80,10 +83,6 @@ class MainWindow(QMainWindow):
         self.ui.ResiBezButton.clicked.connect(self.solve_astar)
         self.ui.ResiSaButton.clicked.connect(self.solve_enemy)
         self.ui.ResiQLButton.clicked.connect(self.solve_qlearning)
-
-        self.ui.ResetPuzzle1.clicked.connect(self.reset_puzzle)
-        self.ui.ResetPuzzle2.clicked.connect(self.reset_puzzle)
-        self.ui.ResetPuzzle3.clicked.connect(self.reset_puzzle)
 
     def show_astar(self):
         self.ui.stackedWidget.setCurrentIndex(0)

@@ -51,6 +51,8 @@ def a_star_search(puzzle_problem):
                     child.total_cost = total_cost
                     pr_queue.push(child, child.total_cost)
 
+        return []
+
 def heuristic_value(puzzle):
     return manhattan_heuristic(puzzle.content) + linear_conflict(puzzle.content)
 
