@@ -4,6 +4,7 @@ from numpy import median, mean, var, std, quantile
 from matplotlib.pyplot import boxplot
 from scipy import stats
 from sklearn.preprocessing import StandardScaler, normalize
+import statsmodels.api as sm
 
 column_names = ["BALANCE", "BALANCE_FREQUENCY", "PURCHASES", "ONEOFF_PURCHASES",
             "INSTALLMENTS_PURCHASES", "CASH_ADVANCE", "PURCHASES_FREQUENCY",
@@ -61,11 +62,11 @@ def read_data():
     data = data.fillna(data.mean())
     temp = data
     data = data.drop("CUST_ID", axis=1)
-    #lm = sm.OLS(data["CASH_ADVANCE_TRX"], data["CASH_ADVANCE_FREQUENCY"]).fit()
-    #print (lm.summary())
+    lm = sm.OLS(data["CASH_ADVANCE_TRX"], data["CASH_ADVANCE_FREQUENCY"]).fit()
+    print (lm.summary())
     data = data.drop("CASH_ADVANCE_TRX", axis=1)
-    #lm = sm.OLS(data["PURCHASES_TRX"], data[["PURCHASES_FREQUENCY", "ONEOFF_PURCHASES_FREQUENCY", "PURCHASES_INSTALLMENTS_FREQUENCY"]]).fit()
-    #print (lm.summary())
+    lm = sm.OLS(data["PURCHASES_TRX"], data[["PURCHASES_FREQUENCY", "ONEOFF_PURCHASES_FREQUENCY", "PURCHASES_INSTALLMENTS_FREQUENCY"]]).fit()
+    print (lm.summary())
     data = data.drop("PURCHASES_TRX", axis=1)
     data = data.values
     scaler = StandardScaler()

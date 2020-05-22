@@ -43,6 +43,7 @@ def find_best(data):
 
 def gaussian_mixture(data):
 
+
     model = mixture.GaussianMixture(n_components=7,covariance_type="full", max_iter=100000)
     model.fit(data)
     cluster_val = model.predict(data)

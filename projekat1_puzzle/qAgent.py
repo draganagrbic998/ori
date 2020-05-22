@@ -1,17 +1,18 @@
 from time import sleep
 from PySide2 import QtCore
-from projekat1_puzzle.qlearning import QLearningAgent
+from projekat1_puzzle.qlearning import TabelarQLearningAgent, AproximativeQLearning
 
 class QLearningWorkThread(QtCore.QThread):
 
     signal = QtCore.Signal(dict)
 
-    def __init__(self, puzzle_problem, iter_num = 5, alpha = 0.2, discount = 0.8):
+    def __init__(self, puzzle_problem, iter_num = 5, alpha = 0.2, discount = 0.8, agent = "Tabelarni"):
         QtCore.QThread.__init__(self)
         self.puzzle_problem = puzzle_problem
         self.iter_num = iter_num
         self.alpha = alpha
         self.discount = discount
+        self.agent = agent
 
     def run(self):
 
@@ -40,17 +41,31 @@ class QLearningWorkThread(QtCore.QThread):
 
     def training(self):
 
-        agent = QLearningAgent(self.puzzle_problem, self.alpha, self.discount)
+        if self.agent == "Tabelarni":
+            agent = TabelarQLearningAgent(self.puzzle_problem, self.alpha, self.discount)
+        else:
+            agent = AproximativeQLearning(self.puzzle_problem, self.alpha, self.discount)
+            print ("RADIM SA APROKSIMACIONIM!!!")
+
         state = self.puzzle_problem.get_start_state()
 
-        for i in range(self.iter_num):
-            self.signal.emit("ITERATION {} TRAINING...".format(i + 1))
-            while True:
+        if self.agent == "Tabelarni":
+            for i in range(self.iter_num):
+                self.signal.emit("ITERATION {} TRAINING...".format(i + 1))
+                while True:
+                    next_state = agent.get_state(state)
+                    if not next_state:
+                        break
+                    agent.update(state, next_state)
+                    state = next_state
+                state = self.puzzle_problem.get_start_state()
+
+            return agent
+
+        else:
+            for i in range(100000):
                 next_state = agent.get_state(state)
-                if not next_state:
-                    break
                 agent.update(state, next_state)
                 state = next_state
-            state = self.puzzle_problem.get_start_state()
-        return agent
 
+            return agent

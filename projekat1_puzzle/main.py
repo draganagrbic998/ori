@@ -156,6 +156,7 @@ class MainWindow(QMainWindow):
         self.qLearningWorker.iter_num = int(self.ui.IterNumQPicker.value())
         self.qLearningWorker.alpha = float(self.ui.alpha.value())
         self.qLearningWorker.discount = float(self.ui.discount.value())
+        self.qLearningWorker.agent = self.ui.qagent.currentText()
         self.qLearningWorker.start()
 
     def reset_puzzle(self):

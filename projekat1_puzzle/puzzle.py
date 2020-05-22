@@ -31,8 +31,8 @@ class PuzzleProblem:
 
     def get_successors(self, parent):
 
-        if self.is_goal_state(parent):
-            return set()
+        #if self.is_goal_state(parent):
+         #   return set()
 
         state = parent.content
         successors = set()

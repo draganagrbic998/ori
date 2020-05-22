@@ -263,7 +263,7 @@ class Ui_MainWindow(object):
         self.DepthPicker.setFont(font1)
         self.DepthPicker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.DepthPicker.setMinimum(1)
-        self.DepthPicker.setMaximum(5)
+        self.DepthPicker.setMaximum(7)
         self.DepthPicker.setValue(3)
 
         self.gridLayout_7.addWidget(self.DepthPicker, 1, 1, 1, 1)
@@ -309,7 +309,7 @@ class Ui_MainWindow(object):
         self.label_8.setSizePolicy(sizePolicy2)
         self.label_8.setFont(font)
 
-        self.gridLayout_11.addWidget(self.label_8, 2, 0, 1, 1)
+        self.gridLayout_11.addWidget(self.label_8, 3, 0, 1, 1)
 
         self.alpha = QDoubleSpinBox(self.QLearningFrame)
         self.alpha.setObjectName(u"alpha")
@@ -323,7 +323,7 @@ class Ui_MainWindow(object):
         self.alpha.setMaximum(0.900000000000000)
         self.alpha.setValue(0.200000000000000)
 
-        self.gridLayout_11.addWidget(self.alpha, 1, 3, 1, 1)
+        self.gridLayout_11.addWidget(self.alpha, 2, 3, 1, 1)
 
         self.label_7 = QLabel(self.QLearningFrame)
         self.label_7.setObjectName(u"label_7")
@@ -331,7 +331,15 @@ class Ui_MainWindow(object):
         self.label_7.setSizePolicy(sizePolicy2)
         self.label_7.setFont(font)
 
-        self.gridLayout_11.addWidget(self.label_7, 1, 0, 1, 1)
+        self.gridLayout_11.addWidget(self.label_7, 2, 0, 1, 1)
+
+        self.label_5 = QLabel(self.QLearningFrame)
+        self.label_5.setObjectName(u"label_5")
+        sizePolicy2.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
+        self.label_5.setSizePolicy(sizePolicy2)
+        self.label_5.setFont(font)
+
+        self.gridLayout_11.addWidget(self.label_5, 1, 0, 1, 1)
 
         self.discount = QDoubleSpinBox(self.QLearningFrame)
         self.discount.setObjectName(u"discount")
@@ -345,15 +353,18 @@ class Ui_MainWindow(object):
         self.discount.setMaximum(1.000000000000000)
         self.discount.setValue(0.800000000000000)
 
-        self.gridLayout_11.addWidget(self.discount, 2, 3, 1, 1)
+        self.gridLayout_11.addWidget(self.discount, 3, 3, 1, 1)
 
-        self.label_5 = QLabel(self.QLearningFrame)
-        self.label_5.setObjectName(u"label_5")
-        sizePolicy2.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
-        self.label_5.setSizePolicy(sizePolicy2)
-        self.label_5.setFont(font)
+        self.ResiQLButton = QPushButton(self.QLearningFrame)
+        self.ResiQLButton.setObjectName(u"ResiQLButton")
+        sizePolicy2.setHeightForWidth(self.ResiQLButton.sizePolicy().hasHeightForWidth())
+        self.ResiQLButton.setSizePolicy(sizePolicy2)
+        self.ResiQLButton.setMinimumSize(QSize(150, 50))
+        self.ResiQLButton.setMaximumSize(QSize(150, 50))
+        self.ResiQLButton.setFont(font)
+        self.ResiQLButton.setStyleSheet(u"background-color: rgb(212, 212, 212);")
 
-        self.gridLayout_11.addWidget(self.label_5, 0, 0, 1, 1)
+        self.gridLayout_11.addWidget(self.ResiQLButton, 7, 0, 1, 1)
 
         self.IterNumQPicker = QSpinBox(self.QLearningFrame)
         self.IterNumQPicker.setObjectName(u"IterNumQPicker")
@@ -368,18 +379,28 @@ class Ui_MainWindow(object):
         self.IterNumQPicker.setSingleStep(1)
         self.IterNumQPicker.setValue(3)
 
-        self.gridLayout_11.addWidget(self.IterNumQPicker, 0, 3, 1, 1)
+        self.gridLayout_11.addWidget(self.IterNumQPicker, 1, 3, 1, 1)
 
-        self.ResiQLButton = QPushButton(self.QLearningFrame)
-        self.ResiQLButton.setObjectName(u"ResiQLButton")
-        sizePolicy2.setHeightForWidth(self.ResiQLButton.sizePolicy().hasHeightForWidth())
-        self.ResiQLButton.setSizePolicy(sizePolicy2)
-        self.ResiQLButton.setMinimumSize(QSize(150, 50))
-        self.ResiQLButton.setMaximumSize(QSize(150, 50))
-        self.ResiQLButton.setFont(font)
-        self.ResiQLButton.setStyleSheet(u"background-color: rgb(212, 212, 212);")
+        self.label_2 = QLabel(self.QLearningFrame)
+        self.label_2.setObjectName(u"label_2")
+        sizePolicy2.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy2)
+        self.label_2.setFont(font)
 
-        self.gridLayout_11.addWidget(self.ResiQLButton, 6, 0, 1, 1)
+        self.gridLayout_11.addWidget(self.label_2, 0, 0, 1, 1)
+
+        self.qagent = QComboBox(self.QLearningFrame)
+        self.qagent.addItem("")
+        self.qagent.addItem("")
+        self.qagent.setObjectName(u"qagent")
+        sizePolicy2.setHeightForWidth(self.qagent.sizePolicy().hasHeightForWidth())
+        self.qagent.setSizePolicy(sizePolicy2)
+        self.qagent.setMinimumSize(QSize(150, 30))
+        self.qagent.setMaximumSize(QSize(150, 30))
+        self.qagent.setFont(font2)
+        self.qagent.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+
+        self.gridLayout_11.addWidget(self.qagent, 0, 3, 1, 1)
 
 
         self.gridLayout_3.addWidget(self.QLearningFrame, 0, 0, 1, 1)
@@ -399,7 +420,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -427,5 +448,9 @@ class Ui_MainWindow(object):
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Alpha: ", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Iteration number:", None))
         self.ResiQLButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Vrsta agenta: ", None))
+        self.qagent.setItemText(0, QCoreApplication.translate("MainWindow", u"Tabelarni", None))
+        self.qagent.setItemText(1, QCoreApplication.translate("MainWindow", u"Aproksimacioni", None))
+
     # retranslateUi
 

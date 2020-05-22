@@ -30,7 +30,7 @@ def main(name):
     new_pixels = simplify_pixels(pixels)
 
     start = timeit.default_timer()
-    thresholds, tsallis_value = pso.pso(tsallis, pixels=new_pixels, n_var=2, wi=0.4, wf=0.1, cgf=2, cpf=2, cgi=2, cpi=2, particle_num=20, iter_num=100)
+    thresholds, tsallis_value = pso.pso(tsallis, pixels=new_pixels, n_var=5, wi=0.4, wf=0.1, cgf=2, cpf=2, cgi=2, cpi=2, particle_num=20, iter_num=100)
 
     print("Thresholds: " + str(thresholds))
     print("Tsallis function value: " + str(tsallis_value))
@@ -41,5 +41,5 @@ def main(name):
     image.save("output/" + name)
 
 if __name__ == '__main__':
-    main("peppers.tif")
+    main("lena.tif")
 
