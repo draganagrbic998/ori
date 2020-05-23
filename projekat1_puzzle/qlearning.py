@@ -15,7 +15,7 @@ class QLearningAgent(ABC):
 
     def reward(self, state):
         if self.puzzle_problem.is_goal_state(state):
-            return 500.0
+            return 100.0
         return -0.5
 
 class AproximativeQLearning(QLearningAgent):
