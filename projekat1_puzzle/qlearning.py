@@ -20,6 +20,10 @@ class QLearningAgent(ABC):
 
 class AproximativeQLearning(QLearningAgent):
 
+    def __init__(self, puzzle_problem, alpha, discount, epsilon = 0.05):
+        super().__init__(puzzle_problem, alpha, discount, epsilon)
+        self.discount = 1
+
     def get_state(self, state):
 
         successors = list(self.puzzle_problem.get_successors(state))
