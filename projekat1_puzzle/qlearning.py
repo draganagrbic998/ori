@@ -13,17 +13,17 @@ class QLearningAgent(ABC):
         self.weights = {}
         self.features = {}
 
-    def reward(self, state):
-        if self.puzzle_problem.is_goal_state(state):
-            return 100000000.0    #cakcaj nagradu
-        return -0.000001 * heuristic_value(state)
-
 class AproximativeQLearningAgent(QLearningAgent):
 
     def __init__(self, puzzle_problem, alpha, discount, epsilon = 0.05):
         super().__init__(puzzle_problem, alpha, discount, epsilon)
-        self.discount = 1   #cackaj discount
-        self.alpha = 0.1    #cakcaj alpha
+        self.discount = 1
+        self.alpha = 0.1
+
+    def reward(self, state):
+        if self.puzzle_problem.is_goal_state(state):
+            return 100000000.0
+        return -0.000001 * heuristic_value(state)
 
     def get_state(self, state):
         successors = list(self.puzzle_problem.get_successors(state))
@@ -46,7 +46,7 @@ class AproximativeQLearningAgent(QLearningAgent):
             self.features[(state, next_state)] = heuristic_value(state) - heuristic_value(next_state)
 
         if (state, next_state) not in self.weights:
-            self.weights[(state, next_state)] = 0.01 #mozda i ovo da promenis, da ne bude 0 nego neki broj blizu nule
+            self.weights[(state, next_state)] = 0.01
 
         suma += self.weights[(state, next_state)] * self.features[(state, next_state)]
         return suma
@@ -61,6 +61,12 @@ class AproximativeQLearningAgent(QLearningAgent):
 
 
 class TabelarQLearningAgent(QLearningAgent):
+
+    def reward(self, state):
+        if self.puzzle_problem.is_goal_state(state):
+            return 100.0
+        return -1.0
+
 
     def get_value(self, state):
         qvalues = [self.get_qvalue(state, successor) for successor in self.puzzle_problem.get_successors(state)]
