@@ -215,6 +215,7 @@ class MainWindow(QMainWindow):
                 field.setSizePolicy(temp)
                 self.slagalica_layout.addWidget(field, i, j, 1, 1)
 
+
 if __name__ == "__main__":
 
     app = QApplication(sys.argv)

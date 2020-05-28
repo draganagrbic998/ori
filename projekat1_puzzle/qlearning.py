@@ -15,8 +15,8 @@ class QLearningAgent(ABC):
 
     def reward(self, state):
         if self.puzzle_problem.is_goal_state(state):
-            return 100.0    #cakcaj nagradu
-        return -1   #cakcaj kaznu
+            return 100000000.0    #cakcaj nagradu
+        return -0.000001 * heuristic_value(state)
 
 class AproximativeQLearningAgent(QLearningAgent):
 
@@ -26,12 +26,14 @@ class AproximativeQLearningAgent(QLearningAgent):
         self.alpha = 0.1    #cakcaj alpha
 
     def get_state(self, state):
-
         successors = list(self.puzzle_problem.get_successors(state))
         qvalues = [self.get_qvalue(state, successor) for successor in successors]
         maxq = max(qvalues)
-        results = []
 
+        if random() < self.epsilon:
+            return choice(successors)
+
+        results = []
         for i in range(len(qvalues)):
             if qvalues[i] == maxq:
                 results.append(i)
@@ -44,7 +46,7 @@ class AproximativeQLearningAgent(QLearningAgent):
             self.features[(state, next_state)] = heuristic_value(state) - heuristic_value(next_state)
 
         if (state, next_state) not in self.weights:
-            self.weights[(state, next_state)] = 0.0 #mozda i ovo da promenis, da ne bude 0 nego neki broj blizu nule
+            self.weights[(state, next_state)] = 0.01 #mozda i ovo da promenis, da ne bude 0 nego neki broj blizu nule
 
         suma += self.weights[(state, next_state)] * self.features[(state, next_state)]
         return suma
@@ -57,8 +59,8 @@ class AproximativeQLearningAgent(QLearningAgent):
         difference = self.reward(next_state) + self.discount * self.get_value(next_state) - self.get_qvalue(state, next_state)
         self.weights[(state, next_state)] += self.alpha * difference * self.features[(state, next_state)]
 
-class TabelarQLearningAgent(QLearningAgent):
 
+class TabelarQLearningAgent(QLearningAgent):
 
     def get_value(self, state):
         qvalues = [self.get_qvalue(state, successor) for successor in self.puzzle_problem.get_successors(state)]

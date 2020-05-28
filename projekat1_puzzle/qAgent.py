@@ -1,6 +1,8 @@
 from time import sleep
 from PySide2 import QtCore
 from projekat1_puzzle.qlearning import TabelarQLearningAgent, AproximativeQLearningAgent
+from projekat1_puzzle.search import heuristic_value
+
 
 class QLearningWorkThread(QtCore.QThread):
 
@@ -33,7 +35,9 @@ class QLearningWorkThread(QtCore.QThread):
         path = []
 
         while not self.puzzle_problem.is_goal_state(state):
-            state = agent.get_state(state)
+            next_state = agent.get_state(state)
+            agent.update(state, next_state)
+            state = next_state
             path.append(state)
 
         emit_val = "PUZZLE SOLVED IN {} STEPS".format(len(path) - 1)
@@ -53,6 +57,7 @@ class QLearningWorkThread(QtCore.QThread):
                 self.signal.emit("ITERATION {} TRAINING...".format(i + 1))
                 while True:
                     next_state = agent.get_state(state)
+
                     if not next_state:
                         break
                     agent.update(state, next_state)
@@ -63,8 +68,11 @@ class QLearningWorkThread(QtCore.QThread):
 
         else:
             self.signal.emit("TRAINING...")
-            for i in range(100000):     #cackaj broj iteracija
-                next_state = agent.get_state(state)
-                agent.update(state, next_state)
-                state = next_state
+            for i in range(self.iter_num):
+                self.signal.emit("ITERATION {} TRAINING...".format(i + 1))
+                while self.puzzle_problem.is_goal_state(state) == False:     #cackaj broj iteracija
+                    next_state = agent.get_state(state)
+                    agent.update(state, next_state)
+                    state = next_state
+                state = self.puzzle_problem.get_start_state()
             return agent
