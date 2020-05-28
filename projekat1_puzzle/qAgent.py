@@ -1,6 +1,6 @@
 from time import sleep
 from PySide2 import QtCore
-from projekat1_puzzle.qlearning import TabelarQLearningAgent, AproximativeQLearning
+from projekat1_puzzle.qlearning import TabelarQLearningAgent, AproximativeQLearningAgent
 
 class QLearningWorkThread(QtCore.QThread):
 
@@ -44,8 +44,7 @@ class QLearningWorkThread(QtCore.QThread):
         if self.agent == "Tabelarni":
             agent = TabelarQLearningAgent(self.puzzle_problem, self.alpha, self.discount)
         else:
-            agent = AproximativeQLearning(self.puzzle_problem, self.alpha, self.discount)
-            print ("RADIM SA APROKSIMACIONIM!!!")
+            agent = AproximativeQLearningAgent(self.puzzle_problem, self.alpha, self.discount)
 
         state = self.puzzle_problem.get_start_state()
 
@@ -63,9 +62,9 @@ class QLearningWorkThread(QtCore.QThread):
             return agent
 
         else:
-            for i in range(100000):
+            self.signal.emit("TRAINING...")
+            for i in range(100000):     #cackaj broj iteracija
                 next_state = agent.get_state(state)
                 agent.update(state, next_state)
                 state = next_state
-
             return agent
